@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Pin from "./components/Pin/Pin";
 import Home from "./components/Home/Home";
@@ -11,7 +11,9 @@ export default class Routes extends Component {
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={Pin} />
-          <Route path="/home" component={Home} />
+          <Route exact path="/home">
+            <Home />
+          </Route>
         </Switch>
       </Router>
     );

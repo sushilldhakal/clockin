@@ -1,6 +1,7 @@
-import React from "react";
+import React, {mapStateToProps} from "react";
 import "./App.css";
 import Routes from "./Routes";
+import { withRouter } from 'react-router-dom';
 import Footer from "./components/Footer";
 
 function App() {
@@ -12,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);

@@ -1,42 +1,45 @@
-import React, { useState, Component } from "react";
-
-import { render } from "react-dom";
-import Webcam from "react-webcam";
+import React, { Component } from "react";
 import "./homeStyles.css";
 import { WebcamCapture } from "../Webcam/Webcam";
+import axios from "axios";
+import moment from "moment";
 
 class Home extends Component {
-  constructor() {
-    var today = new Date(),
-      time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    super();
-    this.state = {
-      name: "",
-      email: "",
-      time: "",
-      image: "",
-      pin: "",
-      currentTime: time
-    };
+
+  state = {
+    currentTime: moment().format('HH:mm:ss'),
   }
 
   onClick = (e) => {
-    console.log("data on submit");
-    e.preventDefault();
-    this.props.history.push("/");
+    if (!document.getElementById('screen-image')) {
+      document.getElementById('webcam-btn').click()
+    }
+
+    setTimeout(() => {
+      axios.post("http://localhost:4000/api/clock/" + e, {
+        pin: localStorage.getItem("pin"),
+        image: document.getElementById('screen-image').src
+      }).then(res => {
+        console.log(res)
+        alert(res.data.message);
+      }).catch(err => {
+        alert('Error: Something went wrong.')
+      })
+    }, 1000)
   };
 
   render() {
+    if (localStorage.getItem("pin") === null) {
+      this.props.history.push("/");
+    }
     return (
       <div className="home-container">
         <div className="container-fluid">
           <div className="text white-text">
             <h2> {this.state.currentTime} </h2>
-
             <div className="container">
               <div className="col-sm-4">
-                <WebcamCapture />
+                <WebcamCapture id="webimage" />
               </div>
               <div className="col-sm-8">
                 <div className="record-slider ">
@@ -49,7 +52,7 @@ class Home extends Component {
                       autoComplete="off"
                       checked
                       onChange={(e) => e.target.value}
-                      onClick={this.onClick}
+                      onClick={() => this.onClick('in')}
                     />
                     <label className="btn btn-secondary" htmlFor="option1">
                       START
@@ -66,7 +69,8 @@ class Home extends Component {
                       id="option2"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
-                      onClick={this.onClick}
+                      onClick={() => this.onClick('break')}
+
                     />
                     <label className="btn btn-secondary" htmlFor="option2">
                       BREAK
@@ -83,7 +87,7 @@ class Home extends Component {
                       id="option3"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
-                      onClick={this.onClick}
+                      onClick={() => this.onClick('out')}
                     />
                     <label className="btn btn-secondary" htmlFor="option3">
                       FINISH

@@ -20,6 +20,7 @@ export const WebcamCapture = () => {
         () => {
         const imageSrc = webcamRef.current.getScreenshot();
         setImage(imageSrc)
+
         });
 
 
@@ -34,7 +35,7 @@ export const WebcamCapture = () => {
                     screenshotFormat="image/jpeg"
                     width={220}
                     videoConstraints={videoConstraints}
-                /> : <img src={image} />}
+                /> : <img id="screen-image" src={image} />}
             </div>
             <div>
                 {image != '' ?
@@ -48,7 +49,7 @@ export const WebcamCapture = () => {
                         e.preventDefault();
                         capture();
                     }}
-                        className="webcam-btn">Capture</button>
+                        className="webcam-btn" id="webcam-btn">Capture</button>
                 }
             </div>
         </div>

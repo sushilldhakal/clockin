@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PinInput from "react-pin-input";
-
-import { useHistory } from "react-router-dom";
-
-import Home from "../Home/Home";
+import axios from 'axios';
 
 class Pin extends Component {
   state = {
@@ -23,11 +20,19 @@ class Pin extends Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-    this.props.history.push("/home");
+    axios.post("http://localhost:4000/api/auth/login", {
+      pin: this.state.value
+    }).then(res => {
+      console.log(this.pin)
+      window.localStorage.setItem("pin", this.pin.values.join(''));
+      this.props.history.push("/home");
+    }).catch(err => {
+      alert('Invalid PIN');
+      this.onClear()
+    });
   };
 
   render() {
-    const { value } = this.state;
     return (
       <div className="Pin">
         <PinInput
