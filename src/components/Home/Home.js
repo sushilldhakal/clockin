@@ -22,6 +22,8 @@ class Home extends Component {
       }).then(res => {
         console.log(res)
         alert(res.data.message);
+        localStorage.removeItem('pin')
+        this.props.history.push('/')
       }).catch(err => {
         alert('Error: Something went wrong.')
       })
