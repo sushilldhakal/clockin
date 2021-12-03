@@ -5,34 +5,59 @@ import axios from "axios";
 import moment from "moment";
 
 class Home extends Component {
-
   state = {
-    currentTime: moment().format('HH:mm:ss'),
+    currentTime: moment().format("HH:mm:ss"),
+    name: "",
+    role: "",
+    clockin: "",
+    breakin: "",
+    breakout: ""
+  };
+
+  componentDidMount() {
+    axios
+      .get("https://fd3r9.sse.codesandbox.io/api/auth/login")
+      .then((res) => {
+        this.setState({
+          name: res.data.name,
+          role: res.data.role,
+          clockin: res.data.clockin,
+          breakin: res.data.breakin,
+          breakout: res.data.breakout
+        });
+      })
+      .catch((err) => {
+        console.log("Error from UpdateTourInfo");
+      });
   }
 
   onClick = (e) => {
-    if (!document.getElementById('screen-image')) {
-      document.getElementById('webcam-btn').click()
+    if (!document.getElementById("screen-image")) {
+      document.getElementById("webcam-btn").click();
     }
 
     setTimeout(() => {
-      axios.post("http://localhost:4000/api/clock/" + e, {
-        pin: localStorage.getItem("pin"),
-        image: document.getElementById('screen-image').src
-      }).then(res => {
-        console.log(res)
-        alert(res.data.message);
-        localStorage.removeItem('pin')
-        this.props.history.push('/')
-      }).catch(err => {
-        alert('Error: Something went wrong.')
-      })
-    }, 1000)
+      axios
+        .post("https://fd3r9.sse.codesandbox.io/api/clock/" + e, {
+          pin: localStorage.getItem("pin"),
+          image: document.getElementById("screen-image").src
+        })
+        .then((res) => {
+          alert(res.data.message);
+          localStorage.removeItem("pin");
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          alert("Error: Something went wrong.");
+        });
+    }, 100);
   };
 
   render() {
+    console.log(this.props);
+    // this.onClick = this.onClick.bind(this);
     if (localStorage.getItem("pin") === null) {
-      this.props.history.push("/");
+      // this.props.history.push("/");
     }
     return (
       <div className="home-container">
@@ -41,6 +66,7 @@ class Home extends Component {
             <h2> {this.state.currentTime} </h2>
             <div className="container">
               <div className="col-sm-4">
+                <span>{this.state.name}</span>
                 <WebcamCapture id="webimage" />
               </div>
               <div className="col-sm-8">
@@ -54,7 +80,7 @@ class Home extends Component {
                       autoComplete="off"
                       checked
                       onChange={(e) => e.target.value}
-                      onClick={() => this.onClick('in')}
+                      onClick={() => this.onClick("in")}
                     />
                     <label className="btn btn-secondary" htmlFor="option1">
                       START
@@ -71,8 +97,7 @@ class Home extends Component {
                       id="option2"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
-                      onClick={() => this.onClick('break')}
-
+                      onClick={() => this.onClick("break")}
                     />
                     <label className="btn btn-secondary" htmlFor="option2">
                       BREAK
@@ -89,7 +114,7 @@ class Home extends Component {
                       id="option3"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
-                      onClick={() => this.onClick('out')}
+                      onClick={() => this.onClick("out")}
                     />
                     <label className="btn btn-secondary" htmlFor="option3">
                       FINISH

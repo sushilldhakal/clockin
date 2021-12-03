@@ -12,7 +12,23 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.white-text h2 {
+  font-weight: 800 !important;
+}
+.pincode-input-container {
+  margin: 30px 0 0;
+}
+.pincode-input-container input {
+  background: #546171 !important;
+  border-radius: 15px;
+  width: 95px !important;
+  height: 95px !important;
+  color: #fff !important;
+  border: 1px solid #212a35 !important;
+  margin: 0px 10px !important;
+  font-size: 40px;
+  font-weight: 500;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
