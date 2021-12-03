@@ -28,6 +28,9 @@ const List = (props) => {
                 <p>{item.role}</p>
                 <p>{item.hire}</p>
                 <p>{item.site}</p>
+                <p>{item.email}</p>
+                <p>{item.phone}</p>
+                <p>{item.pin}</p>
                 <button className="btn btn-primary"> View Timesheet</button>
                 {/* <span
                   className="c-close"

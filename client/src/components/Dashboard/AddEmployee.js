@@ -6,6 +6,9 @@ const AddEmployee = (props) => {
     role,
     hire,
     site,
+    email,
+    phone,
+    pin,
     edit,
     addNewEmployee,
     getNewEmployee
@@ -40,6 +43,27 @@ const AddEmployee = (props) => {
           value={site}
           onChange={getNewEmployee}
           placeholder="site"
+        />
+        <input
+          type="text"
+          name="email"
+          value={email}
+          onChange={getNewEmployee}
+          placeholder="email"
+        />
+        <input
+          type="text"
+          name="phone"
+          value={phone}
+          onChange={getNewEmployee}
+          placeholder="phone"
+        />
+        <input
+          type="text"
+          name="pin"
+          value={pin}
+          onChange={getNewEmployee}
+          placeholder="pin"
         />
         <button>{!edit ? "Add Employee" : "Edit Employee"}</button>
       </form>

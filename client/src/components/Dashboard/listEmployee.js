@@ -19,6 +19,7 @@ class ListEmployee extends Component {
     role: "",
     hire: "",
     site: "",
+    pin: "",
     edit: false
   };
 
@@ -40,7 +41,9 @@ class ListEmployee extends Component {
         item.name.toLowerCase().match(this.state.search.toLowerCase()) ||
         item.role.toLowerCase().match(this.state.search.toLowerCase()) ||
         item.hire.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.site.toLowerCase().match(this.state.search.toLowerCase())
+        item.site.toLowerCase().match(this.state.search.toLowerCase()) ||
+        item.email.toLowerCase().match(this.state.search.toLowerCase()) ||
+        item.phone.toLowerCase().match(this.state.search.toLowerCase())
     );
   };
 
@@ -57,9 +60,9 @@ class ListEmployee extends Component {
   //Add value from state to data array
   addNewEmployee = (e) => {
     e.preventDefault();
-    const { name, role, hire, site } = this.state;
+    const { name, role, hire, site, email, phone, pin } = this.state;
 
-    if (!name || !role || !hire || !site) {
+    if (!name || !role || !hire || !site || !phone || !email || !pin) {
       alert("Fill the fields");
     } else {
       const newEmployee = {
@@ -67,7 +70,10 @@ class ListEmployee extends Component {
         name,
         role,
         hire,
-        site
+        site,
+        email,
+        phone,
+        pin
       };
       this.setState({
         data: [...this.state.data, newEmployee],
@@ -75,6 +81,9 @@ class ListEmployee extends Component {
         position: "",
         hire: "",
         site: "",
+        email: "",
+        phone: "",
+        pin: "",
         id: uuidv1(),
         edit: false
       });
@@ -107,6 +116,9 @@ class ListEmployee extends Component {
       role: editEmployee.role,
       hire: editEmployee.hire,
       site: editEmployee.site,
+      email: editEmployee.email,
+      phone: editEmployee.phone,
+      pin: editEmployee.pin,
       edit: true,
       id: editEmployee.id
     });
@@ -137,7 +149,10 @@ class ListEmployee extends Component {
             name={this.state.name}
             role={this.state.role}
             hire={this.state.hire}
-            position={this.state.position}
+            site={this.state.site}
+            email={this.state.email}
+            phone={this.state.phone}
+            pin={this.state.pin}
             edit={this.state.edit}
             getNewEmployee={this.getNewEmployee}
             addNewEmployee={this.addNewEmployee}
