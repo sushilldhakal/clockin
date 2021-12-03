@@ -9,6 +9,7 @@ const AddEmployee = (props) => {
     email,
     phone,
     pin,
+    dob,
     edit,
     addNewEmployee,
     getNewEmployee
@@ -58,12 +59,21 @@ const AddEmployee = (props) => {
           onChange={getNewEmployee}
           placeholder="phone"
         />
+
+        {/* need to ckeck if the pin is already taken by someone else employee */}
         <input
           type="text"
           name="pin"
           value={pin}
           onChange={getNewEmployee}
           placeholder="pin"
+        />
+        <input
+          type="text"
+          name="dob"
+          value={dob}
+          onChange={getNewEmployee}
+          placeholder="dob"
         />
         <button>{!edit ? "Add Employee" : "Edit Employee"}</button>
       </form>

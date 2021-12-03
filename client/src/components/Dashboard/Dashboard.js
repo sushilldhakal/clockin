@@ -20,7 +20,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems } from "./listItems";
 
 import ListEmployee from "./listEmployee";
-import AddEmployee from "./AddEmployee";
+import Timesheet from "./Timesheet";
+import Staff from "./Staff";
 
 const drawerWidth = 240;
 
@@ -125,6 +126,20 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const dashboard = "https://y3mn8-3000.sse.codesandbox.io/dashboard";
+  const staff = "https://y3mn8-3000.sse.codesandbox.io/staff";
+  const timesheet = "https://y3mn8-3000.sse.codesandbox.io/timesheet";
+
+  // if (window.location.href == dashboard) {
+  //   return <ListEmployee id="employee-list" />;
+  // } else if (window.location.href == staff) {
+  //   return <ListEmployee id="employee-list" />;
+  // } else if (window.location.href == timesheet) {
+  //   return <ListEmployee id="employee-list" />;
+  // } else {
+  //   return <ListEmployee id="employee-list" />;
+  // }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -179,6 +194,8 @@ export default function Dashboard() {
 
       <div className="dashboard-body">
         <ListEmployee id="employee-list" />
+        <Timesheet id="timesheet-list" />
+        {/* <Staff id="staff-list" /> */}
       </div>
     </div>
   );

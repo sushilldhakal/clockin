@@ -20,15 +20,16 @@ class ListEmployee extends Component {
     hire: "",
     site: "",
     pin: "",
+    dob: "",
     edit: false
   };
 
   // Get and Set value from form
   getFilterValue = (e) => {
     const search = e.target.value;
-    const matches = search.match(/\d+/g);
+    const matches = search.match(/^[0-9\b]+$/);
     if (matches != null) {
-      alert("Do not type numbers");
+      this.setState({ search });
     } else {
       this.setState({ search });
     }
@@ -43,7 +44,8 @@ class ListEmployee extends Component {
         item.hire.toLowerCase().match(this.state.search.toLowerCase()) ||
         item.site.toLowerCase().match(this.state.search.toLowerCase()) ||
         item.email.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.phone.toLowerCase().match(this.state.search.toLowerCase())
+        item.phone.toLowerCase().match(this.state.search.toLowerCase()) ||
+        item.pin.toLowerCase().match(this.state.search.toLowerCase())
     );
   };
 
@@ -60,9 +62,9 @@ class ListEmployee extends Component {
   //Add value from state to data array
   addNewEmployee = (e) => {
     e.preventDefault();
-    const { name, role, hire, site, email, phone, pin } = this.state;
+    const { name, role, hire, site, email, phone, pin, dob } = this.state;
 
-    if (!name || !role || !hire || !site || !phone || !email || !pin) {
+    if (!name || !role || !hire || !site || !phone || !email || !pin || !dob) {
       alert("Fill the fields");
     } else {
       const newEmployee = {
@@ -73,7 +75,8 @@ class ListEmployee extends Component {
         site,
         email,
         phone,
-        pin
+        pin,
+        dob
       };
       this.setState({
         data: [...this.state.data, newEmployee],
@@ -84,6 +87,7 @@ class ListEmployee extends Component {
         email: "",
         phone: "",
         pin: "",
+        dob,
         id: uuidv1(),
         edit: false
       });
@@ -119,6 +123,7 @@ class ListEmployee extends Component {
       email: editEmployee.email,
       phone: editEmployee.phone,
       pin: editEmployee.pin,
+      dob: editEmployee.dob,
       edit: true,
       id: editEmployee.id
     });
@@ -153,6 +158,7 @@ class ListEmployee extends Component {
             email={this.state.email}
             phone={this.state.phone}
             pin={this.state.pin}
+            dob={this.state.dob}
             edit={this.state.edit}
             getNewEmployee={this.getNewEmployee}
             addNewEmployee={this.addNewEmployee}

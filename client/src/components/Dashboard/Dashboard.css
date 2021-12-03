@@ -17,6 +17,13 @@
   max-width: 1200px;
 }
 
+.sorting-wrapper {
+  display: flex;
+  float: left;
+  margin: 20px 0;
+  width: 100%;
+}
+
 @media (min-width: 1024px) {
   .c-list__employees {
     grid-template-columns: repeat(3, 1fr);

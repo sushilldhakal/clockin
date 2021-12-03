@@ -8,7 +8,7 @@ library.add(faTrashAlt, faUser, faLock);
 
 class Staff extends Component {
   render() {
-    return <div className="dashbaord-page"></div>;
+    return <div className="dashbaord-page">staff</div>;
   }
 }
 export default Staff;
