@@ -20,7 +20,7 @@ const connect = async () => {
 fastify.get('/api/timesheets', async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-  const collection = db.collection("clock-in-data");
+  const collection = db.collection("timesheets");
   const timesheets = await collection.find({}).toArray();
   client.close();
   reply.send(timesheets);
@@ -29,7 +29,7 @@ fastify.get('/api/timesheets', async (request, reply) => {
 fastify.get('/api/employees', async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-  const collection = db.collection("users");
+  const collection = db.collection("employees");
   const employees = await collection.find({}).toArray();
   client.close();
   reply.send(employees);
@@ -38,7 +38,7 @@ fastify.get('/api/employees', async (request, reply) => {
 fastify.post('/api/add-employee', async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-  const collection = db.collection("users");
+  const collection = db.collection("employees");
   // check if collection already has users with same pin
   const user = await collection.findOne({ pin: request.body.pin });
   if (user) {
@@ -69,7 +69,7 @@ fastify.post("/api/clock/:type", (request, reply) => {
     .then((client) => {
       const collection = client
         .db("clock-in-users")
-        .collection("clock-in-data");
+        .collection("timesheets");
       collection.findOne(data).then((user) => {
         if (user) {
           reply.send({
@@ -97,7 +97,7 @@ fastify.post("/api/clock/:type", (request, reply) => {
 
 fastify.post("/api/auth/login", (req, reply) => {
   connect().then(async (client) => {
-    const collection = client.db("clock-in-users").collection("users");
+    const collection = client.db("clock-in-users").collection("employees");
     collection.findOne({ pin: req.body.pin }).then((user) => {
       if (user) {
         reply.send({
