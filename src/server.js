@@ -17,6 +17,39 @@ const connect = async () => {
   });
 };
 
+fastify.get('/api/employees', async (request, reply) => {
+  const client = await connect();
+  const db = client.db("clock-in-users");
+  const collection = db.collection("users");
+  const employees = await collection.find({}).toArray();
+  client.close();
+  reply.send(employees);
+});
+
+fastify.post('/api/add-employee', async (request, reply) => {
+  const client = await connect();
+  const db = client.db("clock-in-users");
+  const collection = db.collection("users");
+  // check if collection already has users with same pin
+  const user = await collection.findOne({ pin: request.body.pin });
+  if (user) {
+    client.close();
+    reply.send({
+      message: "User with this pin already exists"
+    });
+  }
+  const employee = {
+    ...request.body,
+    createdAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+  };
+  await collection.insertOne(employee);
+  client.close();
+  reply.send({
+    message: "Employee added successfully",
+    employee,
+  });
+});
+
 fastify.post("/api/clock/:type", (request, reply) => {
   let data = {
     pin: request.body.pin,

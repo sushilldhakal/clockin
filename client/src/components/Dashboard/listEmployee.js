@@ -6,10 +6,11 @@ import AddEmployee from "./AddEmployee";
 import uuidv1 from "uuid";
 
 import { data } from "./data";
+import axios from "axios";
 
 class ListEmployee extends Component {
   state = {
-    data: data,
+    data: [],
     id: uuidv1(),
     search: "",
     value: "",
@@ -34,6 +35,17 @@ class ListEmployee extends Component {
       this.setState({ search });
     }
   };
+
+  componentDidMount(){
+    this.retrieveData = this.retrieveData.bind(this)
+    this.retrieveData();
+  }
+
+  retrieveData(){
+    axios.get('http://localhost:4000/api/employees').then(res => {
+      this.setState({data: res.data})
+    })
+  }
 
   //Filter value from state
   getFilterData = () => {
@@ -78,41 +90,18 @@ class ListEmployee extends Component {
         pin,
         dob
       };
-      this.setState({
-        data: [...this.state.data, newEmployee],
-        name: "",
-        position: "",
-        hire: "",
-        site: "",
-        email: "",
-        phone: "",
-        pin: "",
-        dob,
-        id: uuidv1(),
-        edit: false
+      
+      axios.post("http://localhost:4000/api/add-employee", newEmployee).then((res) => {
+        alert(res.data.message);
+        this.retrieveData()
+      }).catch((err) => {
+        alert('Something went wrong')
       });
-      alert("Employee Added");
     }
   };
 
-  //Delete value from state to data array
-  // deleteEmployee = (id) => {
-  //   const { data } = this.state;
-  //   if (data.length <= 2) {
-  //     alert("Data is needed to filter");
-  //   } else {
-  //     const deleteEmployee = this.state.data.filter((item) => item.id !== id);
-  //     this.setState({
-  //       data: deleteEmployee
-  //     });
-  //   }
-  // };
-
-  //Edit value from state to data array
   editEmployee = (id) => {
     const editEmployee = this.state.data.find((item) => item.id === id);
-    //const deleteEmployee = this.state.data.filter((item) => item.id !== id);
-    console.log(editEmployee);
     this.setState({
       data: editEmployee.name,
       show: true,
@@ -169,6 +158,7 @@ class ListEmployee extends Component {
           getFilterValue={this.getFilterValue}
         />
         <List
+          key={this.state.id}
           // deleteEmployee={this.deleteEmployee}
           editEmployee={this.editEmployee}
           handleClearList={this.handleClearList}
