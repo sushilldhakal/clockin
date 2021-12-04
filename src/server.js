@@ -17,6 +17,15 @@ const connect = async () => {
   });
 };
 
+fastify.get('/api/timesheets', async (request, reply) => {
+  const client = await connect();
+  const db = client.db("clock-in-users");
+  const collection = db.collection("clock-in-data");
+  const timesheets = await collection.find({}).toArray();
+  client.close();
+  reply.send(timesheets);
+});
+
 fastify.get('/api/employees', async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
