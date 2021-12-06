@@ -6,7 +6,7 @@ import moment from "moment";
 
 class Home extends Component {
   state = {
-    currentTime: moment().format("HH:mm:ss"),
+    currentTime: moment().format("LT"),
     name: "",
     role: "",
     clockin: "",

@@ -6,7 +6,7 @@ import moment from "moment";
 class Pin extends Component {
   state = {
     value: "",
-    currentTime: moment().format("HH:mm:ss")
+    currentTime: moment().format("LT")
   };
 
   onChange = (value) => {

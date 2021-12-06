@@ -5,7 +5,7 @@ import Pin from "./components/Pin/Pin";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Timesheet from "./components/Dashboard/Timesheet";
+import Timesheet from "./components/Dashboard/TimesheetList";
 import Staff from "./components/Dashboard/Staff";
 //import listEmployee from "./components/Dashboard/listEmployee";
 import history from "./history";
@@ -20,6 +20,7 @@ export default class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/staff" component={Staff} />
+          <Route path="/timesheet-list" component={Timesheet} />
           <Route path="/timesheet" component={Timesheet} />
         </Switch>
       </Router>
