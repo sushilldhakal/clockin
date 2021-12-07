@@ -36,15 +36,15 @@ class ListEmployee extends Component {
     }
   };
 
-  componentDidMount(){
-    this.retrieveData = this.retrieveData.bind(this)
+  componentDidMount() {
+    this.retrieveData = this.retrieveData.bind(this);
     this.retrieveData();
   }
 
-  retrieveData(){
-    axios.get('http://localhost:4000/api/employees').then(res => {
-      this.setState({data: res.data})
-    })
+  retrieveData() {
+    axios.get(process.env.REACT_APP_BASE_URL + "employees").then((res) => {
+      this.setState({ data: res.data });
+    });
   }
 
   //Filter value from state
@@ -90,13 +90,16 @@ class ListEmployee extends Component {
         pin,
         dob
       };
-      
-      axios.post("http://localhost:4000/api/add-employee", newEmployee).then((res) => {
-        alert(res.data.message);
-        this.retrieveData()
-      }).catch((err) => {
-        alert('Something went wrong')
-      });
+
+      axios
+        .post(process.env.REACT_APP_BASE_URL + "add-employee", newEmployee)
+        .then((res) => {
+          alert(res.data.message);
+          this.retrieveData();
+        })
+        .catch((err) => {
+          alert("Something went wrong");
+        });
     }
   };
 
