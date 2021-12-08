@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\""
   },
   "dependencies": {
@@ -19,6 +20,9 @@
   "devDependencies": {
     "nodemon": "^1.18.4",
     "concurrently": "^6.4.0"
+  },
+  "engines": {
+    "node": "14.18.1"
   },
   "keywords": []
 }

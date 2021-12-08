@@ -16,7 +16,7 @@ class Home extends Component {
 
   componentDidMount() {
     axios
-      .get("https://fd3r9.sse.codesandbox.io/api/auth/login")
+      .get(process.env.REACT_APP_BASE_URL + "auth/login")
       .then((res) => {
         this.setState({
           name: res.data.name,
@@ -38,7 +38,7 @@ class Home extends Component {
 
     setTimeout(() => {
       axios
-        .post("https://fd3r9.sse.codesandbox.io/api/clock/" + e, {
+        .post(process.env.REACT_APP_BASE_URL + "clock/" + e, {
           pin: localStorage.getItem("pin"),
           image: document.getElementById("screen-image").src
         })

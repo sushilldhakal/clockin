@@ -3,10 +3,10 @@ const { MongoClient } = require("mongodb");
 fastify.register(require("fastify-cors"));
 const moment = require("moment");
 
+// DB Config
+const uri = require("./config/keys").mongoURI;
 const connect = async () => {
   return new Promise((resolve, reject) => {
-    const uri =
-      "mongodb+srv://clock-in:vwvaR5YVffwzyrZo@testtravel.xcy06.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
       if (err) {
         reject(err);
@@ -17,7 +17,12 @@ const connect = async () => {
   });
 };
 
-fastify.get('/api/timesheets', async (request, reply) => {
+//route
+fastify.get("/", async (request, reply) => {
+  return { hello: "world" };
+});
+
+fastify.get("/api/timesheets", async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   const collection = db.collection("timesheets");
@@ -26,7 +31,7 @@ fastify.get('/api/timesheets', async (request, reply) => {
   reply.send(timesheets);
 });
 
-fastify.get('/api/employees', async (request, reply) => {
+fastify.get("/api/employees", async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   const collection = db.collection("employees");
@@ -35,7 +40,7 @@ fastify.get('/api/employees', async (request, reply) => {
   reply.send(employees);
 });
 
-fastify.post('/api/add-employee', async (request, reply) => {
+fastify.post("/api/add-employee", async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   const collection = db.collection("employees");
@@ -49,13 +54,13 @@ fastify.post('/api/add-employee', async (request, reply) => {
   }
   const employee = {
     ...request.body,
-    createdAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    createdAt: moment().format("MMMM Do YYYY, h:mm:ss a")
   };
   await collection.insertOne(employee);
   client.close();
   reply.send({
     message: "Employee added successfully",
-    employee,
+    employee
   });
 });
 
@@ -67,9 +72,7 @@ fastify.post("/api/clock/:type", (request, reply) => {
   };
   connect()
     .then((client) => {
-      const collection = client
-        .db("clock-in-users")
-        .collection("timesheets");
+      const collection = client.db("clock-in-users").collection("timesheets");
       collection.findOne(data).then((user) => {
         if (user) {
           reply.send({
@@ -116,7 +119,8 @@ fastify.post("/api/auth/login", (req, reply) => {
 
 const start = async () => {
   try {
-    await fastify.listen(4000);
+    await fastify.listen(process.env.PORT || 4000);
+    fastify.log.info(`server listening on ${fastify.server.address().port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
