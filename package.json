@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.16",
@@ -16,6 +17,9 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
+  },
+  "engines": {
+    "node": "14.18.1"
   },
   "keywords": []
 }
