@@ -1,61 +1,95 @@
-import React, { Component } from "react";
-import "./Login.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import React, { Component } from 'react';
+import swal from 'sweetalert';
+import { login } from '../../utils';
+import { Button, TextField, Link } from '@material-ui/core';
+const axios = require('axios');
+const bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
 
-library.add(faTrashAlt, faUser, faLock);
 
-class Login extends Component {
+
+export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
+
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+
+    //   const handleLogin = () => {
+  //     login();
+  //     props.history.push('/dashboard');
+  // }
+  login = () => {
+
+
+
+    const pwd = bcrypt.hashSync(this.state.password, salt);
+
+    axios.post(process.env.REACT_APP_BASE_URL +'auth/signin', {
+      username: this.state.email,
+      password: pwd,
+    }).then((res) => {
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user_id', res.data.id);
+      this.props.history.push('/dashboard');
+    }).catch((err) => {
+      if (err.response && err.response.data && err.response.data.errorMessage) {
+        swal({
+          text: err.response.data.errorMessage,
+          icon: "error",
+          type: "error"
+        });
+      }
+    });
+  }
+
   render() {
     return (
-      <div className="login-page">
-        <div className="pd-40"></div>
-        <div className="container">
-          <div className="form-box">
-            <div className="header-form">
-              <h4 className="text-primary text-center">
-                <FontAwesomeIcon name="user" icon={faUser} />
-                4th Dimension Transport Login
-              </h4>
-              <div className="image"></div>
-            </div>
-            <div className="body-form">
-              <form>
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon name="user" icon={faUser} />
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Username"
-                  />
-                </div>
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <FontAwesomeIcon name="user" icon={faLock} />
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Password"
-                  />
-                </div>
-                <button type="button" className="btn btn-secondary btn-block">
-                  LOGIN
-                </button>
-              </form>
-            </div>
-          </div>
+      <div style={{ marginTop: '200px', marginBottom: '200px' }}>
+        <div>
+          <h2>Login</h2>
         </div>
-        <div className="pd-40"></div>
+
+        <div>
+          <TextField
+            id="standard-basic"
+            type="text"
+            autoComplete="off"
+            name="username"
+            value={this.state.username}
+            onChange={this.onChange}
+            placeholder="User Name"
+            required
+          />
+          <br /><br />
+          <TextField
+            id="standard-basic"
+            type="password"
+            autoComplete="off"
+            name="password"
+            value={this.state.password}
+            onChange={this.onChange}
+            placeholder="Password"
+            required
+          />
+          <br /><br />
+          <Button
+            className="button_style"
+            variant="contained"
+            color="primary"
+            size="small"
+            disabled={this.state.username == '' && this.state.password == ''}
+            onClick={this.login}
+          >
+            Login
+          </Button> 
+        </div>
       </div>
     );
   }
 }
-export default Login;

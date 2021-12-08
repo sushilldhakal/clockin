@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 import { Dropdown } from "react-bootstrap";
-import "./Dashboard.css";
+import "../Dashboard.css";
 import { faTrashAlt, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
@@ -19,11 +19,11 @@ class Timesheet extends Component {
     timesheets: [],
   }
   componentDidMount() {
-    axios.get('http://localhost:4000/api/employees').then(res => {
+    axios.get(process.env.REACT_APP_BASE_URL +'employees').then(res => {
       this.setState({
         users: res.data
       })
-      axios.get('http://localhost:4000/api/timesheets').then(res => {
+      axios.get(process.env.REACT_APP_BASE_URL +'timesheets').then(res => {
         this.setState({
           timesheets: res.data.map(timesheet => {
             return {

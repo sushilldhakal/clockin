@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import Search from "./Search";
+import Search from "../Global/Search";
 import List from "./List";
 // import Form from '../Components/Form'
-import AddEmployee from "./AddEmployee";
+import AddEmployee from "../Employee/AddEmployee";
 import uuidv1 from "uuid";
 
-import { data } from "./data";
 import axios from "axios";
 
 class ListEmployee extends Component {

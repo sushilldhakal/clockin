@@ -3,6 +3,8 @@ const { MongoClient } = require("mongodb");
 fastify.register(require("fastify-cors"));
 const moment = require("moment");
 
+
+
 // DB Config
 const uri = require("./config/keys").mongoURI;
 const connect = async () => {
@@ -116,6 +118,8 @@ fastify.post("/api/auth/login", (req, reply) => {
     });
   });
 });
+
+
 
 const start = async () => {
   try {

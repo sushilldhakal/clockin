@@ -13,24 +13,6 @@ class Home extends Component {
     breakin: "",
     breakout: ""
   };
-
-  componentDidMount() {
-    axios
-      .get(process.env.REACT_APP_BASE_URL + "auth/login")
-      .then((res) => {
-        this.setState({
-          name: res.data.name,
-          role: res.data.role,
-          clockin: res.data.clockin,
-          breakin: res.data.breakin,
-          breakout: res.data.breakout
-        });
-      })
-      .catch((err) => {
-        console.log("Error from UpdateTourInfo");
-      });
-  }
-
   onClick = (e) => {
     if (!document.getElementById("screen-image")) {
       document.getElementById("webcam-btn").click();
@@ -66,7 +48,9 @@ class Home extends Component {
             <h2> {this.state.currentTime} </h2>
             <div className="container">
               <div className="col-sm-4">
-                <span>{this.state.name}</span>
+                <span>User Name</span>
+                <span>User Clock In time <br/> if any <br/>user break time if any</span>
+
                 <WebcamCapture id="webimage" />
               </div>
               <div className="col-sm-8">
