@@ -4,10 +4,12 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\""
   },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.16",
+    
     "fastify": "^3.24.1",
     "fastify-cors": "^6.0.2",
     "moment": "^2.29.1",
@@ -15,7 +17,8 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "concurrently": "^6.4.0"
   },
   "keywords": []
 }
