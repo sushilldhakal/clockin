@@ -7,11 +7,8 @@ const login = require("./controllers/login");
 const timesheets = require("./controllers/timesheets");
 
 const fastify = require("fastify")({ logger: true });
+
 fastify.register(require("fastify-cors"));
-
-
-
-
 
 fastify.get("/api/timesheets", timesheets);
 

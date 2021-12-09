@@ -26,15 +26,15 @@ export default class Login extends React.Component {
 
     axios.post(process.env.REACT_APP_BASE_URL +'auth/admin/login', {
       username: this.state.username,
-      password: pwd,
+      password: this.state.password,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
       this.props.history.push('/dashboard');
     }).catch((err) => {
-      if (err.response && err.response.data && err.response.data.errorMessage) {
+      if (err.response && err.response.data && err.response.data.message) {
         swal({
-          text: err.response.data.errorMessage,
+          text: err.response.data.message,
           icon: "error",
           type: "error"
         });
