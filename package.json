@@ -12,13 +12,14 @@
     "@fortawesome/react-fontawesome": "^0.1.16",
     "fastify": "^3.24.1",
     "fastify-cors": "^6.0.2",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongodb": "^4.2.1",
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
-    "concurrently": "^6.4.0"
+    "concurrently": "^6.4.0",
+    "nodemon": "^1.18.4"
   },
   "keywords": []
 }

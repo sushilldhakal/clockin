@@ -12,7 +12,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: ''
     };
   }
@@ -20,18 +20,12 @@ export default class Login extends React.Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
 
-    //   const handleLogin = () => {
-  //     login();
-  //     props.history.push('/dashboard');
-  // }
   login = () => {
-
-
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
-    axios.post(process.env.REACT_APP_BASE_URL +'auth/signin', {
-      username: this.state.email,
+    axios.post(process.env.REACT_APP_BASE_URL +'auth/admin/login', {
+      username: this.state.username,
       password: pwd,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
@@ -62,7 +56,7 @@ export default class Login extends React.Component {
             autoComplete="off"
             name="username"
             value={this.state.username}
-            onChange={this.onChange}
+            onChange={e=>this.setState({username: e.target.value})}
             placeholder="User Name"
             required
           />
@@ -73,7 +67,7 @@ export default class Login extends React.Component {
             autoComplete="off"
             name="password"
             value={this.state.password}
-            onChange={this.onChange}
+            onChange={e=>this.setState({password: e.target.value})}
             placeholder="Password"
             required
           />
@@ -84,7 +78,7 @@ export default class Login extends React.Component {
             color="primary"
             size="small"
             disabled={this.state.username == '' && this.state.password == ''}
-            onClick={this.login}
+            onClick={this.login.bind(this)}
           >
             Login
           </Button> 
