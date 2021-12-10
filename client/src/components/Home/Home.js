@@ -11,7 +11,9 @@ class Home extends Component {
     role: "",
     clockin: "",
     breakin: "",
-    breakout: ""
+    breakout: "",
+    user: {name: ''},
+    timesheets: []
   };
   onClick = (e) => {
     if (!document.getElementById("screen-image")) {
@@ -35,11 +37,19 @@ class Home extends Component {
     }, 100);
   };
 
+  componentDidMount(){
+    axios.get(process.env.REACT_APP_BASE_URL + "get-timesheets/" + localStorage.getItem("pin")).then((res) => {
+      this.setState({
+        timesheets: res.data.timesheets,
+        user:res.data.user
+      })
+    })
+  }
+
   render() {
-    console.log(this.props);
-    // this.onClick = this.onClick.bind(this);
+    console.log(this.state.timesheets)
     if (localStorage.getItem("pin") === null) {
-      // this.props.history.push("/");
+      this.props.history.push("/");
     }
     return (
       <div className="home-container">
@@ -48,9 +58,13 @@ class Home extends Component {
             <h2> {this.state.currentTime} </h2>
             <div className="container">
               <div className="col-sm-4">
-                <span>User Name</span>
-                <span>User Clock In time <br/> if any <br/>user break time if any</span>
-
+                <span>{this.state.user.name}</span>
+                {this.state.timesheets.map((timesheet) => {
+                  return (
+                    <div>
+                      <span>Clock {timesheet.type}: {timesheet.time}</span>
+                    </div>
+                  )})}
                 <WebcamCapture id="webimage" />
               </div>
               <div className="col-sm-8">
