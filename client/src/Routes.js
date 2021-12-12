@@ -1,29 +1,93 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { Suspense, Fragment, lazy } from "react";
+import { Switch, Redirect, Route } from "react-router-dom";
 
-import Pin from "./components/Pin/Pin";
-import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
-import Dashboard from "./components/Dashboard/Main/Dashboard";
-import Timesheet from "./components/Dashboard/Timesheet/TimesheetList";
-import Staff from "./components/Dashboard/Staff/Staff";
-//import listEmployee from "./components/Dashboard/listEmployee";
-import history from "./history";
+import Loader from "./components/Loader/Loader";
+import AdminLayout from "./layouts/AdminLayout";
 
-export default class Routes extends Component {
-  render() {
-    return (
-      <Router history={history}>
-        <Switch>
-          <Route path="/" exact component={Pin} />
-          <Route exact path="/home" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/staff" component={Staff} />
-          <Route path="/timesheet-list" component={Timesheet} />
-          <Route path="/timesheet" component={Timesheet} />
-        </Switch>
-      </Router>
-    );
-  }
-}
+import GuestGuard from "./components/Auth/GuestGuard";
+import AuthGuard from "./components/Auth/AuthGuard";
+import Footer from "./components/Footer";
+import { BASE_URL } from "./config/constant";
+
+export const renderRoutes = (routes = []) => (
+  <Suspense fallback={<Loader />}>
+    <Switch>
+      {routes.map((route, i) => {
+        const Guard = route.guard || Fragment;
+        const Layout = route.layout || Fragment;
+        const Component = route.component;
+
+        return (
+          <Route
+            key={i}
+            path={route.path}
+            exact={route.exact}
+            render={(props) => (
+              <Guard>
+                <Layout>
+                  {route.routes ? (
+                    renderRoutes(route.routes)
+                  ) : (
+                    <Component {...props} />
+                  )}
+                </Layout>
+              </Guard>
+            )}
+          />
+        );
+      })}
+    </Switch>
+    <Footer />
+  </Suspense>
+);
+
+const routes = [
+  {
+    exact: true,
+    guard: GuestGuard,
+    path: "/login",
+    component: lazy(() => import("./views/Login/Login")),
+  },
+  {
+    exact: true,
+    guard: GuestGuard,
+    path: "/pin",
+    component: lazy(() => import("./views/Pin/Pin")),
+  },
+  {
+    exact: true,
+    guard: GuestGuard,
+    path: "/home",
+    component: lazy(() => import("./views/Home/Home")),
+  },
+  {
+    path: "*",
+    layout: AdminLayout,
+    guard: AuthGuard,
+    routes: [
+      {
+        exact: true,
+        path: "/dashboard",
+        component: lazy(() => import("./views/dashboard/DashDefault")),
+      },
+      {
+        exact: true,
+        path: "/dashboard/staff",
+        component: lazy(() => import("./views/Staff/Staff")),
+      },
+      {
+        exact: true,
+        path: "/dashboard/timesheet",
+        component: lazy(() => import("./views/Timesheet/Timesheet")),
+      },
+
+      {
+        path: "*",
+        exact: true,
+        component: () => <Redirect to={BASE_URL} />,
+      },
+    ],
+  },
+];
+
+export default routes;
