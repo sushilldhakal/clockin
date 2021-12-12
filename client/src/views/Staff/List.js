@@ -1,8 +1,14 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
+import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
+
+import avatar1 from "../../assets/images/user/avatar-1.jpg";
+import avatar2 from "../../assets/images/user/avatar-2.jpg";
+import avatar3 from "../../assets/images/user/avatar-3.jpg";
 
 const List = (props) => {
   const { getFilterData, handleClearList, deleteEmployee, editEmployee } =
@@ -11,23 +17,42 @@ const List = (props) => {
   const data = [
     {
       id: 1,
+      image: avatar1,
       name: "sushil dhakal",
       role: "1988",
       pin: "9265",
       hire: "VIK",
       site: "Port Melbourne",
+      clockin: "10:00 am",
+      userDetail: "dashboard/staff/username",
       email: "test@test.com",
-      mobile: "0433926000",
+      phone: "04040404",
     },
     {
       id: 2,
+      image: avatar2,
       name: "suman shrestha",
       role: "1988",
       pin: "9234",
       hire: "NOVA",
-      site: "Port Melbourne",
+      site: "Dandenong",
+      clockin: "10:30 am",
+      userDetail: "dashboard/staff/username",
       email: "test@test.com",
-      mobile: "0433926000",
+      phone: "04040404",
+    },
+    {
+      id: 3,
+      image: avatar3,
+      name: "Gur Bedi",
+      role: "1988",
+      pin: "9230",
+      hire: "Company Hire",
+      site: "Port Melbourne",
+      clockin: "08:30 am",
+      userDetail: "dashboard/staff/username",
+      email: "test@test.com",
+      phone: "04040404",
     },
   ];
 
@@ -52,6 +77,7 @@ const List = (props) => {
       name: "Name",
       selector: "name",
       sortable: true,
+      cell: (d) => <Link to={d.userDetail}>{d.name}</Link>,
     },
     {
       name: "Role",
@@ -79,8 +105,8 @@ const List = (props) => {
       sortable: true,
     },
     {
-      name: "Mobile",
-      selector: "mobile",
+      name: "Phone",
+      selector: "phone",
       sortable: true,
     },
   ];
@@ -140,7 +166,7 @@ const List = (props) => {
                     className="btn edit-employee-details btn-warning"
                     onClick={() => editEmployee(item.id)}
                   >
-                    edit
+                    Edit
                   </button>
                 </li>
               );

@@ -5,6 +5,8 @@ import List from "./List";
 import { AddEmployee } from "./AddEmployee";
 import uuidv1 from "uuid";
 
+import { API_SERVER } from "../../config/constant";
+
 import { Button } from "react-bootstrap";
 
 import axios from "axios";
@@ -43,7 +45,7 @@ class ListEmployee extends Component {
   }
 
   retrieveData() {
-    axios.get(process.env.REACT_APP_BASE_URL + "employees").then((res) => {
+    axios.get(API_SERVER + "employees").then((res) => {
       this.setState({ data: res.data });
     });
   }
@@ -93,7 +95,7 @@ class ListEmployee extends Component {
       };
 
       axios
-        .post(process.env.REACT_APP_BASE_URL + "add-employee", newEmployee)
+        .post(API_SERVER + "add-employee", newEmployee)
         .then((res) => {
           alert(res.data.message);
           this.retrieveData();
