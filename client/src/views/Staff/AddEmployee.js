@@ -88,7 +88,7 @@ export const AddEmployee = (props) => {
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>
-                  <input id="formGridEmail" type="email" name="email" value={employee.email} className="form-control" onChange={e => setEmployeeDetails({ control: e.target.value })} placeholder="Email"
+                  <input id="formGridEmail" type="email" name="email" value={employee.email} className="form-control" onChange={e => setEmployeeDetails({ email: e.target.value })} placeholder="Email"
                   />
                 </Form.Group>
 
