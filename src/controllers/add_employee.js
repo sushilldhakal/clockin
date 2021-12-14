@@ -9,7 +9,7 @@ module.exports = async (request, reply) => {
     const user = await collection.findOne({ pin: request.body.pin });
     if (user) {
         client.close();
-        reply.send({
+        reply.status(500).send({
             message: "User with this pin already exists"
         });
     }

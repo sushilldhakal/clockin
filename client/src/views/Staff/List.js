@@ -2,7 +2,6 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
@@ -14,63 +13,8 @@ const List = (props) => {
   const { getFilterData, handleClearList, deleteEmployee, editEmployee } =
     props;
 
-  const data = [
-    {
-      id: 1,
-      image: avatar1,
-      name: "sushil dhakal",
-      role: "1988",
-      pin: "9265",
-      hire: "VIK",
-      site: "Port Melbourne",
-      clockin: "10:00 am",
-      userDetail: "dashboard/staff/username",
-      email: "test@test.com",
-      phone: "04040404",
-    },
-    {
-      id: 2,
-      image: avatar2,
-      name: "suman shrestha",
-      role: "1988",
-      pin: "9234",
-      hire: "NOVA",
-      site: "Dandenong",
-      clockin: "10:30 am",
-      userDetail: "dashboard/staff/username",
-      email: "test@test.com",
-      phone: "04040404",
-    },
-    {
-      id: 3,
-      image: avatar3,
-      name: "Gur Bedi",
-      role: "1988",
-      pin: "9230",
-      hire: "Company Hire",
-      site: "Port Melbourne",
-      clockin: "08:30 am",
-      userDetail: "dashboard/staff/username",
-      email: "test@test.com",
-      phone: "04040404",
-    },
-  ];
+  const data = getFilterData();
 
-  // const data = [
-  // getFilterData().map((item) => {
-  //   {
-  //     id: item.id;
-  //     name: item.name;
-  //     role: item.role;
-  //     hire: item.hire;
-  //     site: item.site;
-  //     email: item.email;
-  //     phone: item.phone;
-  //     pin: item.pin;
-  //     dob: item.dob;
-  //   }
-  // }),
-  // ];
 
   const columns = [
     {
@@ -141,37 +85,6 @@ const List = (props) => {
               highlightOnHover
             />
           </DataTableExtensions>
-
-          <ul className="c-list__employees">
-            {getFilterData().map((item) => {
-              return (
-                <li className="c-list__employee" key={item.id}>
-                  <h3>{item.name}</h3>
-                  <p>{item.role}</p>
-                  <p>{item.hire}</p>
-                  <p>{item.site}</p>
-                  <p>{item.email}</p>
-                  <p>{item.phone}</p>
-                  <p>{item.pin}</p>
-                  <p>{item.dob}</p>
-                  <button className="btn btn-primary"> View Timesheet</button>
-
-                  {/* <span
-                    className="c-close"
-                    onClick={() => deleteEmployee(item.id)}
-                  >
-                    X
-                  </span> */}
-                  <button
-                    className="btn edit-employee-details btn-warning"
-                    onClick={() => editEmployee(item.id)}
-                  >
-                    Edit
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
         </div>
       )}
     </React.Fragment>
