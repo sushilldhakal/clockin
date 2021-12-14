@@ -10,43 +10,24 @@ import "react-data-table-component-extensions/dist/index.css";
 import avatar1 from "../../../assets/images/user/avatar-1.jpg";
 import avatar2 from "../../../assets/images/user/avatar-2.jpg";
 import avatar3 from "../../../assets/images/user/avatar-3.jpg";
+import axios from "axios";
+import { API_SERVER } from "../../../config/constant";
 
 const DashDefault = () => {
-  const data = [
-    {
-      id: 1,
-      image: avatar1,
-      name: "sushil dhakal",
-      role: "1988",
-      pin: "9265",
-      hire: "VIK",
-      site: "Port Melbourne",
-      clockin: "10:00 am",
-      userDetail: "dashboard/staff/username",
-    },
-    {
-      id: 2,
-      image: avatar2,
-      name: "suman shrestha",
-      role: "1988",
-      pin: "9234",
-      hire: "NOVA",
-      site: "Dandenong",
-      clockin: "10:30 am",
-      userDetail: "dashboard/staff/username",
-    },
-    {
-      id: 3,
-      image: avatar3,
-      name: "Gur Bedi",
-      role: "1988",
-      pin: "9230",
-      hire: "Company Hire",
-      site: "Port Melbourne",
-      clockin: "08:30 am",
-      userDetail: "dashboard/staff/username",
-    },
-  ];
+ //fetch timesheets
+  const [timesheets, setTimesheets] = React.useState([]);
+  React.useEffect(() => {
+    axios
+      .get(API_SERVER+"timesheets")
+      .then((res) => {
+        setTimesheets(res.data.timesheets);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+
   const columns = [
     {
       name: "Staff Image",
@@ -56,7 +37,7 @@ const DashDefault = () => {
     },
     {
       name: "Time",
-      selector: "clockin",
+      selector: "time",
       sortable: true,
     },
     {
@@ -84,8 +65,10 @@ const DashDefault = () => {
 
   const tableData = {
     columns,
-    data,
+    data: timesheets,
   };
+
+  console.log(tableData)
 
   return (
     <React.Fragment>
@@ -99,7 +82,7 @@ const DashDefault = () => {
               <DataTableExtensions {...tableData}>
                 <DataTable
                   columns={columns}
-                  data={data}
+                  data={timesheets}
                   noHeader
                   defaultSortField="id"
                   defaultSortAsc={true}
