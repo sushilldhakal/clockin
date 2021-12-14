@@ -7,18 +7,15 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 
-import avatar1 from "../../../assets/images/user/avatar-1.jpg";
-import avatar2 from "../../../assets/images/user/avatar-2.jpg";
-import avatar3 from "../../../assets/images/user/avatar-3.jpg";
 import axios from "axios";
 import { API_SERVER } from "../../../config/constant";
 
 const DashDefault = () => {
- //fetch timesheets
+  //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(API_SERVER+"timesheets")
+      .get(API_SERVER + "timesheets")
       .then((res) => {
         setTimesheets(res.data.timesheets);
       })
@@ -27,18 +24,54 @@ const DashDefault = () => {
       });
   }, []);
 
+  function tConvert(time) {
+    // Check correct time format and split into components
+    time = time
+      .toString()
+      .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) {
+      // If time format correct
+      time = time.slice(1); // Remove full string match value
+      time[5] = +time[0] < 12 ? "AM" : "PM"; // Set AM/PM
+      time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join(""); // return adjusted time or original string
+  }
 
   const columns = [
     {
       name: "Staff Image",
       selector: "image",
       sortable: false,
-      cell: (d) => <img src={d.image} alt="img-circle rounded-circle"></img>,
+      cell: (d) => (
+        <div className="image-popover">
+          <a
+            href={d.image}
+            onclick="window.open(d.image);return false;"
+            target="_blank"
+          >
+            <img
+              src={d.image}
+              className="img-circle rounded-circle"
+              alt="user-image"
+            />
+            <img
+              src={d.image}
+              className="img-circle rounded-circle show-on-popover"
+              alt="user-image"
+              onClick={() => window.open(d.image, "_blank")}
+            />
+          </a>
+          {console.log(d.image)}
+        </div>
+      ),
     },
     {
       name: "Time",
       selector: "time",
       sortable: true,
+      cell: (d) => <span>{tConvert(d.time)}</span>,
     },
     {
       name: "Name",
@@ -68,7 +101,7 @@ const DashDefault = () => {
     data: timesheets,
   };
 
-  console.log(tableData)
+  console.log(timesheets);
 
   return (
     <React.Fragment>

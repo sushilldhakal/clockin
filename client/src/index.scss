@@ -86,9 +86,36 @@ form.add-employee-form .col-sm-3 {
   font-size: 25px;
   color: #cf0000;
 }
+.image-popover {
+  cursor: pointer;
+}
+
+.image-popover .show-on-popover {
+  opacity: 0;
+  position: absolute;
+  transition: 0.3s ease-in-out;
+  left: 0;
+  top: 0;
+}
+
+.image-popover:hover .show-on-popover {
+  opacity: 1;
+  width: 205px;
+  left: 0;
+  z-index: 9;
+  top: -85px;
+  border-radius: 0 !important;
+  transition: 0.3s ease-in-out;
+}
 
 .rdt_Table img {
   width: 60px;
+}
+
+.Recent-Users .rdt_Table img {
+  width: 100px;
+  border-radius: 50%;
+  padding: 10px;
 }
 
 .box {

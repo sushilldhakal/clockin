@@ -169,10 +169,10 @@ class ListEmployee extends Component {
             addNewEmployee={this.addNewEmployee}
           />
         )}
-        <Search
+        {/* <Search
           search={this.state.search}
           getFilterValue={this.getFilterValue}
-        />
+        /> */}
         <List
           key={this.state.id}
           deleteEmployee={this.deleteEmployee}

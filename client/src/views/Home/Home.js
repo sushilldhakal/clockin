@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import moment from "moment";
+
+import { API_SERVER } from "../../config/constant";
 
 class Home extends Component {
   state = {
@@ -13,8 +15,8 @@ class Home extends Component {
     clockin: "",
     breakin: "",
     breakout: "",
-    user: {name: ''},
-    timesheets: []
+    user: { name: "" },
+    timesheets: [],
   };
   onClick = (e) => {
     if (!document.getElementById("screen-image")) {
@@ -23,12 +25,11 @@ class Home extends Component {
 
     setTimeout(() => {
       axios
-        .post(process.env.REACT_APP_BASE_URL + "clock/" + e, {
+        .post(API_SERVER + "clock/" + e, {
           pin: localStorage.getItem("pin"),
-          image: document.getElementById("screen-image").src
+          image: document.getElementById("screen-image").src,
         })
         .then((res) => {
-          swal(res.data.message);
           localStorage.removeItem("pin");
           window.location.href = "/";
         })
@@ -38,17 +39,19 @@ class Home extends Component {
     }, 100);
   };
 
-  componentDidMount(){
-    axios.get(process.env.REACT_APP_BASE_URL + "get-timesheets/" + localStorage.getItem("pin")).then((res) => {
-      this.setState({
-        timesheets: res.data.timesheets,
-        user:res.data.user
-      })
-    })
+  componentDidMount() {
+    axios
+      .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
+      .then((res) => {
+        this.setState({
+          timesheets: res.data.timesheets,
+          user: res.data.user,
+        });
+      });
   }
 
   render() {
-    console.log(this.state.timesheets)
+    console.log(this.state.timesheets);
     if (localStorage.getItem("pin") === null) {
       this.props.history.push("/");
     }
@@ -65,10 +68,16 @@ class Home extends Component {
                 {this.state.timesheets.map((timesheet) => {
                   return (
                     <div className="user-home-clocksheet">
-                      <span className="clock-time">Clock {timesheet.type} :</span>
-                      <span className="clock-break-time"> {timesheet.time}</span>
+                      <span className="clock-time">
+                        Clock {timesheet.type} :
+                      </span>
+                      <span className="clock-break-time">
+                        {" "}
+                        {timesheet.time}
+                      </span>
                     </div>
-                  )})}
+                  );
+                })}
                 <WebcamCapture id="webimage" />
               </div>
               <div className="col-sm-8">
