@@ -15,7 +15,7 @@ class Timesheet extends Component {
       });
       axios.get(API_SERVER + "timesheets").then((res) => {
         this.setState({
-          timesheets: res.data.map((timesheet) => {
+          timesheets: res.data.timesheets.map((timesheet) => {
             return {
               ...timesheet,
               user: this.state.users.find((user) => user.pin === timesheet.pin),
@@ -38,14 +38,14 @@ class Timesheet extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.timesheets.map((timesheet, index) => {
-              <tr key={timesheet.user.id}>
+            {this.state.timesheets.map((timesheet, index) => 
+              <tr key={timesheet.name}>
                 <td>{index + 1}</td>
-                <td>{timesheet.user.name}</td>
+                <td>{timesheet.name}</td>
                 <td>{timesheet.date}</td>
                 <td>{timesheet.time}</td>
-              </tr>;
-            })}
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
