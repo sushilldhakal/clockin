@@ -81,6 +81,11 @@ const routes = [
       },
       {
         exact: true,
+        path: "/dashboard/user",
+        component: lazy(() => import("./views/Staff/UserProfile")),
+      },
+      {
+        exact: true,
         path: "/dashboard/staff/*",
         component: lazy(() => import("./views/Staff/Staff")),
       },
