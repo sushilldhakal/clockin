@@ -94,6 +94,11 @@ const routes = [
         path: "/dashboard/timesheet",
         component: lazy(() => import("./views/Timesheet/Timesheet")),
       },
+      {
+        exact: true,
+        path: "/dashboard/catageory",
+        component: lazy(() => import("./views/Catageory/Catageory")),
+      },
 
       {
         path: "*",

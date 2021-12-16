@@ -30,23 +30,11 @@ const menuItems = {
         {
           id: "Timesheet",
           title: "Timesheet",
-          type: "collapse",
+          type: "item",
+          url: "/dashboard/timesheet",
           icon: "feather icon-box",
-          children: [
-            {
-              id: "daily",
-              title: "Daily Timesheet",
-              type: "item",
-              url: "/dashboard/timesheet",
-            },
-            {
-              id: "weekly",
-              title: "Weekly Timesheet",
-              type: "item",
-              url: "/dashboard/timesheet",
-            },
-          ],
         },
+
         {
           id: "employmentMain",
           title: "Employer",
