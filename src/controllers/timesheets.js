@@ -14,13 +14,9 @@ module.exports = async (request, reply) => {
     })
     .map(({ type, date, time, pin, image }) => {
       let user = users.filter((user) => user.pin === pin)[0];
-      if(user) {
-        let { name, role, hire, site } = user;
-        return { type, date, time, name, pin, role, hire, site, image };
-      }
 
-      return { type, date, time, pin, image };
-
+      let { name, role, hire, site } = user;
+      return { type, date, time, name, role, hire, site, image };
     })
     .toArray();
   client.close();

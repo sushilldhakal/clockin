@@ -8,6 +8,8 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 
+import { Row, Col, Card } from "react-bootstrap";
+
 const ExpandableComponent = ({ timesheet }) => {
   console.log(timesheet);
   return (
@@ -198,20 +200,31 @@ class Timesheet extends Component {
 
     return (
       <div>
-        <DataTableExtensions {...tableData}>
-          <DataTable
-            columns={columns}
-            data={timesheets}
-            noHeader
-            defaultSortField="id"
-            defaultSortAsc={true}
-            pagination
-            highlightOnHover
-            sortIcon={<SortIcon />}
-            expandableRows
-            expandableRowsComponent={ExpandableComponent}
-          />
-        </DataTableExtensions>
+        <Row>
+          <Col md={12} xl={12}>
+            <Card className="Recent-Users">
+              <Card.Header>
+                <Card.Title as="h5">{this.state.title}</Card.Title>
+              </Card.Header>
+              <Card.Body className="px-0 py-2">
+                <DataTableExtensions {...tableData}>
+                  <DataTable
+                    columns={columns}
+                    data={timesheets}
+                    noHeader
+                    defaultSortField="id"
+                    defaultSortAsc={true}
+                    pagination
+                    highlightOnHover
+                    sortIcon={<SortIcon />}
+                    expandableRows
+                    expandableRowsComponent={ExpandableComponent}
+                  />
+                </DataTableExtensions>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
         <table>
           <thead>
             <tr>

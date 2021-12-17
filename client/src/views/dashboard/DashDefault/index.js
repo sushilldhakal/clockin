@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Table, Button } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
@@ -23,22 +23,6 @@ const DashDefault = () => {
         console.log(err);
       });
   }, []);
-
-  function tConvert(time) {
-    // Check correct time format and split into components
-    time = time
-      .toString()
-      .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-
-    if (time.length > 1) {
-      // If time format correct
-      time = time.slice(1); // Remove full string match value
-      time[5] = +time[0] < 12 ? "AM" : "PM"; // Set AM/PM
-      time[0] = +time[0] % 12 || 12; // Adjust hours
-    }
-    return time.join(""); // return adjusted time or original string
-  }
-
   const columns = [
     {
       name: "Staff Image",
@@ -71,7 +55,7 @@ const DashDefault = () => {
       name: "Time",
       selector: "time",
       sortable: true,
-      cell: (d) => <span>{tConvert(d.time)}</span>,
+      cell: (d) => <span>{d.time}</span>,
     },
     {
       name: "Name",
@@ -100,8 +84,6 @@ const DashDefault = () => {
     columns,
     data: timesheets,
   };
-
-  console.log(timesheets);
 
   return (
     <React.Fragment>
