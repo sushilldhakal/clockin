@@ -81,6 +81,11 @@ const routes = [
       },
       {
         exact: true,
+        path: "/dashboard/user",
+        component: lazy(() => import("./views/Staff/UserProfile")),
+      },
+      {
+        exact: true,
         path: "/dashboard/staff/*",
         component: lazy(() => import("./views/Staff/Staff")),
       },
@@ -88,6 +93,11 @@ const routes = [
         exact: true,
         path: "/dashboard/timesheet",
         component: lazy(() => import("./views/Timesheet/Timesheet")),
+      },
+      {
+        exact: true,
+        path: "/dashboard/catageory",
+        component: lazy(() => import("./views/Catageory/Catageory")),
       },
 
       {

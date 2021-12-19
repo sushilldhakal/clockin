@@ -7,8 +7,7 @@ import uuidv1 from "uuid";
 
 import { API_SERVER } from "../../config/constant";
 
-import { Button } from "react-bootstrap";
-
+import { Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
 
 class ListEmployee extends Component {
@@ -138,49 +137,57 @@ class ListEmployee extends Component {
 
   render() {
     return (
-      <div
-        className={
-          !this.state.show
-            ? "App-add-employee hide-employee-form"
-            : "App-add-employee show-employee-form"
-        }
-      >
-        <h1>{this.state.title}</h1>
-        <Button
-          className="btn btn-primary toggle-button"
-          onClick={this.handleShowForm}
-        >
-          {!this.state.show ? "Add New Employee" : "Close Form"}
-        </Button>
+      <React.Fragment>
+        <Row>
+          <Col md={12} xl={12}>
+            <Card className="Recent-Users">
+              <Card.Header>
+                <Card.Title as="h5">{this.state.title}</Card.Title>
+              </Card.Header>
+              <Card.Body className="px-0 py-2">
+                <div
+                  className={
+                    !this.state.show
+                      ? "App-add-employee hide-employee-form"
+                      : "App-add-employee show-employee-form"
+                  }
+                >
+                  <Button
+                    className="btn btn-primary toggle-button"
+                    onClick={this.handleShowForm}
+                  >
+                    {!this.state.show ? "Add New Employee" : "Close Form"}
+                  </Button>
 
-        <br />
-        {this.state.show && (
-          <AddEmployee
-            name={this.state.name}
-            role={this.state.role}
-            hire={this.state.hire}
-            site={this.state.site}
-            email={this.state.email}
-            phone={this.state.phone}
-            pin={this.state.pin}
-            dob={this.state.dob}
-            edit={this.state.edit}
-            getNewEmployee={this.getNewEmployee}
-            addNewEmployee={this.addNewEmployee}
-          />
-        )}
-        {/* <Search
-          search={this.state.search}
-          getFilterValue={this.getFilterValue}
-        /> */}
-        <List
-          key={this.state.id}
-          deleteEmployee={this.deleteEmployee}
-          editEmployee={this.editEmployee}
-          handleClearList={this.handleClearList}
-          getFilterData={this.getFilterData}
-        />
-      </div>
+                  <br />
+                  {this.state.show && (
+                    <AddEmployee
+                      name={this.state.name}
+                      role={this.state.role}
+                      hire={this.state.hire}
+                      site={this.state.site}
+                      email={this.state.email}
+                      phone={this.state.phone}
+                      pin={this.state.pin}
+                      dob={this.state.dob}
+                      edit={this.state.edit}
+                      getNewEmployee={this.getNewEmployee}
+                      addNewEmployee={this.addNewEmployee}
+                    />
+                  )}
+                </div>
+                <List
+                  key={this.state.id}
+                  deleteEmployee={this.deleteEmployee}
+                  editEmployee={this.editEmployee}
+                  handleClearList={this.handleClearList}
+                  getFilterData={this.getFilterData}
+                />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </React.Fragment>
     );
   }
 }
