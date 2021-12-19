@@ -33,6 +33,7 @@ export const AddEmployee = (props) => {
       .then((res) => {
         swal(res.data.message);
         setEmployee(defaultEmployee);
+        window.location.reload()
       })
       .catch((err) => {
         swal(err.response.data.message);
@@ -181,7 +182,7 @@ export const AddEmployee = (props) => {
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDob">
                   <a
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     href="#"
                     onClick={() => add(employee)}
                   >
