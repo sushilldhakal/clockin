@@ -20,6 +20,7 @@
     "clsx": "1.0.4",
     "formik": "^2.2.6",
     "history": "5.1.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^4.0.0",
     "moment": "^2.29.1",
     "namor": "^1.1.2",
@@ -48,7 +49,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

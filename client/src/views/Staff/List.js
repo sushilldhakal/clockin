@@ -6,46 +6,45 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { CSVLink } from "react-csv";
 const List = (props) => {
-  const { getFilterData, handleClearList, deleteEmployee, editEmployee } =
-    props;
+  const { getFilterData, editEmployee } = props;
 
   const data = getFilterData();
 
   const columns = [
     {
       name: "Name",
-      selector: "name",
+      selector: (row) => row["name"],
       sortable: true,
-      cell: (d) => <Link to={d.userDetail}>{d.name}</Link>,
+      cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
       name: "Role",
-      selector: "role",
+      selector: (row) => row["role"],
       sortable: true,
     },
     {
       name: "Pin",
-      selector: "pin",
+      selector: (row) => row["pin"],
       sortable: true,
     },
     {
       name: "Employe",
-      selector: "hire",
+      selector: (row) => row["hire"],
       sortable: true,
     },
     {
       name: "Location",
-      selector: "site",
+      selector: (row) => row["site"],
       sortable: true,
     },
     {
       name: "Email",
-      selector: "email",
+      selector: (row) => row["email"],
       sortable: true,
     },
     {
       name: "Phone",
-      selector: "phone",
+      selector: (row) => row["phone"],
       sortable: true,
     },
   ];

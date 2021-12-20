@@ -1,21 +1,13 @@
 import React, { Component } from "react";
-import {
-  Card,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Button,
-} from "react-bootstrap";
-import DataTable, { ExpanderComponentProps } from "react-data-table-component";
+import { Card, Col, Form, Button} from "react-bootstrap";
+import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { faTrashAlt, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { CSVLink } from "react-csv";
+import axios from "axios";
+import { API_SERVER } from "../../config/constant";
 
 library.add(faTrashAlt, faUser, faLock);
 
@@ -36,10 +28,20 @@ const ExpandableComponent = ({ timesheet }) => {
   );
 };
 
+
 class UserProfile extends Component {
   state = {
     show: false,
+    timesheets: [],
   };
+
+  componentDidMount(){
+    axios.get(API_SERVER + 'timesheets/'+this.props.match.params.staff_id).then(res => {
+      this.setState({timesheets: res.data.timesheets, user: res.data.user})
+    }).catch(err => {
+      console.log(err);
+    })
+  }
   handleShowForm = () => {
     this.setState({
       show: !this.state.show,
@@ -47,56 +49,11 @@ class UserProfile extends Component {
   };
 
   render() {
-    const timesheets = [
-      {
-        date: "2th Jan 2021",
-        in: "8:10am",
-        bStart: "12:40pm",
-        bEnd: "01:30pm",
-        out: "5:00pm",
-        hours: "8hrs",
-        action: "no",
-      },
-      {
-        date: "1th Jan 2021",
-        in: "8:10am",
-        bStart: "12:40pm",
-        bEnd: "01:30pm",
-        out: "5:00pm",
-        hours: "8hrs",
-        action: "no",
-      },
-      {
-        date: "22th Jan 2021",
-        in: "8:10am",
-        bStart: "12:40pm",
-        bEnd: "01:30pm",
-        out: "5:00pm",
-        hours: "8hrs",
-        action: "no",
-      },
-      {
-        date: "16th Jan 2021",
-        in: "8:10am",
-        bStart: "12:40pm",
-        bEnd: "01:30pm",
-        out: "5:00pm",
-        hours: "8hrs",
-        action: "no",
-      },
-      {
-        date: "19th Jan 2021",
-        in: "8:10am",
-        bStart: "12:40pm",
-        bEnd: "01:30pm",
-        out: "5:00pm",
-        hours: "8hrs",
-        action: "no",
-      },
-    ];
+    const timesheets = this.state.timesheets;
+    console.log(this.state.timesheets)
     const columns = [
       {
-        name: "date",
+        name: "Date",
         selector: "date",
         sortable: true,
       },
@@ -107,12 +64,12 @@ class UserProfile extends Component {
       },
       {
         name: "Break Start",
-        selector: "bStart",
+        selector: "break",
         sortable: true,
       },
       {
         name: "Break End",
-        selector: "bEnd",
+        selector: "end-break",
         sortable: true,
       },
       {
@@ -122,7 +79,7 @@ class UserProfile extends Component {
       },
       {
         name: "Total Working hours",
-        selector: "hours",
+        selector: "total",
         sortable: true,
       },
       {
