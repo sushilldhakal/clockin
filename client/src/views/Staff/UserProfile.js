@@ -13,7 +13,6 @@ import DataTable, { ExpanderComponentProps } from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { CSVLink } from "react-csv";
@@ -138,7 +137,7 @@ class UserProfile extends Component {
               name="toggleSwitch"
               id="toggleSwitch"
             />
-            <label className="toggle-switch-label" for="toggleSwitch">
+            <label className="toggle-switch-label" htmlFor="toggleSwitch">
               <span className="toggle-switch-inner"></span>
               <span className="toggle-switch-switch"></span>
             </label>

@@ -6,7 +6,6 @@ import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-
 import axios from "axios";
 import { API_SERVER } from "../../../config/constant";
 

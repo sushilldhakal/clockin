@@ -7,6 +7,7 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
+import { CSVLink } from "react-csv";
 
 import { Row, Col, Card } from "react-bootstrap";
 
@@ -184,7 +185,7 @@ class Timesheet extends Component {
               name="toggleSwitch"
               id="toggleSwitch"
             />
-            <label className="toggle-switch-label" for="toggleSwitch">
+            <label className="toggle-switch-label" htmlFor="toggleSwitch">
               <span className="toggle-switch-inner"></span>
               <span className="toggle-switch-switch"></span>
             </label>

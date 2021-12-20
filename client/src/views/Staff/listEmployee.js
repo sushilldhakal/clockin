@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Search from "../../components/Global/Search";
 import List from "./List";
 // import Form from '../Components/Form'
 import { AddEmployee } from "./AddEmployee";

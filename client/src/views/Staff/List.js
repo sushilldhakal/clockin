@@ -4,17 +4,12 @@ import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-
-import avatar1 from "../../assets/images/user/avatar-1.jpg";
-import avatar2 from "../../assets/images/user/avatar-2.jpg";
-import avatar3 from "../../assets/images/user/avatar-3.jpg";
-
+import { CSVLink } from "react-csv";
 const List = (props) => {
   const { getFilterData, handleClearList, deleteEmployee, editEmployee } =
     props;
 
   const data = getFilterData();
-
 
   const columns = [
     {
