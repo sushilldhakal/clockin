@@ -225,26 +225,6 @@ class Timesheet extends Component {
             </Card>
           </Col>
         </Row>
-        <table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.timesheets.map((timesheet, index) => (
-              <tr key={timesheet.name}>
-                <td>{index + 1}</td>
-                <td>{timesheet.name}</td>
-                <td>{timesheet.date}</td>
-                <td>{timesheet.time}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     );
   }

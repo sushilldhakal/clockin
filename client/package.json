@@ -20,6 +20,7 @@
     "clsx": "1.0.4",
     "formik": "^2.2.6",
     "history": "5.1.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^4.0.0",
     "moment": "^2.29.1",
     "namor": "^1.1.2",

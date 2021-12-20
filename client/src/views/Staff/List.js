@@ -10,47 +10,48 @@ import avatar2 from "../../assets/images/user/avatar-2.jpg";
 import avatar3 from "../../assets/images/user/avatar-3.jpg";
 
 const List = (props) => {
-  const { getFilterData, handleClearList, deleteEmployee, editEmployee } =
+  const { getFilterData,  editEmployee } =
     props;
 
   const data = getFilterData();
 
-
+  console.log(data)
+  
   const columns = [
     {
       name: "Name",
-      selector: "name",
+      selector: row=>row['name'],
       sortable: true,
-      cell: (d) => <Link to={d.userDetail}>{d.name}</Link>,
+      cell: (d) => <Link to={'/dashboard/each-staff/'+d._id}>{d.name}</Link>,
     },
     {
       name: "Role",
-      selector: "role",
+      selector: row=>row["role"],
       sortable: true,
     },
     {
       name: "Pin",
-      selector: "pin",
+      selector: row=>row["pin"],
       sortable: true,
     },
     {
       name: "Employe",
-      selector: "hire",
+      selector: row=>row["hire"],
       sortable: true,
     },
     {
       name: "Location",
-      selector: "site",
+      selector: row=>row["site"],
       sortable: true,
     },
     {
       name: "Email",
-      selector: "email",
+      selector: row=>row["email"],
       sortable: true,
     },
     {
       name: "Phone",
-      selector: "phone",
+      selector: row=>row["phone"],
       sortable: true,
     },
   ];

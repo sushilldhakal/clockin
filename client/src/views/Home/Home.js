@@ -104,16 +104,25 @@ class Home extends Component {
                     <input
                       type="radio"
                       className="btn-check"
-                      name="options"
+                      name="option2"
                       id="option2"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
                       onClick={() => this.onClick("break")}
                     />
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="option1d"
+                      id="option1d"
+                      autoComplete="off"
+                      onChange={(e) => e.target.value}
+                      onClick={() => this.onClick("end-break")}
+                    />
                     <label className="btn btn-secondary" htmlFor="option2">
                       BREAK
                     </label>
-                    <label className="btn btn-secondary" htmlFor="option2">
+                    <label className="btn btn-secondary" htmlFor="option1d">
                       END BREAK
                     </label>
                     <div className="tooltip btn-outline-warning middle">

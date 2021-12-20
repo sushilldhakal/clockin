@@ -51,21 +51,8 @@ class ListEmployee extends Component {
 
   //Filter value from state
   getFilterData = () => {
-    return this.state.data.filter(
-      (item) =>
-        item.name.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.role.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.hire.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.site.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.email.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.phone.toLowerCase().match(this.state.search.toLowerCase()) ||
-        item.pin.toLowerCase().match(this.state.search.toLowerCase())
-    );
+    return this.state.data.filter(item => JSON.stringify(item).toLowerCase().indexOf(this.state.search) !== -1 );
   };
-
-  // getSearch = (value) => {
-  //   this.setState({ value });
-  // };
 
   //Get value from input fields
   getNewEmployee = (e) => {
