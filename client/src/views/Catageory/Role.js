@@ -1,177 +1,82 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
-  ListGroup,
-  ListGroupItem,
-  Row,
   Col,
-  Form,
-  FormGroup,
-  Button,
 } from "react-bootstrap";
+import axios from 'axios';
+import { API_SERVER } from "../../config/constant";
 
-import { v4 as uuidv4 } from "uuid";
+export default ({ type }) => {
+  let [value, setValue] = useState('');
+  let [values, setValues] = useState([]);
+  let [edit, setEdit] = useState('');
 
-export default class Role extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      name: {
-        value: "",
-        id: "",
-      },
-      value: [],
-      isEdit: false,
-      editValue: "",
-      editId: "",
-    };
+  const reload = () => {
+    setValue('')
+    axios.get(API_SERVER + 'category/' + type.toLocaleLowerCase()).then(res => {
+      setValues(res.data)
+    }).catch(res => {
+      alert('Something went wrong')
+    })
   }
 
-  handleChange = (e) => {
-    this.setState(
-      {
-        name: {
-          value: e.target.value,
-          id: uuidv4(),
-        },
-      },
-      () => console.log(this.state.name.value)
-    );
-  };
 
-  //submit function on value submit
-  submit = () => {
-    console.log("button");
-    if (this.state.name.value === "") {
-      alert("please add todo");
-      return;
-    }
-    this.setState(
-      {
-        name: {
-          value: "",
-        },
-        value: [...this.state.value, this.state.name],
-      },
-      () => console.log(this.state)
-    );
-  };
-
-  //remove function to remove items from todo
-  remove = (id) => {
-    let value = this.state.value;
-    const remove = value.filter((ele) => ele.id !== id);
-    this.setState({
-      value: remove,
-    });
-  };
-
-  //edit function to edit todo item
-  edit = (value, id) => {
-    this.setState(
-      {
-        isEdit: true,
-        editValue: value,
-        editId: id,
-      },
-      () => console.log(id, value)
-    );
-  };
-
-  //update function after edit to update item
-  update = () => {
-    let value = this.state.value;
-    const item = value.filter((ele) =>
-      ele.id === this.state.editId
-        ? (ele.value = this.state.editValue)
-        : ele.value
-    );
-
-    this.setState({ value: item, isEdit: false }, () => {
-      console.log(this.state.value);
-    });
-  };
-
-  render() {
-    const { isEdit } = this.state;
-
-    if (!isEdit) {
-      return (
-        <div className="catageory-body-page">
-          <div className="dashboard-body">
-            <Col md={4} xl={4}>
-              <Card className="Recent-Users">
-                <Card.Header>
-                  <Card.Title as="h5">Role</Card.Title>
-                </Card.Header>
-                <Card.Body className="px-0 py-2">
-                  <div>
-                    <label>
-                      <input
-                        value={this.state.name.value}
-                        onChange={this.handleChange}
-                        placeholder="add your Role.."
-                      />
-                    </label>
-
-                    <button onClick={this.submit}>Add Role</button>
-
-                    <div>
-                      {this.state.value &&
-                        this.state.value.map((ele, index) => (
-                          <div key={ele.id}>
-                            <span>{ele.value}</span>
-                            <button
-                              onClick={(e) => this.edit(ele.value, ele.id)}
-                            >
-                              edit
-                            </button>
-                            <button onClick={() => this.remove(ele.id)}>
-                              remove
-                            </button>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="catageory-body-page">
-          <div className="dashboard-body">
-            <Col md={4} xl={4}>
-              <Card className="Recent-Users">
-                <Card.Header>
-                  <Card.Title as="h5">Role</Card.Title>
-                </Card.Header>
-                <Card.Body className="px-0 py-2">
-                  <div>Edit Role</div>
-                  <input
-                    value={this.state.editValue}
-                    onChange={(e) => {
-                      this.setState({ editValue: e.target.value });
-                    }}
-                  />
-                  <button onClick={this.update}>update</button>
-
-                  <button
-                    onClick={() => {
-                      this.setState({ isEdit: false });
-                    }}
-                  >
-                    cancel
-                  </button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </div>
-        </div>
-      );
-    }
+  const add = (type, value) => {
+    axios.post(API_SERVER + 'category/' + type.toLocaleLowerCase(), {
+      value
+    }).then(res => {
+      reload()
+    }).catch(res => {
+      alert('Something went wrong')
+    })
   }
+
+  const update = ( value, id) => {
+    axios.put(API_SERVER + 'category/' + type.toLocaleLowerCase() + '/' + id, {
+      value
+    }).then(res => {
+      reload()
+      setEdit('')
+    }).catch(res => {
+      alert('Something went wrong')
+    })  
+  }
+
+  useEffect(reload, [])
+
+
+  return <div className="catageory-body-page">
+    <div className="dashboard-body">
+      <Col md={4} xl={4}>
+        <Card className="Recent-Users">
+          <Card.Header>
+            <Card.Title as="h5">{type}</Card.Title>
+          </Card.Header>
+          <Card.Body className="px-0 py-2">
+            {!edit && <Col md={12} xl={12}>
+              <input
+                value={value}
+                onChange={e => setValue(e.target.value)}
+              />
+              <button onClick={e => add(type, value)}>Add</button>
+            </Col>}
+            {edit && <Col md={12} xl={12}>
+              <input
+                value={edit.name}
+                onChange={e => setEdit({...edit, name: e.target.value})}
+              />
+              <button onClick={e => update(edit.name, edit._id)}>Update</button>
+            </Col>}
+            <Col>
+            <ul>
+              {values.map(value => {
+                return <li>{value.name} <button class="btn btn-primary btn-rounded btn-sm" onClick={()=>setEdit(value)}>Edit</button>  </li>
+              })}
+            </ul></Col>
+          </Card.Body>
+        </Card>
+      </Col>
+    </div>
+  </div>
 }

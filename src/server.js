@@ -6,6 +6,9 @@ const get_timesheets = require("./controllers/get_timesheets");
 const login = require("./controllers/login");
 const timesheets = require("./controllers/timesheets");
 const get_staff_timesheets = require("./controllers/get_staff_timesheets");
+const add_category = require("./controllers/add_category");
+const get_category = require("./controllers/get_category");
+const update_category = require("./controllers/update_category");
 
 const fastify = require("fastify")({ logger: true });
 
@@ -15,7 +18,7 @@ fastify.get("/api/timesheets", timesheets);
 
 fastify.get("/api/employees", employees);
 
-fastify.post("/api/add-employee",add_employee);
+fastify.post("/api/add-employee", add_employee);
 
 fastify.post("/api/clock/:type", clock);
 
@@ -25,7 +28,13 @@ fastify.get('/api/timesheets/:staff_id', get_staff_timesheets);
 
 fastify.post("/api/auth/login", login);
 
-fastify.post('/api/auth/admin/login',admin_login);
+fastify.post('/api/auth/admin/login', admin_login);
+
+fastify.post('/api/category/:category_type', add_category);
+
+fastify.put('/api/category/:category_type/:category_id', update_category);
+
+fastify.get('/api/category/:category_type', get_category);
 
 const start = async () => {
   try {
