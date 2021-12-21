@@ -93,54 +93,55 @@ class Timesheet extends Component {
       });
     });
   }
+
   render() {
-    const timesheets = [
-      {
-        date: "2th-9th Jan 2021",
-        name: "Sushil Dhakal",
-        hire: "NOVA",
-        role: "Bay Supervisor",
-        site: "Port Melbourne",
-        hours: "40.5hrs",
-        action: "no",
-      },
-      {
-        date: "2th-9th Jan 2021",
-        name: "Sushil Dhakal",
-        hire: "NOVA",
-        role: "Bay Supervisor",
-        site: "Port Melbourne",
-        hours: "40.5hrs",
-        action: "no",
-      },
-      {
-        date: "2th-9th Jan 2021",
-        name: "Sushil Dhakal",
-        hire: "NOVA",
-        role: "Bay Supervisor",
-        site: "Port Melbourne",
-        hours: "40.5hrs",
-        action: "no",
-      },
-      {
-        date: "2th-9th Jan 2021",
-        name: "Sushil Dhakal",
-        hire: "NOVA",
-        role: "Bay Supervisor",
-        site: "Port Melbourne",
-        hours: "40.5hrs",
-        action: "no",
-      },
-      {
-        date: "2th-9th Jan 2021",
-        name: "Sushil Dhakal",
-        hire: "NOVA",
-        role: "Bay Supervisor",
-        site: "Port Melbourne",
-        hours: "40.5hrs",
-        action: "no",
-      },
-    ];
+    // const timesheets = [
+    //   {
+    //     date: "2th-9th Jan 2021",
+    //     name: "Sushil Dhakal",
+    //     hire: "NOVA",
+    //     role: "Bay Supervisor",
+    //     site: "Port Melbourne",
+    //     hours: "40.5hrs",
+    //     action: "no",
+    //   },
+    //   {
+    //     date: "2th-9th Jan 2021",
+    //     name: "Sushil Dhakal",
+    //     hire: "NOVA",
+    //     role: "Bay Supervisor",
+    //     site: "Port Melbourne",
+    //     hours: "40.5hrs",
+    //     action: "no",
+    //   },
+    //   {
+    //     date: "2th-9th Jan 2021",
+    //     name: "Sushil Dhakal",
+    //     hire: "NOVA",
+    //     role: "Bay Supervisor",
+    //     site: "Port Melbourne",
+    //     hours: "40.5hrs",
+    //     action: "no",
+    //   },
+    //   {
+    //     date: "2th-9th Jan 2021",
+    //     name: "Sushil Dhakal",
+    //     hire: "NOVA",
+    //     role: "Bay Supervisor",
+    //     site: "Port Melbourne",
+    //     hours: "40.5hrs",
+    //     action: "no",
+    //   },
+    //   {
+    //     date: "2th-9th Jan 2021",
+    //     name: "Sushil Dhakal",
+    //     hire: "NOVA",
+    //     role: "Bay Supervisor",
+    //     site: "Port Melbourne",
+    //     hours: "40.5hrs",
+    //     action: "no",
+    //   },
+    // ];
     const columns = [
       {
         name: "date",
@@ -151,7 +152,9 @@ class Timesheet extends Component {
         name: "Name",
         selector: "name",
         sortable: false,
-        cell: (d) => <Link to="/dashboard/user">{d.name}</Link>,
+        cell: (d) => (
+          <Link to={"/dashboard/each-staff/" + d.user.id}>{d.name}</Link>
+        ),
       },
       {
         name: "Employee",
@@ -193,12 +196,13 @@ class Timesheet extends Component {
         ),
       },
     ];
-
+    const getTimesheet = this.state.timesheets;
     const tableData = {
       columns,
-      data: timesheets,
+      data: getTimesheet,
     };
 
+    console.log(this.state.timesheets);
     return (
       <div>
         <Row>
@@ -211,7 +215,7 @@ class Timesheet extends Component {
                 <DataTableExtensions {...tableData}>
                   <DataTable
                     columns={columns}
-                    data={timesheets}
+                    data={getTimesheet}
                     noHeader
                     defaultSortField="id"
                     defaultSortAsc={true}

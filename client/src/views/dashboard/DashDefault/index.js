@@ -46,7 +46,6 @@ const DashDefault = () => {
               onClick={() => window.open(d.image, "_blank")}
             />
           </a>
-          {console.log(d.image)}
         </div>
       ),
     },
