@@ -5,6 +5,7 @@ const employees = require("./controllers/employees");
 const get_timesheets = require("./controllers/get_timesheets");
 const login = require("./controllers/login");
 const timesheets = require("./controllers/timesheets");
+const get_staff_timesheets = require("./controllers/get_staff_timesheets");
 
 const fastify = require("fastify")({ logger: true });
 
@@ -19,6 +20,8 @@ fastify.post("/api/add-employee",add_employee);
 fastify.post("/api/clock/:type", clock);
 
 fastify.get('/api/get-timesheets/:pin', get_timesheets);
+
+fastify.get('/api/timesheets/:staff_id', get_staff_timesheets);
 
 fastify.post("/api/auth/login", login);
 
