@@ -26,7 +26,7 @@ module.exports = async (request, reply) => {
 
   times = Object.values(times).map(t=>{
 
-    // moment get difference in human language
+    if(t.in && t.out)
     t.total = moment.duration(moment(t.out, 'HH:mm:ss').diff(moment(t.in, 'HH:mm:ss'))).humanize();
 
     return t;
