@@ -2,13 +2,17 @@ import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
+import { WeeklyCalendar } from "react-week-picker";
+import "react-week-picker/src/lib/calendar.css";
+
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Form } from "react-bootstrap";
 
 class Timesheet extends Component {
   state = {
@@ -34,6 +38,13 @@ class Timesheet extends Component {
   }
 
   render() {
+    const handleJumpToCurrentWeek = (currenDate) => {
+      console.log(`current date: ${currenDate}`);
+    };
+
+    const handleWeekPick = (startDate, endDate) => {
+      console.log(`${startDate} to ${endDate}`);
+    };
     const columns = [
       {
         name: "date",
@@ -99,30 +110,6 @@ class Timesheet extends Component {
         selector: "time",
         sortable: true,
       },
-      // {
-      //   name: "Image",
-      //   selector: "image",
-      //   sortable: false,
-      // },
-      // {
-      //   name: "Action",
-      //   selector: "action",
-      //   sortable: true,
-      //   cell: (d) => (
-      //     <div className="toggle-switch">
-      //       <input
-      //         type="checkbox"
-      //         className="toggle-switch-checkbox"
-      //         name="toggleSwitch"
-      //         id="toggleSwitch"
-      //       />
-      //       <label className="toggle-switch-label" htmlFor="toggleSwitch">
-      //         <span className="toggle-switch-inner"></span>
-      //         <span className="toggle-switch-switch"></span>
-      //       </label>
-      //     </div>
-      //   ),
-      // },
     ];
     const getTimesheet = this.state.timesheets;
     const tableData = {
@@ -140,6 +127,29 @@ class Timesheet extends Component {
                 <Card.Title as="h5">{this.state.title}</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
+                <Row className="container">
+                  <Col md={6}>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                      <Form.Label>Select User</Form.Label>
+                      <Form.Control as="select">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Label>Select Week</Form.Label>
+                    <WeeklyCalendar
+                      onWeekPick={handleWeekPick}
+                      jumpToCurrentWeekRequired={true}
+                      onJumpToCurrentWeek={handleJumpToCurrentWeek}
+                    />
+                  </Col>
+                </Row>
+
                 <DataTableExtensions {...tableData}>
                   <DataTable
                     columns={columns}

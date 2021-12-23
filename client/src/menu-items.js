@@ -18,36 +18,20 @@ const menuItems = {
           title: "Staff",
           type: "item",
           url: "/dashboard/staff",
-          icon: "feather icon-box",
+          icon: "feather icon-user",
         },
         {
           id: "Timesheet",
           title: "Timesheet",
           type: "item",
           url: "/dashboard/timesheet",
-          icon: "feather icon-box",
+          icon: "feather icon-clock",
         },
         {
           id: "catageory",
           title: "Add/Edit Catageory",
           type: "item",
           url: "/dashboard/catageory",
-          icon: "feather icon-box",
-        },
-      ],
-    },
-
-    {
-      id: "resources",
-      title: "Resources",
-      type: "group",
-      icon: "icon-pages",
-      children: [
-        {
-          id: "Setting",
-          title: "Setting",
-          type: "item",
-          url: "/dashboard/button",
           icon: "feather icon-box",
         },
       ],

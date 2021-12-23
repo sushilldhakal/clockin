@@ -38,6 +38,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.0",
     "react-webcam": "^5.2.4",
+    "react-week-picker": "^1.1.4",
     "redux-form": "^8.3.7",
     "redux-persist": "^6.0.0",
     "sass": "^1.45.0",
