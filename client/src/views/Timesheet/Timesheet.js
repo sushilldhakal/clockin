@@ -7,7 +7,6 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
-import { CSVLink } from "react-csv";
 
 import { Row, Col, Card } from "react-bootstrap";
 
@@ -106,7 +105,7 @@ class Timesheet extends Component {
         selector: "name",
         sortable: false,
         cell: (d) => (
-          <Link to={"/dashboard/each-staff/" + d.user.id}>{d.name}</Link>
+          <Link to={"/dashboard/each-staff/" + d.user._id}>{d.name}</Link>
         ),
       },
       {
