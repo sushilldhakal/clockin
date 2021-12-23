@@ -13,13 +13,15 @@ import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Form } from "react-bootstrap";
 
+import moment from "moment";
+
 class Timesheet extends Component {
   state = {
     users: [],
-    user: '',
+    user: "",
     timesheets: [],
-    startDate:'',
-    endDate: ''
+    startDate: "",
+    endDate: "",
   };
   componentDidMount() {
     axios.get(API_SERVER + "employees").then((res) => {
@@ -31,23 +33,27 @@ class Timesheet extends Component {
   }
 
   reloadTimesheet = (user_id) => {
-    if(this.state.user)
-    axios.get(API_SERVER + "timesheets", {
-      params: {
-        user_id: user_id,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate
-      },
-    }).then((res) => {
-      this.setState({
-        timesheets: res.data.timesheets.map((timesheet) => {
-          return {
-            ...timesheet,
-            user: this.state.users.find((user) => user.pin === timesheet.pin),
-          };
-        }),
-      });
-    });
+    if (this.state.user)
+      axios
+        .get(API_SERVER + "timesheets", {
+          params: {
+            user_id: user_id,
+            startDate: this.state.startDate,
+            endDate: this.state.endDate,
+          },
+        })
+        .then((res) => {
+          this.setState({
+            timesheets: res.data.timesheets.map((timesheet) => {
+              return {
+                ...timesheet,
+                user: this.state.users.find(
+                  (user) => user.pin === timesheet.pin
+                ),
+              };
+            }),
+          });
+        });
   };
 
   render() {
@@ -56,12 +62,36 @@ class Timesheet extends Component {
     };
 
     const handleWeekPick = (startDate, endDate) => {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      const Value = startDate.split(" ");
+      const Value1 = endDate.split(" ");
+      const month = months.indexOf(Value[1]) + 1;
+      const sDate = Value[0] + "-" + month + "-" + Value[2];
+      const eDate = Value1[0] + "-" + month + "-" + Value1[2];
+
+      // console.log(sDatoLocaleString("en-GB", { timeZone: "UTC" }));
       this.setState({
-        startDate: startDate,
-        endDate: endDate,
-      })
-      this.reloadTimesheet()
+        startDate: sDate,
+        endDate: eDate,
+      });
+
+      this.reloadTimesheet();
     };
+
     const columns = [
       {
         name: "date",
@@ -134,29 +164,33 @@ class Timesheet extends Component {
       data: getTimesheet,
     };
 
-
     return (
       <div>
         <Row>
           <Col md={12} xl={12}>
             <Card className="Recent-Users">
               <Card.Header>
-                <Card.Title as="h5">{this.state.title} {this.state.user}</Card.Title>
+                <Card.Title as="h5">{this.state.user}</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
                 <Row className="container">
                   <Col md={6}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Select User</Form.Label>
-                      <Form.Control as="select" onChange={e=>{
-                        this.setState({
-                          user: e.target.value
-                        })
-                        this.reloadTimesheet(e.target.value)
-                      }}>
+                      <Form.Control
+                        as="select"
+                        onChange={(e) => {
+                          this.setState({
+                            user: e.target.value,
+                          });
+                          this.reloadTimesheet(e.target.value);
+                        }}
+                      >
                         <option>Select User</option>
-                        {this.state.users.map((user) => (
-                          <option value={user._id}>{user.name}</option>
+                        {this.state.users.map((user, id) => (
+                          <option key={id} value={user._id}>
+                            {user.name}
+                          </option>
                         ))}
                       </Form.Control>
                     </Form.Group>

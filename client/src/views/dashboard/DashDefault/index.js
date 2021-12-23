@@ -14,7 +14,7 @@ const DashDefault = () => {
   const [timesheets, setTimesheets] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(API_SERVER + "timesheets")
+      .get(API_SERVER + "dashboard")
       .then((res) => {
         setTimesheets(res.data.timesheets);
       })

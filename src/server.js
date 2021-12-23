@@ -5,6 +5,7 @@ const employees = require("./controllers/employees");
 const get_timesheets = require("./controllers/get_timesheets");
 const login = require("./controllers/login");
 const timesheets = require("./controllers/timesheets");
+const dashboard = require("./controllers/dashboard");
 const get_staff_timesheets = require("./controllers/get_staff_timesheets");
 const add_category = require("./controllers/add_category");
 const get_category = require("./controllers/get_category");
@@ -16,6 +17,8 @@ const fastify = require("fastify")({ logger: true });
 fastify.register(require("fastify-cors"));
 
 fastify.get("/api/timesheets", timesheets);
+
+fastify.get("/api/dashboard", dashboard);
 
 fastify.get("/api/employees", employees);
 
