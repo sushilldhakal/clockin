@@ -16,25 +16,39 @@ import { Row, Col, Card, Form } from "react-bootstrap";
 class Timesheet extends Component {
   state = {
     users: [],
+    user: '',
     timesheets: [],
+    startDate:'',
+    endDate: ''
   };
   componentDidMount() {
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({
         users: res.data,
       });
-      axios.get(API_SERVER + "timesheets").then((res) => {
-        this.setState({
-          timesheets: res.data.timesheets.map((timesheet) => {
-            return {
-              ...timesheet,
-              user: this.state.users.find((user) => user.pin === timesheet.pin),
-            };
-          }),
-        });
+    });
+    this.reloadTimesheet = this.reloadTimesheet.bind(this);
+  }
+
+  reloadTimesheet = (user_id) => {
+    if(this.state.user)
+    axios.get(API_SERVER + "timesheets", {
+      params: {
+        user_id: user_id,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate
+      },
+    }).then((res) => {
+      this.setState({
+        timesheets: res.data.timesheets.map((timesheet) => {
+          return {
+            ...timesheet,
+            user: this.state.users.find((user) => user.pin === timesheet.pin),
+          };
+        }),
       });
     });
-  }
+  };
 
   render() {
     const handleJumpToCurrentWeek = (currenDate) => {
@@ -42,7 +56,10 @@ class Timesheet extends Component {
     };
 
     const handleWeekPick = (startDate, endDate) => {
-      console.log(`${startDate} to ${endDate}`);
+      this.setState({
+        startDate: startDate,
+        endDate: endDate,
+      })
     };
     const columns = [
       {
@@ -116,26 +133,30 @@ class Timesheet extends Component {
       data: getTimesheet,
     };
 
-    console.log(this.state.timesheets);
+
     return (
       <div>
         <Row>
           <Col md={12} xl={12}>
             <Card className="Recent-Users">
               <Card.Header>
-                <Card.Title as="h5">{this.state.title}</Card.Title>
+                <Card.Title as="h5">{this.state.title} {this.state.user}</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
                 <Row className="container">
                   <Col md={6}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Select User</Form.Label>
-                      <Form.Control as="select">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                      <Form.Control as="select" onChange={e=>{
+                        this.setState({
+                          user: e.target.value
+                        })
+                        this.reloadTimesheet(e.target.value)
+                      }}>
+                        <option>Select User</option>
+                        {this.state.users.map((user) => (
+                          <option value={user._id}>{user.name}</option>
+                        ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
