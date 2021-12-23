@@ -18,6 +18,35 @@
   }
 }
 
+.row {
+  display: flex !important;
+  grid-template-columns: none !important;
+  width: auto !important;
+  cursor: default !important;
+  align-items: normal !important;
+  justify-items: normal !important;
+}
+
+.box .row {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  width: 274px !important;
+  justify-items: center !important;
+  align-items: center !important;
+  cursor: pointer !important;
+}
+.navbar {
+  width: auto !important;
+  border: none !important;
+}
+
+.box .navbar {
+  width: 274px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  border-bottom: 1px solid !important;
+}
+
 .toggle-switch {
   position: relative;
   width: 75px;

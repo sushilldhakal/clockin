@@ -1,5 +1,6 @@
 const connect = require("../config/connect");
 const moment = require("moment");
+const {ObjectId} = require('bson');
 
 module.exports = async (request, reply) => {
   const client = await connect();
@@ -26,8 +27,10 @@ module.exports = async (request, reply) => {
     }).toArray()
 
   timesheets = timesheets.filter((timesheet) => {
+
     // filter record using startDate and endDate with format YYYY-MM-DD
-    if (request.query.startDate && request.query.endDate) {
+
+    if (moment(request.query.startDate).isValid() && moment(request.query.endDate).isValid()) {
       let startDate = moment(request.query.startDate, "YYYY-MM-DD").subtract(1, "days");
       let endDate = moment(request.query.endDate, "YYYY-MM-DD").add(1, "days");
       let timesheetDate = moment(timesheet.date, "YYYY-MM-DD");
@@ -37,12 +40,28 @@ module.exports = async (request, reply) => {
       }
 
       return false
-    } 
-    return true
+    }
+
+    return true;
+
   })
 
 
-  console.log(timesheets)
+    // filter record using user_id
+    if (request.query.user_id) {
+      // get pin from user_id
+      let user = users.filter((user) => {
+        return (user._id.toString() === request.query.user_id);
+      })[0];
+
+      if(user){
+        timesheets = timesheets.filter((timesheet) => {
+          return timesheet.pin === user.pin;
+        })
+      }
+
+    }
+
   client.close();
 
   reply.send({
