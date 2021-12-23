@@ -61,6 +61,7 @@ class Timesheet extends Component {
         startDate: startDate,
         endDate: endDate,
       })
+      this.reloadTimesheet()
     };
     const columns = [
       {
