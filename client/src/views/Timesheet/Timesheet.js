@@ -95,53 +95,6 @@ class Timesheet extends Component {
   }
 
   render() {
-    // const timesheets = [
-    //   {
-    //     date: "2th-9th Jan 2021",
-    //     name: "Sushil Dhakal",
-    //     hire: "NOVA",
-    //     role: "Bay Supervisor",
-    //     site: "Port Melbourne",
-    //     hours: "40.5hrs",
-    //     action: "no",
-    //   },
-    //   {
-    //     date: "2th-9th Jan 2021",
-    //     name: "Sushil Dhakal",
-    //     hire: "NOVA",
-    //     role: "Bay Supervisor",
-    //     site: "Port Melbourne",
-    //     hours: "40.5hrs",
-    //     action: "no",
-    //   },
-    //   {
-    //     date: "2th-9th Jan 2021",
-    //     name: "Sushil Dhakal",
-    //     hire: "NOVA",
-    //     role: "Bay Supervisor",
-    //     site: "Port Melbourne",
-    //     hours: "40.5hrs",
-    //     action: "no",
-    //   },
-    //   {
-    //     date: "2th-9th Jan 2021",
-    //     name: "Sushil Dhakal",
-    //     hire: "NOVA",
-    //     role: "Bay Supervisor",
-    //     site: "Port Melbourne",
-    //     hours: "40.5hrs",
-    //     action: "no",
-    //   },
-    //   {
-    //     date: "2th-9th Jan 2021",
-    //     name: "Sushil Dhakal",
-    //     hire: "NOVA",
-    //     role: "Bay Supervisor",
-    //     site: "Port Melbourne",
-    //     hours: "40.5hrs",
-    //     action: "no",
-    //   },
-    // ];
     const columns = [
       {
         name: "date",
@@ -172,8 +125,13 @@ class Timesheet extends Component {
         sortable: true,
       },
       {
-        name: "Total Working hours",
-        selector: "hours",
+        name: "Type",
+        selector: "type",
+        sortable: true,
+      },
+      {
+        name: "Logged In time",
+        selector: "time",
         sortable: true,
       },
       {

@@ -21,13 +21,6 @@ const menuItems = {
           icon: "feather icon-box",
         },
         {
-          id: "User",
-          title: "User",
-          type: "item",
-          url: "/dashboard/user",
-          icon: "feather icon-box",
-        },
-        {
           id: "Timesheet",
           title: "Timesheet",
           type: "item",

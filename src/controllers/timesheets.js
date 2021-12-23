@@ -9,11 +9,13 @@ module.exports = async (request, reply) => {
   const users = await db.collection("employees").find().toArray();
 
   const timesheets = await collection
-    .find({
-      date: moment().format("DD-MM-yyyy"),
-    })
+    .find().sort({date: -1}) 
     .map(({ type, date, time, pin, image }) => {
       let user = users.filter((user) => user.pin === pin)[0];
+
+      if(time) {
+        time = moment(time).format("h:mm a");
+      }
       if(user) {
         let { name, role, hire, site } = user;
         return { type, date, time, name, pin, role, hire, site, image };
@@ -23,6 +25,8 @@ module.exports = async (request, reply) => {
 
     })
     .toArray();
+
+    console.log(timesheets)
   client.close();
 
   reply.send({
