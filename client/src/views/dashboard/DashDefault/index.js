@@ -29,31 +29,38 @@ const DashDefault = () => {
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
-          <a
-            href={d.image}
-            onclick="window.open(d.image);return false;"
-            target="_blank"
-          >
-            <img
-              src={d.image}
-              className="img-circle rounded-circle"
-              alt="user-image"
-            />
-            <img
-              src={d.image}
-              className="img-circle rounded-circle show-on-popover"
-              alt="user-image"
-              onClick={() => window.open(d.image, "_blank")}
-            />
-          </a>
+          <img
+            src={d.image}
+            className="img-circle rounded-circle"
+            alt="user-image"
+          />
+          <img
+            src={d.image}
+            className="img-circle rounded-circle show-on-popover"
+            alt="user-image"
+            onClick={() => window.open(d.image, "_blank")}
+          />
         </div>
       ),
+    },
+    {
+      name: "Date",
+      selector: "date",
+      sortable: true,
     },
     {
       name: "Time",
       selector: "time",
       sortable: true,
       cell: (d) => <span>{d.time}</span>,
+    },
+    {
+      name: "Type",
+      selector: "type",
+      sortable: true,
+      // cell: (d) => (
+      //   <Link to={"/dashboard/each-staff/" + d.user._id}>{d.name}</Link>
+      // ),
     },
     {
       name: "Name",
@@ -82,7 +89,7 @@ const DashDefault = () => {
     columns,
     data: timesheets,
   };
-
+  console.log(tableData);
   return (
     <React.Fragment>
       <Row>

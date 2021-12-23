@@ -50,7 +50,10 @@ class ListEmployee extends Component {
 
   //Filter value from state
   getFilterData = () => {
-    return this.state.data.filter(item => JSON.stringify(item).toLowerCase().indexOf(this.state.search) !== -1 );
+    return this.state.data.filter(
+      (item) =>
+        JSON.stringify(item).toLowerCase().indexOf(this.state.search) !== -1
+    );
   };
 
   //Get value from input fields
@@ -134,7 +137,7 @@ class ListEmployee extends Component {
                 <div
                   className={
                     !this.state.show
-                      ? "App-add-employee hide-employee-form"
+                      ? "App-add-employee hide-employee-form container"
                       : "App-add-employee show-employee-form"
                   }
                 >

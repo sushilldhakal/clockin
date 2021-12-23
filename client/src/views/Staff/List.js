@@ -56,31 +56,33 @@ const List = (props) => {
 
   return (
     <React.Fragment>
-      {/* {this.getFilterData().length !== 0 ? this.displayData() : <p>No terms</p>} */}
+      <div className="container">
+        {/* {this.getFilterData().length !== 0 ? this.displayData() : <p>No terms</p>} */}
 
-      {/* Count return element from array. If equals to 0 show message*/}
-      {getFilterData().length === 0 ? (
-        <div>
-          <p className="c-msg">Employee Not Found</p>
-          <button className="c-btn" onClick={editEmployee}>
-            Clear Term
-          </button>
-        </div>
-      ) : (
-        <div>
-          <DataTableExtensions {...tableData}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              pagination
-              highlightOnHover
-            />
-          </DataTableExtensions>
-        </div>
-      )}
+        {/* Count return element from array. If equals to 0 show message*/}
+        {getFilterData().length === 0 ? (
+          <div>
+            <p className="c-msg">Employee Not Found</p>
+            <button className="c-btn" onClick={editEmployee}>
+              Clear Term
+            </button>
+          </div>
+        ) : (
+          <div>
+            <DataTableExtensions {...tableData}>
+              <DataTable
+                columns={columns}
+                data={data}
+                noHeader
+                defaultSortField="id"
+                defaultSortAsc={false}
+                pagination
+                highlightOnHover
+              />
+            </DataTableExtensions>
+          </div>
+        )}
+      </div>
     </React.Fragment>
   );
 };

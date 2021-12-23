@@ -4,12 +4,8 @@ import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import { faTrashAlt, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
-
-library.add(faTrashAlt, faUser, faLock);
 
 class UserProfile extends Component {
   state = {

@@ -57,8 +57,8 @@ export default ({ type }) => {
   return (
     <div className="catageory-body-page">
       <div className="dashboard-body">
-        <Col md={4} xl={4}>
-          <Card className="Recent-Users">
+        <div>
+          <Card className="Recent-Users mt-5">
             <Card.Header>
               <Card.Title as="h5">{type}</Card.Title>
             </Card.Header>
@@ -83,7 +83,7 @@ export default ({ type }) => {
                   </button>
                 </Col>
               )}
-              <Col>
+              <div>
                 <ul>
                   {values.map((value) => {
                     return (
@@ -102,10 +102,10 @@ export default ({ type }) => {
                     );
                   })}
                 </ul>
-              </Col>
+              </div>
             </Card.Body>
           </Card>
-        </Col>
+        </div>
       </div>
     </div>
   );
