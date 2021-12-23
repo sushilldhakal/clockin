@@ -99,30 +99,7 @@ class Timesheet extends Component {
         selector: "time",
         sortable: true,
       },
-      // {
-      //   name: "Image",
-      //   selector: "image",
-      //   sortable: false,
-      // },
-      // {
-      //   name: "Action",
-      //   selector: "action",
-      //   sortable: true,
-      //   cell: (d) => (
-      //     <div className="toggle-switch">
-      //       <input
-      //         type="checkbox"
-      //         className="toggle-switch-checkbox"
-      //         name="toggleSwitch"
-      //         id="toggleSwitch"
-      //       />
-      //       <label className="toggle-switch-label" htmlFor="toggleSwitch">
-      //         <span className="toggle-switch-inner"></span>
-      //         <span className="toggle-switch-switch"></span>
-      //       </label>
-      //     </div>
-      //   ),
-      // },
+    
     ];
     const getTimesheet = this.state.timesheets;
     const tableData = {

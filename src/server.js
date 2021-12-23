@@ -9,7 +9,7 @@ const get_staff_timesheets = require("./controllers/get_staff_timesheets");
 const add_category = require("./controllers/add_category");
 const get_category = require("./controllers/get_category");
 const update_category = require("./controllers/update_category");
-const delete_category = require("./controllers/delete_category");
+// const delete_category = require("./controllers/delete_category");
 
 const fastify = require("fastify")({ logger: true });
 
@@ -35,7 +35,7 @@ fastify.post("/api/category/:category_type", add_category);
 
 fastify.put("/api/category/:category_type/:category_id", update_category);
 
-fastify.delete("/api/category/:category_type/:category_id", delete_category);
+// fastify.delete("/api/category/:category_type/:category_id", delete_category);
 
 fastify.get("/api/category/:category_type", get_category);
 
