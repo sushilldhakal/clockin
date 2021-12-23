@@ -10,66 +10,6 @@ import { API_SERVER } from "../../config/constant";
 
 import { Row, Col, Card } from "react-bootstrap";
 
-const ExpandableComponent = ({ timesheet }) => {
-  console.log(timesheet);
-  return (
-    <table className="inner-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Date</th>
-          <th>Clock In </th>
-          <th>Break time </th>
-          <th>Clock Out</th>
-          <th>Total work hours</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td>2nd Jan 2021</td>
-          <td>8:00am</td>
-          <td>30min</td>
-          <td>5:00pm</td>
-          <td>8.5hrs</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>3 Jan 2021</td>
-          <td>8:00am</td>
-          <td>30min</td>
-          <td>5:00pm</td>
-          <td>8.5hrs</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>4 Jan 2021</td>
-          <td>8:00am</td>
-          <td>30min</td>
-          <td>5:00pm</td>
-          <td>8.5hrs</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>5 Jan 2021</td>
-          <td>8:00am</td>
-          <td>30min</td>
-          <td>5:00pm</td>
-          <td>8.5hrs</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>6 Jan 2021</td>
-          <td>8:00am</td>
-          <td>30min</td>
-          <td>5:00pm</td>
-          <td>8.5hrs</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-};
-
 class Timesheet extends Component {
   state = {
     users: [],
@@ -99,6 +39,32 @@ class Timesheet extends Component {
         name: "date",
         selector: "date",
         sortable: true,
+      },
+      {
+        name: "Staff Image",
+        selector: "image",
+        sortable: false,
+        cell: (d) => (
+          <div className="image-popover">
+            <a
+              href={d.image}
+              onclick="window.open(d.image);return false;"
+              target="_blank"
+            >
+              <img
+                src={d.image}
+                className="img-circle rounded-circle"
+                alt="user-image"
+              />
+              <img
+                src={d.image}
+                className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
+                onClick={() => window.open(d.image, "_blank")}
+              />
+            </a>
+          </div>
+        ),
       },
       {
         name: "Name",
@@ -133,25 +99,30 @@ class Timesheet extends Component {
         selector: "time",
         sortable: true,
       },
-      {
-        name: "Action",
-        selector: "action",
-        sortable: true,
-        cell: (d) => (
-          <div className="toggle-switch">
-            <input
-              type="checkbox"
-              className="toggle-switch-checkbox"
-              name="toggleSwitch"
-              id="toggleSwitch"
-            />
-            <label className="toggle-switch-label" htmlFor="toggleSwitch">
-              <span className="toggle-switch-inner"></span>
-              <span className="toggle-switch-switch"></span>
-            </label>
-          </div>
-        ),
-      },
+      // {
+      //   name: "Image",
+      //   selector: "image",
+      //   sortable: false,
+      // },
+      // {
+      //   name: "Action",
+      //   selector: "action",
+      //   sortable: true,
+      //   cell: (d) => (
+      //     <div className="toggle-switch">
+      //       <input
+      //         type="checkbox"
+      //         className="toggle-switch-checkbox"
+      //         name="toggleSwitch"
+      //         id="toggleSwitch"
+      //       />
+      //       <label className="toggle-switch-label" htmlFor="toggleSwitch">
+      //         <span className="toggle-switch-inner"></span>
+      //         <span className="toggle-switch-switch"></span>
+      //       </label>
+      //     </div>
+      //   ),
+      // },
     ];
     const getTimesheet = this.state.timesheets;
     const tableData = {
@@ -179,8 +150,6 @@ class Timesheet extends Component {
                     pagination
                     highlightOnHover
                     sortIcon={<SortIcon />}
-                    expandableRows
-                    expandableRowsComponent={ExpandableComponent}
                   />
                 </DataTableExtensions>
               </Card.Body>

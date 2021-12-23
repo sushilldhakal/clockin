@@ -20,6 +20,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "concurrently": "^6.4.0"
   },
   "keywords": []

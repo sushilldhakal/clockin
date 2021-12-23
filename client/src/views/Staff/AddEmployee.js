@@ -17,6 +17,7 @@ const defaultEmployee = {
   email: "",
   phone: "",
   dob: "",
+  category: [],
 };
 export const AddEmployee = (props) => {
   function setEmployeeDetails(obj) {
@@ -33,7 +34,7 @@ export const AddEmployee = (props) => {
       .then((res) => {
         swal(res.data.message);
         setEmployee(defaultEmployee);
-        window.location.reload()
+        window.location.reload();
       })
       .catch((err) => {
         swal(err.response.data.message);

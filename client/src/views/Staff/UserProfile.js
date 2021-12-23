@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Col, Form, Button} from "react-bootstrap";
+import { Card, Col, Form, Button } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -11,36 +11,21 @@ import { API_SERVER } from "../../config/constant";
 
 library.add(faTrashAlt, faUser, faLock);
 
-const ExpandableComponent = ({ timesheet }) => {
-  console.log(timesheet);
-  return (
-    <table className="inner-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Image </th>
-          <th>Image </th>
-          <th>Image</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-    </table>
-  );
-};
-
-
 class UserProfile extends Component {
   state = {
     show: false,
     timesheets: [],
   };
 
-  componentDidMount(){
-    axios.get(API_SERVER + 'timesheets/'+this.props.match.params.staff_id).then(res => {
-      this.setState({timesheets: res.data.timesheets, user: res.data.user})
-    }).catch(err => {
-      console.log(err);
-    })
+  componentDidMount() {
+    axios
+      .get(API_SERVER + "timesheets/" + this.props.match.params.staff_id)
+      .then((res) => {
+        this.setState({ timesheets: res.data.timesheets, user: res.data.user });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   handleShowForm = () => {
     this.setState({
@@ -50,7 +35,10 @@ class UserProfile extends Component {
 
   render() {
     const timesheets = this.state.timesheets;
-    console.log(this.state.timesheets)
+
+    const userDetails = this.state.user;
+    console.log(userDetails);
+
     const columns = [
       {
         name: "Date",
@@ -69,7 +57,7 @@ class UserProfile extends Component {
       },
       {
         name: "Break End",
-        selector: "end-break",
+        selector: "endBreak",
         sortable: true,
       },
       {
@@ -78,28 +66,14 @@ class UserProfile extends Component {
         sortable: true,
       },
       {
-        name: "Total Working hours",
-        selector: "total",
+        name: "Break hours",
+        selector: "btotal",
         sortable: true,
       },
       {
-        name: "Action",
-        selector: "action",
+        name: "Total hours",
+        selector: "total",
         sortable: true,
-        cell: (d) => (
-          <div className="toggle-switch">
-            <input
-              type="checkbox"
-              className="toggle-switch-checkbox"
-              name="toggleSwitch"
-              id="toggleSwitch"
-            />
-            <label className="toggle-switch-label" htmlFor="toggleSwitch">
-              <span className="toggle-switch-inner"></span>
-              <span className="toggle-switch-switch"></span>
-            </label>
-          </div>
-        ),
       },
     ];
 
@@ -241,8 +215,6 @@ class UserProfile extends Component {
                 pagination
                 highlightOnHover
                 sortIcon={<SortIcon />}
-                expandableRows
-                expandableRowsComponent={ExpandableComponent}
               />
             </DataTableExtensions>
           </Card.Body>

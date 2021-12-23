@@ -117,7 +117,7 @@ class Home extends Component {
                       id="option1d"
                       autoComplete="off"
                       onChange={(e) => e.target.value}
-                      onClick={() => this.onClick("end-break")}
+                      onClick={() => this.onClick("endBreak")}
                     />
                     <label className="btn btn-secondary" htmlFor="option2">
                       BREAK
