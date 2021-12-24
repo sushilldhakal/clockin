@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
@@ -18,6 +18,7 @@ class Home extends Component {
     user: { name: "" },
     timesheets: [],
   };
+
   onClick = (e) => {
     if (!document.getElementById("screen-image")) {
       document.getElementById("webcam-btn").click();
@@ -48,6 +49,11 @@ class Home extends Component {
           user: res.data.user,
         });
       });
+
+    setTimeout(() => {
+      localStorage.removeItem("pin");
+      window.location.href = "/";
+    }, 6000);
   }
 
   render() {
@@ -78,7 +84,19 @@ class Home extends Component {
                     </div>
                   );
                 })}
-                <WebcamCapture id="webimage" />
+                <div className="video-wrapper">
+                  <WebcamCapture id="webimage" />
+                  <div className="css-loader">
+                    <div className="loader">
+                      <span className="left">
+                        <span className="load"></span>
+                      </span>
+                      <span className="right">
+                        <span className="load"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="col-sm-8">
                 <div className="record-slider ">

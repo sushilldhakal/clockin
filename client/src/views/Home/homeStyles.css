@@ -12,6 +12,100 @@
   src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf)
     format("truetype");
 }
+
+.video-wrapper {
+  position: relative;
+}
+
+.css-loader .loader {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  overflow: hidden;
+  left: 40px;
+  top: 15px;
+}
+
+.css-loader .loader:after {
+  content: "";
+  position: absolute;
+  background-color: #212a35;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+.css-loader .loader > span {
+  position: absolute;
+  height: 100%;
+  width: 51%;
+  overflow: hidden;
+}
+.css-loader .left {
+  left: 0;
+}
+.css-loader .right {
+  left: 49%;
+}
+
+.css-loader .load {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #3fafd7;
+  animation: rotate-left 6s infinite linear;
+  transform-origin: 0 50% 0;
+}
+
+.css-loader .right .load {
+  left: -101%;
+  transform-origin: 100% 50% 0;
+  animation-name: rotate-right;
+  animation-delay: 3s;
+}
+
+@keyframes rotate-left {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-right {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .wrapper {
   display: block;
   position: relative;
