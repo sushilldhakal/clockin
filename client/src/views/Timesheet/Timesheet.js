@@ -89,6 +89,9 @@ class Timesheet extends Component {
         endDate: eDate,
       });
 
+      console.log(sDate);
+      console.log(eDate);
+
       this.reloadTimesheet();
     };
 
