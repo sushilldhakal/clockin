@@ -14,23 +14,8 @@ const NavRight = () => {
   const [listOpen, setListOpen] = useState(false);
 
   const handleLogout = () => {
-    axios
-      .post(
-        API_SERVER + "users/logout",
-        {},
-        { headers: { Authorization: `${account.token}` } }
-      )
-      .then(function (response) {
-        // Force the LOGOUT
-        //if (response.data.success) {
-        dispatcher({ type: LOGOUT });
-        //} else {
-        //    console.log('response - ', response.data.msg);
-        //}
-      })
-      .catch(function (error) {
-        console.log("error - ", error);
-      });
+    localStorage.removeItem("token");
+    setTimeout(window.location.reload, 1000)
   };
 
   return (

@@ -24,7 +24,8 @@ export default class Login extends React.Component {
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-  login = () => {
+  login = (e) => {
+    e.preventDefault();
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
     axios
@@ -61,6 +62,8 @@ export default class Login extends React.Component {
               <span className="r" />
             </div>
 
+            <form 
+                  onSubmit={this.login.bind(this)}>
             <Card className="borderless text-center">
               <Card.Body>
                 <div className="mb-4">
@@ -97,6 +100,7 @@ export default class Login extends React.Component {
                   variant="contained"
                   color="primary"
                   size="small"
+                  type="submit"
                   disabled={
                     this.state.username == "" && this.state.password == ""
                   }
@@ -106,6 +110,7 @@ export default class Login extends React.Component {
                 </Button>
               </Card.Body>
             </Card>
+            </form>
           </div>
         </div>
       </div>
