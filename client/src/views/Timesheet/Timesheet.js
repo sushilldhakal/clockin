@@ -13,8 +13,6 @@ import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Form } from "react-bootstrap";
 
-import moment from "moment";
-
 class Timesheet extends Component {
   state = {
     users: [],
@@ -32,28 +30,30 @@ class Timesheet extends Component {
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
   }
 
-  reloadTimesheet = (user_id) => {
-    if (this.state.user)
-      axios
-        .get(API_SERVER + "timesheets", {
-          params: {
-            user_id: user_id,
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
-          },
-        })
-        .then((res) => {
-          this.setState({
-            timesheets: res.data.timesheets.map((timesheet) => {
-              return {
-                ...timesheet,
-                user: this.state.users.find(
-                  (user) => user.pin === timesheet.pin
-                ),
-              };
-            }),
-          });
+  reloadTimesheet = () => {
+    let obj = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    };
+
+    if (this.state.user) {
+      obj.user_id = this.state.user;
+    }
+
+    axios
+      .get(API_SERVER + "timesheets", {
+        params: obj,
+      })
+      .then((res) => {
+        this.setState({
+          timesheets: res.data.timesheets.map((timesheet) => {
+            return {
+              ...timesheet,
+              user: this.state.users.find((user) => user.pin === timesheet.pin),
+            };
+          }),
         });
+      });
   };
 
   render() {
@@ -98,6 +98,7 @@ class Timesheet extends Component {
       // console.log(rEndDate);
 
       this.reloadTimesheet();
+      setTimeout(this.reloadTimesheet, 100);
     };
 
     const columns = [
@@ -191,10 +192,10 @@ class Timesheet extends Component {
                           this.setState({
                             user: e.target.value,
                           });
-                          this.reloadTimesheet(e.target.value);
+                          setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
-                        <option>Select User</option>
+                        <option value="">Select User</option>
                         {this.state.users.map((user, id) => (
                           <option key={id} value={user._id}>
                             {user.name}
