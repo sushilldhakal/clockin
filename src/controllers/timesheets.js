@@ -35,7 +35,7 @@ module.exports = async (request, reply) => {
       let startDate = moment(request.query.startDate, "DD-MM-YYYY");
       let endDate = moment(request.query.endDate, "DD-MM-YYYY");
       let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
-      if (timesheetDate.isBetween(startDate, endDate)) {
+      if (timesheetDate.isBetween(startDate, endDate, null, '[]')) {
         return true;
       }
 
