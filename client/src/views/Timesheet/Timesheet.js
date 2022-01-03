@@ -76,14 +76,17 @@ class Timesheet extends Component {
         "Nov",
         "Dec",
       ];
-
+      console.log("start date:" + startDate);
+      console.log("end date:" + endDate);
       const Value = startDate.split(" ");
       const Value1 = endDate.split(" ");
+      const rStartDate = Number(Value[0]) + 1;
+      const rEndDate = Number(Value1[0]) + 1;
       const month = months.indexOf(Value[1]) + 1;
-      const sDate = Value[0] + "-" + month + "-" + Value[2];
-      const eDate = Value1[0] + "-" + month + "-" + Value1[2];
+      const month1 = months.indexOf(Value1[1]) + 1;
+      const sDate = rStartDate + "-" + month + "-" + Value[2];
+      const eDate = rEndDate + "-" + month1 + "-" + Value1[2];
 
-      // console.log(sDatoLocaleString("en-GB", { timeZone: "UTC" }));
       this.setState({
         startDate: sDate,
         endDate: eDate,
@@ -91,6 +94,8 @@ class Timesheet extends Component {
 
       console.log(sDate);
       console.log(eDate);
+      // console.log(rStartDate);
+      // console.log(rEndDate);
 
       this.reloadTimesheet();
     };
