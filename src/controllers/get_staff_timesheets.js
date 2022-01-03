@@ -36,12 +36,14 @@ module.exports = async (request, reply) => {
         .duration(
           moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
         )
-        .humanize();
+        .asHours()
+        .toFixed(2);
 
     if (t.in && t.out)
       t.total = moment
         .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
-        .humanize();
+        .asHours()
+        .toFixed(2);
 
     return t;
   });
