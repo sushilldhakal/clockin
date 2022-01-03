@@ -28,19 +28,13 @@ module.exports = async (request, reply) => {
     .toArray();
 
   timesheets = timesheets.filter((timesheet) => {
-    // filter record using startDate and endDate with format YYYY-MM-DD
-
     if (
-      moment(request.query.startDate).isValid() &&
-      moment(request.query.endDate).isValid()
+      moment(request.query.startDate, 'DD-MM-YYYY').isValid() &&
+      moment(request.query.endDate, 'DD-MM-YYYY').isValid()
     ) {
-      let startDate = moment(request.query.startDate, "YYYY-MM-DD").subtract(
-        1,
-        "days"
-      );
-      let endDate = moment(request.query.endDate, "YYYY-MM-DD").add(1, "days");
-      let timesheetDate = moment(timesheet.date, "YYYY-MM-DD");
-
+      let startDate = moment(request.query.startDate, "DD-MM-YYYY");
+      let endDate = moment(request.query.endDate, "DD-MM-YYYY");
+      let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
       if (timesheetDate.isBetween(startDate, endDate)) {
         return true;
       }
@@ -69,6 +63,6 @@ module.exports = async (request, reply) => {
 
   reply.send({
     timesheets,
-    message: "Timesheets fetched successfully 1",
+    message: "Timesheets fetched successfully",
   });
 };
