@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { WeeklyCalendar } from "react-week-picker";
 import "react-week-picker/src/lib/calendar.css";
 
+import moment from "moment";
+
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -18,8 +20,8 @@ class Timesheet extends Component {
     users: [],
     user: "",
     timesheets: [],
-    startDate: "",
-    endDate: "",
+    startDate: moment(new Date()).format("DD-MM-YYYY"),
+    endDate: moment(new Date()).format("DD-MM-YYYY"),
   };
   componentDidMount() {
     axios.get(API_SERVER + "employees").then((res) => {
@@ -61,6 +63,8 @@ class Timesheet extends Component {
       console.log(`current date: ${currenDate}`);
     };
 
+    console.log(this.state.startDate);
+    console.log(this.state.endDate);
     const handleWeekPick = (startDate, endDate) => {
       const months = [
         "Jan",
@@ -76,8 +80,7 @@ class Timesheet extends Component {
         "Nov",
         "Dec",
       ];
-      console.log("start date:" + startDate);
-      console.log("end date:" + endDate);
+
       const Value = startDate.split(" ");
       const Value1 = endDate.split(" ");
       const rStartDate = Number(Value[0]) + 1;
@@ -91,11 +94,6 @@ class Timesheet extends Component {
         startDate: sDate,
         endDate: eDate,
       });
-
-      console.log(sDate);
-      console.log(eDate);
-      // console.log(rStartDate);
-      // console.log(rEndDate);
 
       this.reloadTimesheet();
       setTimeout(this.reloadTimesheet, 100);
@@ -113,23 +111,23 @@ class Timesheet extends Component {
         sortable: false,
         cell: (d) => (
           <div className="image-popover">
-            <a
+            {/* <a
               href={d.image}
               onClick="window.open(d.image);return false;"
               target="_blank"
-            >
-              <img
-                src={d.image}
-                className="img-circle rounded-circle"
-                alt="user"
-              />
-              <img
-                src={d.image}
-                className="img-circle rounded-circle show-on-popover"
-                alt="user"
-                onClick={() => window.open(d.image, "_blank")}
-              />
-            </a>
+            > */}
+            <img
+              src={d.image}
+              className="img-circle rounded-circle"
+              alt="user"
+            />
+            <img
+              src={d.image}
+              className="img-circle rounded-circle show-on-popover"
+              alt="user"
+              onClick={() => window.open(d.image, "_blank")}
+            />
+            {/* </a> */}
           </div>
         ),
       },
