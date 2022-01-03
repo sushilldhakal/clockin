@@ -1,26 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-
-
-import { Provider } from 'react-redux';
-import { ConfigProvider } from './contexts/ConfigContext';
-import { PersistGate } from 'redux-persist/integration/react';
-import reportWebVitals from './reportWebVitals';
+import { Provider } from "react-redux";
+import { ConfigProvider } from "./contexts/ConfigContext";
+import { PersistGate } from "redux-persist/integration/react";
+import reportWebVitals from "./reportWebVitals";
 import "./index.scss";
 import "bootstrap/dist/css/bootstrap.css";
 
 import App from "./App";
-import { store, persister } from './store';
+import { store, persister } from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-  <ConfigProvider>
+    <ConfigProvider>
       <PersistGate loading={null} persistor={persister}>
-          <App />
+        <App />
       </PersistGate>
-  </ConfigProvider>
-</Provider>,
-document.getElementById('root')
+    </ConfigProvider>
+  </Provider>,
+  document.getElementById("root")
 );
 reportWebVitals();

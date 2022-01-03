@@ -11,6 +11,8 @@
 # production
 /build
 /client/build
+/client/.env
+/client/src/config/constant.js
 # misc
 .DS_Store
 .env.local
@@ -26,3 +28,5 @@ package-lock.json
 client/node_modules
 client/package-lock.json
 /client/package-lock.json
+/client/8009
+client/8009.pub

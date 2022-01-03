@@ -58,15 +58,12 @@ const DashDefault = () => {
       name: "Type",
       selector: "type",
       sortable: true,
-      // cell: (d) => (
-      //   <Link to={"/dashboard/each-staff/" + d.user._id}>{d.name}</Link>
-      // ),
     },
     {
       name: "Name",
       selector: "userDetail",
       sortable: true,
-      cell: (d) => <Link to={d.userDetail}>{d.name}</Link>,
+      cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
       name: "Role",
@@ -89,7 +86,7 @@ const DashDefault = () => {
     columns,
     data: timesheets,
   };
-  console.log(tableData);
+  console.log(timesheets);
   return (
     <React.Fragment>
       <Row>

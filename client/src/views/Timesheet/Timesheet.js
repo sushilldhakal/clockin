@@ -109,18 +109,18 @@ class Timesheet extends Component {
           <div className="image-popover">
             <a
               href={d.image}
-              onclick="window.open(d.image);return false;"
+              onClick="window.open(d.image);return false;"
               target="_blank"
             >
               <img
                 src={d.image}
                 className="img-circle rounded-circle"
-                alt="user-image"
+                alt="user"
               />
               <img
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
-                alt="user-image"
+                alt="user"
                 onClick={() => window.open(d.image, "_blank")}
               />
             </a>

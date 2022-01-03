@@ -18,19 +18,21 @@ module.exports = async (request, reply) => {
         time = moment(time).format("h:mm a");
       }
       if (user) {
-        let { name, role, hire, site } = user;
-        return { type, date, time, name, pin, role, hire, site, image };
+        let { name, role, hire, site, _id } = user;
+        return { _id, type, date, time, name, pin, role, hire, site, image };
       }
 
       return { type, date, time, pin, image };
     })
     .toArray();
 
-  console.log(timesheets);
   client.close();
 
   reply.send({
+    users,
+
     timesheets,
+
     message: "Timesheets fetched successfully 1",
   });
 };
