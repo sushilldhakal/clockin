@@ -1,0 +1,521 @@
+
+> selfie@0.1.0 start /var/www/clockin/client
+> react-scripts start
+
+(node:23439) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23439) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+src/Routes.js
+  Line 7:8:  'GuestGuard' is defined but never used  no-unused-vars
+  Line 8:8:  'AuthGuard' is defined but never used   no-unused-vars
+
+src/components/Webcam/Webcam.jsx
+  Line 4:7:    'WebcamComponent' is assigned a value but never used                                                                      no-unused-vars
+  Line 16:19:  React Hook useCallback does nothing when called with only one argument. Did you forget to pass an array of dependencies?  react-hooks/exhaustive-deps
+  Line 34:11:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                 jsx-a11y/alt-text
+
+src/index.js
+  Line 3:27:  'Router' is defined but never used  no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavLeft/NavSearch/index.js
+  Line 2:10:   'Link' is defined but never used                       no-unused-vars
+  Line 7:12:   'searchString' is assigned a value but never used      no-unused-vars
+  Line 9:11:   'searchOnHandler' is assigned a value but never used   no-unused-vars
+  Line 17:11:  'searchOffHandler' is assigned a value but never used  no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavLeft/index.js
+  Line 2:21:  'Dropdown' is defined but never used                     no-unused-vars
+  Line 3:10:  'Link' is defined but never used                         no-unused-vars
+  Line 11:9:  'dropdownRightAlign' is assigned a value but never used  no-unused-vars
+  Line 15:9:  'navItemClass' is assigned a value but never used        no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavRight/index.js
+  Line 3:21:   'Dropdown' is defined but never used              no-unused-vars
+  Line 3:31:   'Media' is defined but never used                 no-unused-vars
+  Line 5:8:    'axios' is defined but never used                 no-unused-vars
+  Line 7:10:   'API_SERVER' is defined but never used            no-unused-vars
+  Line 8:10:   'LOGOUT' is defined but never used                no-unused-vars
+  Line 11:9:   'account' is assigned a value but never used      no-unused-vars
+  Line 12:9:   'dispatcher' is assigned a value but never used   no-unused-vars
+  Line 14:10:  'listOpen' is assigned a value but never used     no-unused-vars
+  Line 14:20:  'setListOpen' is assigned a value but never used  no-unused-vars
+
+src/views/Catageory/Role.js
+  Line 6:1:    Assign arrow function to a variable before exporting as module default                                   import/no-anonymous-default-export
+  Line 10:8:   'remove' is assigned a value but never used                                                              no-unused-vars
+  Line 10:16:  'setRemove' is assigned a value but never used                                                           no-unused-vars
+  Line 55:21:  React Hook useEffect has a missing dependency: 'type'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+src/views/Login/Login.js
+  Line 1:17:    'Component' is defined but never used     no-unused-vars
+  Line 3:10:    'NavLink' is defined but never used       no-unused-vars
+  Line 9:10:    'login' is defined but never used         no-unused-vars
+  Line 11:29:   'Link' is defined but never used          no-unused-vars
+  Line 30:11:   'pwd' is assigned a value but never used  no-unused-vars
+  Line 109:43:  Expected '===' and instead saw '=='       eqeqeq
+  Line 109:72:  Expected '===' and instead saw '=='       eqeqeq
+
+src/views/Staff/AddEmployee.js
+  Line 4:27:    'Row' is defined but never used                                                                                                                                                                                                                                                                                                                                    no-unused-vars
+  Line 185:19:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+src/views/Staff/List.js
+  Line 7:10:  'CSVLink' is defined but never used  no-unused-vars
+
+src/views/Staff/UserProfile.js
+  Line 194:25:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+src/views/Timesheet/Timesheet.js
+  Line 16:8:    'moment' is defined but never used                                                                                                                                                               no-unused-vars
+  Line 110:13:  Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations            react/jsx-no-target-blank
+  Line 115:15:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+  Line 120:15:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+
+src/views/dashboard/DashDefault/index.js
+  Line 32:11:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+  Line 37:11:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by path static/media/ 3.39 MiB
+  assets by path static/media/*.ttf 561 KiB 7 assets
+  assets by path static/media/*.woff 309 KiB 7 assets
+  assets by path static/media/*.svg 1.88 MiB 6 assets
+  assets by path static/media/*.eot 447 KiB 6 assets
+  assets by path static/media/*.woff2 231 KiB 5 assets
+assets by path static/js/*.js 6.89 MiB
+  assets by chunk 1.56 MiB (id hint: vendors) 10 assets
+  10 assets
+asset asset-manifest.json 9.66 KiB [emitted]
+asset index.html 1.67 KiB [emitted]
+orphan modules 1.29 MiB [orphan] 765 modules
+runtime modules 31.5 KiB 16 modules
+cacheable modules 6.01 MiB (javascript) 3.39 MiB (asset)
+  modules by path ./node_modules/ 3.94 MiB 463 modules
+  modules by path ./src/ 2.05 MiB (javascript) 3.39 MiB (asset)
+    javascript modules 2.05 MiB 57 modules
+    asset modules 1.27 KiB (javascript) 3.39 MiB (asset) 31 modules
+  modules by path data:image/ 9.1 KiB
+    modules by path data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/ 6.01 KiB 23 modules
+    modules by path data:image/svg+xml,%3csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/ 595 bytes
+      data:image/svg+xml,%3csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath stroke=%27rgba%280, 0, 0, 0.5%29%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3e%3c/svg%3e 293 bytes [built] [code generated]
+      data:image/svg+xml,%3csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath stroke=%27rgba%28255, 255, 255, 0.5%29%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3e%3c/svg%3e 301 bytes [built] [code generated]
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAB80lEQVQ4T73Uv2tTURQH8O85972kxpqWNG2gOKhb21X8hXYQxCEKLp3cXNw6OIm0zTWWVjo4Cv4BIlIEF4c6FEQQi4uLZNTFYvNDiwWN9713jrxKQZOXBNLiXd89H77n3Hcv4YAXHbCH/wuOWh3kKJhSEDvjVbYtbffqKDFhrqRZ1ui+IrrB4PQfRCIieorAv1Vdoq1OcBsYY4jCV6Q0aAxuS9O8TGUQhRJeUGBZoTmQf65+lzaT0DYwvxA+1AiXBsSc+bxMjb+Lxq1mnITrpFKr3Utf7QnGMxNxdQNzvVr2niUVjFh3ioU2WMITW4uHPrbu+SdhYd6dFqK32vSy9RXaSZ6T0uiCawDmZq3srXYFx+aDs0p447N3eNPSj06Dz881a2Bvtl72nnQFh60O++LqBC5Wy/5aEpizvyaN8AcRmWwspitdwfjjWMk9VqUJn73zbSln1IxMuBcMztTK/nTPQ9kF72hBvGADoC/KOtuw/juANE5GggcMvkyq6xnjFz9ZavZMGG/Il3ScxD0C8RVAvqloRGzyAF6TaqBEFwWydoRT11rRrne5MPfzuLB/UgFPJXofz+yY1YEdcc/jpEloX49DK9qopIpYpSjuri8wLtxDAUwHnDr63dLXfYG7hzGjJjuFoT1s/2DCf9N3y51u0W9RndcVBJTNUgAAAABJRU5ErkJggg== 781 bytes [built] [code generated]
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACQUlEQVRIS+2Vz2sTURDHZ2bfJgER0e5K8WIEwR+nCuJJISBCD14EwWsK9aYgePHQbF42Aa+CFT0UDZ4Ef9Czp+g/YNCDCApSRDSbtAGR1s3bN7Khm+5mAyaBgoJ7Wmbf+35m5vt2HsIuP7jL+vD3AeyyP+dVMs1xK5+4AtvpNTzXLPwHgFX2TxPjxXgriFQ90KLOBJI0JNokSCx/ldgebt1ID45e52x3v3pFAGVN8CvapEA0Ta1WDVJFBSIfxUnziQDpTKciFsYCHHR6Epi/taqZB+EGu+Sf8qqZN/33bZPzknM/lH+kU8u+D+Mzpd5TNOBeW5qNOCRVgbW0dQyJ7nuueR4AuS+6pFaQ+EvLNWUI2ENi/qf2XyAbT1pV8ThcY5X5ELJa3bchzn28i4OqUwDb8V8S883v1ey7QSaSaUYFKwbxmgaYR9DrwPjMq2YexrO1S/41RLTCRKJ4AmCX/CIgHvdc81bqnG9DiIIiMC4Oi/fXSyZbqwbr4Gq7lvsQhhKAGWerhWg8IobNOGCQUSgA6qwnzdfh91m5mddaFONrGfikBqSOa15OAQ44vSYR3Ihv0BrurLvm3Kg/15K9AioussB6wlgNMvrbky0aMQZCTxSaixsVXBuG2I6/AICznmveTngR0xkDoK4AcBkQniNDMBBC2KsZL5FWF1q13KepAVGvVSAOg7HjGQLoHoi3XYnddGU7A/GPFYw7NceqwHL8zwRJw6YBMEBhpMnhqZhGMDV/mLvRpTTxhTNpAv8+4DdMgQkoILVAwQAAAABJRU5ErkJggg== 886 bytes [built] [code generated]
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACUklEQVRIS8XVTWgTQRQH8P+b2d0sDR4qlQqKCFVMsniwgog3BdGLKCilHiroSSgekqytB5Ei4ke7iYoevHkRKlXvggevop6smyjowYJYUOtBo8l+zJMVqU3ZbEOb4t4W5v1/vJnhDWGVP1rlfPxfQJtw90nBh+K6JKY9dZk+gvzmT0m70LKD1Ph0H5E4GTIexgZoYYlYCzyTj2LY+tEKaQ041QMM7PDs7NW4YqPsHpaB3qU4ONsYzfW3D0yxxACFqSWAKNAsVU4o8C+vaD34A/ytXYj962CKZWqmehnEWxVTN8BpUjBZ0Nd2b5pg/kYQb+q1zHmMkYrq5gFzwh2DlB/qhczddgPj1pkl95RisdGzsxebAef1pFSUr41YsysB0jeme8NA3qzbucGOAKZTGWKgp2HnrkeBHQdSTiVPhN56MXduVYDF29nxDpYFrHHe9ijNk6GvujQD6aRDDzzUpC5+isAIv9vbvrTsQC9Vb/ukLqBgzekl95ZkWheG2A0BSpqIrMBS4llI/NkvWmdw5VW3rhuXfDsz3HSLDMc9Jgj9Ssc99lk3JM96gbzv27m9hlM9DuZNTZ0QzXh2dlJ3Kk8NLRz0QlpPOvnwMAQSL71i9lETEP0YE+4AEe2EQgoaP1aKRiNAL7u7BLB2IaCAOb9gPY8AIfgaAjoIgQaDX3i2NT8gE9+DqDgCks5gqTWJgOlUntTt3P4kYKk1iUCq7G6BwmkCb4hDGPQRAncaBetd++N68crx6b40RC0uoAaVxsj298t60VYy8OLfg04lLsr5DVarICjeIYUiAAAAAElFTkSuQmCC 908 bytes [built] [code generated]
+
+LOG from ./node_modules/sass-loader/dist/cjs.js sass-loader ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[7].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[4]!./src/index.scss
+<w> Deprecation Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+<w> 
+<w> Recommendation: math.div(($r * 299) + ($g * 587) + ($b * 114), 1000) or calc((($r * 299) + ($g * 587) + ($b * 114)) / 1000)
+<w> 
+<w> More info and automated migrator: https://sass-lang.com/d/slash-div
+<w> 
+<w> src/assets/scss/partials/mixins/_function.scss 5:11         color-yiq()
+<w> src/assets/scss/partials/mixins/_buttons.scss 12:12         button-variant-pc()
+<w> src/assets/scss/partials/theme-elements/_button.scss 191:5  @import
+<w> src/assets/scss/style.scss 46:9                             @import
+<w> src/index.scss 1:9                                          root stylesheet
+<w>
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+WARNING in src/Routes.js
+  Line 7:8:  'GuestGuard' is defined but never used  no-unused-vars
+  Line 8:8:  'AuthGuard' is defined but never used   no-unused-vars
+
+src/components/Webcam/Webcam.jsx
+  Line 4:7:    'WebcamComponent' is assigned a value but never used                                                                      no-unused-vars
+  Line 16:19:  React Hook useCallback does nothing when called with only one argument. Did you forget to pass an array of dependencies?  react-hooks/exhaustive-deps
+  Line 34:11:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                 jsx-a11y/alt-text
+
+src/index.js
+  Line 3:27:  'Router' is defined but never used  no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavLeft/NavSearch/index.js
+  Line 2:10:   'Link' is defined but never used                       no-unused-vars
+  Line 7:12:   'searchString' is assigned a value but never used      no-unused-vars
+  Line 9:11:   'searchOnHandler' is assigned a value but never used   no-unused-vars
+  Line 17:11:  'searchOffHandler' is assigned a value but never used  no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavLeft/index.js
+  Line 2:21:  'Dropdown' is defined but never used                     no-unused-vars
+  Line 3:10:  'Link' is defined but never used                         no-unused-vars
+  Line 11:9:  'dropdownRightAlign' is assigned a value but never used  no-unused-vars
+  Line 15:9:  'navItemClass' is assigned a value but never used        no-unused-vars
+
+src/layouts/AdminLayout/NavBar/NavRight/index.js
+  Line 3:21:   'Dropdown' is defined but never used              no-unused-vars
+  Line 3:31:   'Media' is defined but never used                 no-unused-vars
+  Line 5:8:    'axios' is defined but never used                 no-unused-vars
+  Line 7:10:   'API_SERVER' is defined but never used            no-unused-vars
+  Line 8:10:   'LOGOUT' is defined but never used                no-unused-vars
+  Line 11:9:   'account' is assigned a value but never used      no-unused-vars
+  Line 12:9:   'dispatcher' is assigned a value but never used   no-unused-vars
+  Line 14:10:  'listOpen' is assigned a value but never used     no-unused-vars
+  Line 14:20:  'setListOpen' is assigned a value but never used  no-unused-vars
+
+src/views/Catageory/Role.js
+  Line 6:1:    Assign arrow function to a variable before exporting as module default                                   import/no-anonymous-default-export
+  Line 10:8:   'remove' is assigned a value but never used                                                              no-unused-vars
+  Line 10:16:  'setRemove' is assigned a value but never used                                                           no-unused-vars
+  Line 55:21:  React Hook useEffect has a missing dependency: 'type'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+src/views/Login/Login.js
+  Line 1:17:    'Component' is defined but never used     no-unused-vars
+  Line 3:10:    'NavLink' is defined but never used       no-unused-vars
+  Line 9:10:    'login' is defined but never used         no-unused-vars
+  Line 11:29:   'Link' is defined but never used          no-unused-vars
+  Line 30:11:   'pwd' is assigned a value but never used  no-unused-vars
+  Line 109:43:  Expected '===' and instead saw '=='       eqeqeq
+  Line 109:72:  Expected '===' and instead saw '=='       eqeqeq
+
+src/views/Staff/AddEmployee.js
+  Line 4:27:    'Row' is defined but never used                                                                                                                                                                                                                                                                                                                                    no-unused-vars
+  Line 185:19:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+src/views/Staff/List.js
+  Line 7:10:  'CSVLink' is defined but never used  no-unused-vars
+
+src/views/Staff/UserProfile.js
+  Line 194:25:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+src/views/Timesheet/Timesheet.js
+  Line 16:8:    'moment' is defined but never used                                                                                                                                                               no-unused-vars
+  Line 110:13:  Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations            react/jsx-no-target-blank
+  Line 115:15:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+  Line 120:15:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+
+src/views/dashboard/DashDefault/index.js
+  Line 32:11:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+  Line 37:11:  Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don’t need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop  jsx-a11y/img-redundant-alt
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 2 warnings in 52530 ms
+yarn run v1.22.17
+$ react-scripts start
+(node:24413) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:24413) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by path static/media/ 3.39 MiB
+  assets by path static/media/*.ttf 561 KiB 7 assets
+  assets by path static/media/*.woff 309 KiB 7 assets
+  assets by path static/media/*.svg 1.88 MiB 6 assets
+  assets by path static/media/*.eot 447 KiB 6 assets
+  assets by path static/media/*.woff2 231 KiB 5 assets
+assets by path static/js/*.js 6.89 MiB
+  assets by chunk 1.56 MiB (id hint: vendors) 10 assets
+  10 assets
+asset asset-manifest.json 9.66 KiB [emitted]
+asset index.html 1.67 KiB [emitted]
+cached modules 7.29 MiB (javascript) 3.39 MiB (asset) 31.5 KiB (runtime) [cached] 1437 modules
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 1 warning in 4903 ms
+Compiling...
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by status 5.18 MiB [cached] 49 assets
+assets by status 5.13 MiB [emitted]
+  assets by info 19 KiB [immutable]
+    asset src_views_Home_Home_js.e1db6693d9d3ce824d7b.hot-update.js 18.6 KiB [emitted] [immutable] [hmr] 1 related asset
+    asset main.e1db6693d9d3ce824d7b.hot-update.js 357 bytes [emitted] [immutable] [hmr] (name: main) 1 related asset
+    asset main.e1db6693d9d3ce824d7b.hot-update.json 53 bytes [emitted] [immutable] [hmr]
+  assets by path static/js/*.js 5.1 MiB
+    asset static/js/bundle.js 5.05 MiB [emitted] (name: main) 1 related asset
+    asset static/js/src_views_Home_Home_js.chunk.js 52.6 KiB [emitted] 1 related asset
+  asset asset-manifest.json 9.89 KiB [emitted]
+  asset index.html 1.67 KiB [emitted]
+Entrypoint main 5.05 MiB (8.5 MiB) = static/js/bundle.js 5.05 MiB main.e1db6693d9d3ce824d7b.hot-update.js 357 bytes 33 auxiliary assets
+cached modules 7.28 MiB (javascript) 3.39 MiB (asset) [cached] 1420 modules
+runtime modules 31.5 KiB 16 modules
+./src/views/Home/Home.js 14.1 KiB [built] [code generated]
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+WARNING in src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 2 warnings in 4152 ms
+Compiling...
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by status 5.18 MiB [cached] 49 assets
+assets by status 5.13 MiB [emitted]
+  assets by info 18.9 KiB [immutable]
+    asset src_views_Home_Home_js.056aa260a58efb5b0b47.hot-update.js 18.5 KiB [emitted] [immutable] [hmr] 1 related asset
+    asset main.056aa260a58efb5b0b47.hot-update.js 357 bytes [emitted] [immutable] [hmr] (name: main) 1 related asset
+    asset main.056aa260a58efb5b0b47.hot-update.json 53 bytes [emitted] [immutable] [hmr]
+  assets by path static/js/*.js 5.1 MiB
+    asset static/js/bundle.js 5.05 MiB [emitted] (name: main) 1 related asset
+    asset static/js/src_views_Home_Home_js.chunk.js 52.6 KiB [emitted] 1 related asset
+  asset asset-manifest.json 9.89 KiB [emitted]
+  asset index.html 1.67 KiB [emitted]
+Entrypoint main 5.05 MiB (8.5 MiB) = static/js/bundle.js 5.05 MiB main.056aa260a58efb5b0b47.hot-update.js 357 bytes 33 auxiliary assets
+cached modules 7.28 MiB (javascript) 3.39 MiB (asset) [cached] 1420 modules
+runtime modules 31.5 KiB 16 modules
+./src/views/Home/Home.js 14.1 KiB [built] [code generated]
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+WARNING in src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 2 warnings in 2150 ms
+Compiling...
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by status 5.18 MiB [cached] 49 assets
+assets by status 5.13 MiB [emitted]
+  assets by info 18.9 KiB [immutable]
+    asset src_views_Home_Home_js.93e802e90811be10c0ba.hot-update.js 18.5 KiB [emitted] [immutable] [hmr] 1 related asset
+    asset main.93e802e90811be10c0ba.hot-update.js 357 bytes [emitted] [immutable] [hmr] (name: main) 1 related asset
+    asset main.93e802e90811be10c0ba.hot-update.json 53 bytes [emitted] [immutable] [hmr]
+  assets by path static/js/*.js 5.1 MiB
+    asset static/js/bundle.js 5.05 MiB [emitted] (name: main) 1 related asset
+    asset static/js/src_views_Home_Home_js.chunk.js 52.6 KiB [emitted] 1 related asset
+  asset asset-manifest.json 9.89 KiB [emitted]
+  asset index.html 1.67 KiB [emitted]
+Entrypoint main 5.05 MiB (8.5 MiB) = static/js/bundle.js 5.05 MiB main.93e802e90811be10c0ba.hot-update.js 357 bytes 33 auxiliary assets
+cached modules 7.28 MiB (javascript) 3.39 MiB (asset) [cached] 1420 modules
+runtime modules 31.5 KiB 16 modules
+./src/views/Home/Home.js 14.1 KiB [built] [code generated]
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+WARNING in src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 2 warnings in 2212 ms
+Compiling...
+Compiled with warnings.
+
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+
+src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+assets by status 5.18 MiB [cached] 49 assets
+assets by status 5.13 MiB [emitted]
+  assets by info 19 KiB [immutable]
+    asset src_views_Home_Home_js.733eec55796b284d2955.hot-update.js 18.6 KiB [emitted] [immutable] [hmr] 1 related asset
+    asset main.733eec55796b284d2955.hot-update.js 357 bytes [emitted] [immutable] [hmr] (name: main) 1 related asset
+    asset main.733eec55796b284d2955.hot-update.json 53 bytes [emitted] [immutable] [hmr]
+  assets by path static/js/*.js 5.1 MiB
+    asset static/js/bundle.js 5.05 MiB [emitted] (name: main) 1 related asset
+    asset static/js/src_views_Home_Home_js.chunk.js 52.6 KiB [emitted] 1 related asset
+  asset asset-manifest.json 9.89 KiB [emitted]
+  asset index.html 1.67 KiB [emitted]
+Entrypoint main 5.05 MiB (8.5 MiB) = static/js/bundle.js 5.05 MiB main.733eec55796b284d2955.hot-update.js 357 bytes 33 auxiliary assets
+cached modules 7.28 MiB (javascript) 3.39 MiB (asset) [cached] 1420 modules
+runtime modules 31.5 KiB 16 modules
+./src/views/Home/Home.js 14.1 KiB [built] [code generated]
+
+WARNING in ./node_modules/bcryptjs/dist/bcrypt.js 68:13-45
+Module not found: Error: Can't resolve 'crypto' in '/var/www/clockin/client/node_modules/bcryptjs/dist'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+	- add a fallback 'resolve.fallback: { "crypto": require.resolve("crypto-browserify") }'
+	- install 'crypto-browserify'
+If you don't want to include a polyfill, you can use an empty module like this:
+	resolve.fallback: { "crypto": false }
+ @ ./src/views/Login/Login.js 16:15-34
+ @ ./src/Routes.js 76:37-66
+ @ ./src/App.js 6:0-48 14:16-28 14:29-35
+ @ ./src/index.js 13:0-24 22:37-40
+
+WARNING in src/views/Home/Home.js
+  Line 1:28:  'useEffect' is defined but never used  no-unused-vars
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.65.0 compiled with 2 warnings in 1144 ms
+The build failed because the process exited too early. This probably means the system ran out of memory or someone called `kill -9` on the process.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
