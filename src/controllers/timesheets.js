@@ -32,11 +32,8 @@ module.exports = async (request, reply) => {
       moment(request.query.startDate, 'DD-MM-YYYY').isValid() &&
       moment(request.query.endDate, 'DD-MM-YYYY').isValid()
     ) {
-      let startDate = moment(request.query.startDate, "DD-MM-YYYY").subtract(
-        1,
-        "days"
-      );
-      let endDate = moment(request.query.endDate, "DD-MM-YYYY").add(1, "days");
+      let startDate = moment(request.query.startDate, "DD-MM-YYYY");
+      let endDate = moment(request.query.endDate, "DD-MM-YYYY");
       let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
       if (timesheetDate.isBetween(startDate, endDate)) {
         return true;
