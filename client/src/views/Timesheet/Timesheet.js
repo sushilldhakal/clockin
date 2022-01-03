@@ -187,7 +187,7 @@ class Timesheet extends Component {
                           this.setState({
                             user: e.target.value,
                           });
-                          this.reloadTimesheet(e.target.value);
+                          setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
                         <option value=''>Select User</option>
