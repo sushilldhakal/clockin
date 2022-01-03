@@ -31,8 +31,8 @@ class Home extends Component {
           image: document.getElementById("screen-image").src,
         })
         .then((res) => {
-          localStorage.removeItem("pin");
-          window.location.href = "/";
+          localStorage.clear();
+          window.location.href = "/pin";
         })
         .catch((err) => {
           swal("Error: Something went wrong.");
@@ -50,10 +50,10 @@ class Home extends Component {
         });
       });
 
-    setTimeout(() => {
-      localStorage.removeItem("pin");
-      window.location.href = "/";
-    }, 6000);
+//    setTimeout(() => {
+ //     localStorage.removeItem("pin");
+ //     window.location.href = "/";
+ //   }, 6000);
   }
 
   render() {
