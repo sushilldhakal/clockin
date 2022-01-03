@@ -30,13 +30,13 @@ class Timesheet extends Component {
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
   }
 
-  reloadTimesheet = (user_id) => {
+  reloadTimesheet = () => {
     let obj = {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
     }
 
-    if(user_id) {
+    if(this.state.user) {
       obj.user_id = this.state.user
     }
     
