@@ -13,8 +13,6 @@ import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Form } from "react-bootstrap";
 
-import moment from "moment";
-
 class Timesheet extends Component {
   state = {
     users: [],
@@ -33,27 +31,31 @@ class Timesheet extends Component {
   }
 
   reloadTimesheet = (user_id) => {
-    if (this.state.user)
-      axios
-        .get(API_SERVER + "timesheets", {
-          params: {
-            user_id: user_id,
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
-          },
-        })
-        .then((res) => {
-          this.setState({
-            timesheets: res.data.timesheets.map((timesheet) => {
-              return {
-                ...timesheet,
-                user: this.state.users.find(
-                  (user) => user.pin === timesheet.pin
-                ),
-              };
-            }),
-          });
+    let obj = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    }
+
+    if(user_id) {
+      obj.user_id = this.state.user
+    }
+    
+    axios
+      .get(API_SERVER + "timesheets", {
+        params: obj,
+      })
+      .then((res) => {
+        this.setState({
+          timesheets: res.data.timesheets.map((timesheet) => {
+            return {
+              ...timesheet,
+              user: this.state.users.find(
+                (user) => user.pin === timesheet.pin
+              ),
+            };
+          }),
         });
+      });
   };
 
   render() {
@@ -91,8 +93,7 @@ class Timesheet extends Component {
 
       console.log(sDate);
       console.log(eDate);
-
-      this.reloadTimesheet();
+      setTimeout(this.reloadTimesheet, 100)
     };
 
     const columns = [
@@ -189,7 +190,7 @@ class Timesheet extends Component {
                           this.reloadTimesheet(e.target.value);
                         }}
                       >
-                        <option>Select User</option>
+                        <option value=''>Select User</option>
                         {this.state.users.map((user, id) => (
                           <option key={id} value={user._id}>
                             {user.name}
