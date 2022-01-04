@@ -65,34 +65,6 @@ class ListEmployee extends Component {
     this.setState({ [name]: value });
   };
 
-  componentDidMount() {
-    axios
-      .get(API_SERVER + "category/location")
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({ categoryRole: data.data });
-      })
-      .catch((err) => {});
-    axios
-      .get(API_SERVER + "category/role")
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({ categoryLocation: data.data });
-      })
-      .catch((err) => {});
-    axios
-      .get(API_SERVER + "category/Employer")
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({ categoryEmployer: data.data });
-      })
-      .catch((err) => {});
-
-    console.log(this.state.categoryRole);
-    console.log(this.state.categoryLocation);
-    console.log(this.state.categoryEmployer);
-  }
-
   //Add value from state to data array
   addNewEmployee = (e) => {
     e.preventDefault();

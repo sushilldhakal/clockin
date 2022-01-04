@@ -96,7 +96,7 @@ export default ({ type }) => {
                     Update
                   </button>
                   <button
-                    class="btn btn-danger btn-rounded btn-sm"
+                    className="btn btn-danger btn-rounded btn-sm"
                     onClick={(e) => removeList(edit.name, edit._id)}
                   >
                     Delete
@@ -105,22 +105,16 @@ export default ({ type }) => {
               )}
               <div>
                 <ListGroup>
-                  {values.map((value) => {
+                  {values.map((value, id) => {
                     return (
-                      <ListGroup.Item>
+                      <ListGroup.Item key={id}>
                         <span className="pr-2">{value.name}</span>
                         <button
-                          class="btn btn-primary btn-rounded btn-sm"
+                          className="btn btn-primary btn-rounded btn-sm"
                           onClick={() => setEdit(value)}
                         >
                           Edit
                         </button>
-                        {/* <button
-                          class="btn btn-danger btn-rounded btn-sm"
-                          onClick={() => setRemove(value)}
-                        >
-                          Remove
-                        </button> */}
                       </ListGroup.Item>
                     );
                   })}

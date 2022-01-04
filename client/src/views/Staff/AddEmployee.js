@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import { Form, Col, Card, Row } from "react-bootstrap";
-
 import { API_SERVER } from "../../config/constant";
 
 import swal from "sweetalert";
@@ -45,6 +44,39 @@ export const AddEmployee = (props) => {
       });
   };
 
+  const categoryRoleDetail = (e) => {
+    axios
+      .get(API_SERVER + "category/location")
+      .then((res) => {
+        setValues(res.data);
+      })
+      .catch((res) => {
+        alert("Something went wrong");
+      });
+  };
+
+  console.log(values);
+
+  // const categoryLocation = (e) => {
+  //   axios
+  //     .get(API_SERVER + "category/role")
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       this.setState({ categoryLocation: data.data });
+  //     })
+  //     .catch((err) => {});
+  // };
+
+  // const categoryEmployer = (e) => {
+  //   axios
+  //     .get(API_SERVER + "category/Employer")
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       this.setState({ categoryEmployer: data.data });
+  //     })
+  //     .catch((err) => {});
+  // };
+
   const [employee, setEmployee] = useState(defaultEmployee);
 
   return (
@@ -74,6 +106,7 @@ export const AddEmployee = (props) => {
 
                 <Form.Group as={Col} controlId="formGridPin">
                   <Form.Label>PIN</Form.Label>
+
                   <input
                     id="formGridPin"
                     type="number"
