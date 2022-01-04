@@ -1,7 +1,7 @@
 export const BASENAME = ""; // don't add '/' at end off BASENAME
 export const BASE_URL = "/pin";
 export const BASE_TITLE = " | Timesheet ClockIn ";
-export const API_SERVER = "https://clockin.tk/api/";
+export const API_SERVER = "https://localhost:4000/api/";
 
 export const CONFIG = {
   layout: "vertical",
