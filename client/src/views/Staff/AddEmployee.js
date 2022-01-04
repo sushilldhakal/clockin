@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import { Form, Col, Card, Row } from "react-bootstrap";
+
 import { API_SERVER } from "../../config/constant";
 
 import swal from "sweetalert";
@@ -19,6 +20,9 @@ const defaultEmployee = {
   dob: "",
   category: [],
 };
+
+const val = Math.floor(1000 + Math.random() * 9000);
+
 export const AddEmployee = (props) => {
   function setEmployeeDetails(obj) {
     setEmployee({
@@ -26,9 +30,9 @@ export const AddEmployee = (props) => {
       ...obj,
     });
   }
+  let [values, setValues] = useState([]);
 
   const add = (employee) => {
-    console.log(employee);
     axios
       .post(API_SERVER + "add-employee", employee)
       .then((res) => {
@@ -42,8 +46,6 @@ export const AddEmployee = (props) => {
   };
 
   const [employee, setEmployee] = useState(defaultEmployee);
-
-  console.log(employee);
 
   return (
     <form className="add-employee-form" onSubmit={() => add(employee)}>
@@ -77,18 +79,27 @@ export const AddEmployee = (props) => {
                     type="number"
                     name="pin"
                     className="form-control"
-                    value={employee.pin}
+                    value={val}
                     onChange={(e) =>
                       setEmployeeDetails({ pin: e.target.value })
                     }
-                    placeholder="Pin"
+                    placeholder="PIN"
                     maxLength="4"
                     minLength="4"
                   />
                 </Form.Group>
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridRole">
+                <Form.Group as={Col} controlId="exampleForm.formGridRole">
+                  <Form.Label>Select Role</Form.Label>
+                  <Form.Control as="select">
+                    <option value="">Select Role</option>
+                    <option value="">Select Role</option>
+                    <option value="">Select Role</option>
+                    <option value="">Select Role</option>
+                  </Form.Control>
+                </Form.Group>
+                {/* <Form.Group as={Col} controlId="formGridRole">
                   <Form.Label>Job Role</Form.Label>
                   <input
                     id="formGridRole"
@@ -101,9 +112,19 @@ export const AddEmployee = (props) => {
                     }
                     placeholder="Job Role"
                   />
+                </Form.Group> */}
+
+                <Form.Group as={Col} controlId="exampleForm.formGridHire">
+                  <Form.Label>Select Employer</Form.Label>
+                  <Form.Control as="select">
+                    <option value="">Select Employer</option>
+                    <option value="">Select Employer</option>
+                    <option value="">Select Employer</option>
+                    <option value="">Select Employer</option>
+                  </Form.Control>
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridHire">
+                {/* <Form.Group as={Col} controlId="formGridHire">
                   <Form.Label>Employer</Form.Label>
                   <input
                     id="formGridHire"
@@ -116,9 +137,19 @@ export const AddEmployee = (props) => {
                     }
                     placeholder="Employer"
                   />
+                </Form.Group> */}
+
+                <Form.Group as={Col} controlId="exampleForm.formGridSite">
+                  <Form.Label>Select Location</Form.Label>
+                  <Form.Control as="select">
+                    <option value="">Select Location</option>
+                    <option value="">Select Location</option>
+                    <option value="">Select Location</option>
+                    <option value="">Select Location</option>
+                  </Form.Control>
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridSite">
+                {/* <Form.Group as={Col} controlId="formGridSite">
                   <Form.Label>Job Location</Form.Label>
                   <input
                     id="formGridSite"
@@ -131,7 +162,7 @@ export const AddEmployee = (props) => {
                     }
                     placeholder="Job Location"
                   />
-                </Form.Group>
+                </Form.Group> */}
               </Form.Row>
 
               <Form.Row>
