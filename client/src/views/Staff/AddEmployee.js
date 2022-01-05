@@ -44,18 +44,16 @@ export const AddEmployee = (props) => {
       });
   };
 
-  const categoryRoleDetail = (e) => {
+  const role = () => {
     axios
-      .get(API_SERVER + "category/location")
+      .get(API_SERVER + "category/role")
       .then((res) => {
-        setValues(res.data);
+        return res.data;
       })
       .catch((res) => {
         alert("Something went wrong");
       });
   };
-
-  console.log(values);
 
   // const categoryLocation = (e) => {
   //   axios

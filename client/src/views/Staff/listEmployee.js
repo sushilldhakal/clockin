@@ -128,7 +128,6 @@ class ListEmployee extends Component {
   };
 
   render() {
-    console.log(this.state.category);
     return (
       <React.Fragment>
         <Row>
