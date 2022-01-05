@@ -1,16 +1,17 @@
-const add_employee = require("./controllers/add_employee");
-const admin_login = require("./controllers/admin_login");
-const clock = require("./controllers/clock");
-const employees = require("./controllers/employees");
-const get_timesheets = require("./controllers/get_timesheets");
-const login = require("./controllers/login");
-const timesheets = require("./controllers/timesheets");
-const dashboard = require("./controllers/dashboard");
+const add_employee         = require("./controllers/add_employee");
+const admin_login          = require("./controllers/admin_login");
+const clock                = require("./controllers/clock");
+const employees            = require("./controllers/employees");
+const get_timesheets       = require("./controllers/get_timesheets");
+const login                = require("./controllers/login");
+const timesheets           = require("./controllers/timesheets");
+const dashboard            = require("./controllers/dashboard");
 const get_staff_timesheets = require("./controllers/get_staff_timesheets");
-const add_category = require("./controllers/add_category");
-const get_category = require("./controllers/get_category");
-const update_category = require("./controllers/update_category");
-const delete_category = require("./controllers/delete_category");
+const add_category         = require("./controllers/add_category");
+const get_category         = require("./controllers/get_category");
+const update_category      = require("./controllers/update_category");
+const delete_category      = require("./controllers/delete_category");
+const update_employee      = require('./controllers/update_employee');
 
 const fastify = require("fastify")({ logger: true });
 
@@ -41,6 +42,8 @@ fastify.put("/api/category/:category_type/:category_id", update_category);
 fastify.delete("/api/category/:category_type/:category_id", delete_category);
 
 fastify.get("/api/category/:category_type", get_category);
+
+fastify.post('/api/employee/update/:employee_id', update_employee)
 
 const start = async () => {
   try {
