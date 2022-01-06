@@ -1,5 +1,6 @@
 const connect = require("../config/connect");
-const moment = require("moment");
+//const moment = require("moment");
+const moment = require("moment-timezone");
 
 module.exports = (request, reply) => {
 
@@ -12,7 +13,7 @@ module.exports = (request, reply) => {
   let data = {
     pin: request.body.pin,
     type: request.params.type,
-    date: moment().format("DD-MM-yyyy"),
+    date: moment().tz("Australia/melbourne").format("DD-MM-yyyy"),
   };
   connect()
     .then((client) => {
@@ -24,7 +25,7 @@ module.exports = (request, reply) => {
             message: "User already clocked " + request.params.type + " today",
           });
         } else {
-          data.time = moment().format("LLLL");
+          data.time = moment().tz("Australia/melbourne").format("LLLL");
           data.image = request.body.image;
           collection.insertOne(data).then(() => {
             reply.send({
