@@ -10,7 +10,9 @@ const get_staff_timesheets = require("./controllers/get_staff_timesheets");
 const add_category = require("./controllers/add_category");
 const get_category = require("./controllers/get_category");
 const update_category = require("./controllers/update_category");
-// const delete_category = require("./controllers/delete_category");
+const delete_category = require("./controllers/delete_category");
+const update_employee = require("./controllers/update_employee");
+const delete_employee = require("./controllers/delete_employee");
 
 const fastify = require("fastify")({ logger: true });
 
@@ -38,18 +40,21 @@ fastify.post("/api/category/:category_type", add_category);
 
 fastify.put("/api/category/:category_type/:category_id", update_category);
 
-// fastify.delete("/api/category/:category_type/:category_id", delete_category);
+fastify.delete("/api/category/:category_type/:category_id", delete_category);
 
 fastify.get("/api/category/:category_type", get_category);
 
+fastify.post("/api/employee/update/:employee_id", update_employee);
+
+fastify.delete("/api/employees/:employee_id", delete_employee);
+
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT || 4000,'0.0.0.0');
+    await fastify.listen(process.env.PORT || 4000, "0.0.0.0");
     fastify.log.info(`server listening on ${fastify.server.address().port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
   }
 };
-
 start();

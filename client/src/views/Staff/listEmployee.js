@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import List from "./List";
-// import Form from '../Components/Form'
 import { AddEmployee } from "./AddEmployee";
 import uuidv1 from "uuid";
-
 import { API_SERVER } from "../../config/constant";
-
 import { Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
 
@@ -23,6 +20,9 @@ class ListEmployee extends Component {
     site: "",
     pin: "",
     dob: "",
+    categoryRole: [],
+    categoryLocation: [],
+    categoryEmployer: [],
     edit: false,
   };
 
@@ -39,12 +39,34 @@ class ListEmployee extends Component {
 
   componentDidMount() {
     this.retrieveData = this.retrieveData.bind(this);
+    this.retrieveRole = this.retrieveRole.bind(this);
+    this.retrieveLocation = this.retrieveLocation.bind(this);
+    this.retrieveEmployer = this.retrieveEmployer.bind(this);
     this.retrieveData();
+    this.retrieveRole();
+    this.retrieveLocation();
+    this.retrieveEmployer();
   }
 
   retrieveData() {
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({ data: res.data });
+    });
+  }
+
+  retrieveRole() {
+    axios.get(API_SERVER + "category/role").then((res) => {
+      this.setState({ categoryRole: res.data });
+    });
+  }
+  retrieveLocation() {
+    axios.get(API_SERVER + "category/location").then((res) => {
+      this.setState({ categoryLocation: res.data });
+    });
+  }
+  retrieveEmployer() {
+    axios.get(API_SERVER + "category/employer").then((res) => {
+      this.setState({ categoryEmployer: res.data });
     });
   }
 
@@ -68,7 +90,7 @@ class ListEmployee extends Component {
     const { name, role, hire, site, email, phone, pin, dob } = this.state;
 
     if (!name || !role || !hire || !site || !phone || !email || !pin || !dob) {
-      alert("Fill the fields");
+      alert("Fill all the fields");
     } else {
       const newEmployee = {
         id: this.state.id,
@@ -94,23 +116,23 @@ class ListEmployee extends Component {
     }
   };
 
-  editEmployee = (id) => {
-    const editEmployee = this.state.data.find((item) => item.id === id);
-    this.setState({
-      data: editEmployee.name,
-      show: true,
-      name: editEmployee.name,
-      role: editEmployee.role,
-      hire: editEmployee.hire,
-      site: editEmployee.site,
-      email: editEmployee.email,
-      phone: editEmployee.phone,
-      pin: editEmployee.pin,
-      dob: editEmployee.dob,
-      edit: true,
-      id: editEmployee.id,
-    });
-  };
+  // editEmployee = (id) => {
+  //   const editEmployee = this.state.data.find((item) => item.id === id);
+  //   this.setState({
+  //     data: editEmployee.name,
+  //     show: true,
+  //     name: editEmployee.name,
+  //     role: editEmployee.role,
+  //     hire: editEmployee.hire,
+  //     site: editEmployee.site,
+  //     email: editEmployee.email,
+  //     phone: editEmployee.phone,
+  //     pin: editEmployee.pin,
+  //     dob: editEmployee.dob,
+  //     edit: true,
+  //     id: editEmployee.id
+  //   });
+  // };
 
   //Clear state from data array
   handleClearList = () => {
@@ -125,6 +147,12 @@ class ListEmployee extends Component {
   };
 
   render() {
+    const getRole = this.state.categoryRole;
+    const getLocation = this.state.categoryLocation;
+    const getEmployer = this.state.categoryEmployer;
+    // console.log(getRole);
+    // console.log(getLocation);
+    // console.log(getEmployer);
     return (
       <React.Fragment>
         <Row>
@@ -160,15 +188,18 @@ class ListEmployee extends Component {
                       pin={this.state.pin}
                       dob={this.state.dob}
                       edit={this.state.edit}
-                      getNewEmployee={this.getNewEmployee}
+                      getNewEmployee={this.state.getNewEmployee}
                       addNewEmployee={this.addNewEmployee}
+                      retrieveRole={getRole}
+                      retrieveLocation={getLocation}
+                      retrieveEmployer={getEmployer}
                     />
                   )}
                 </div>
                 <List
                   key={this.state.id}
                   deleteEmployee={this.deleteEmployee}
-                  editEmployee={this.editEmployee}
+                  //editEmployee={this.editEmployee}
                   handleClearList={this.handleClearList}
                   getFilterData={this.getFilterData}
                 />

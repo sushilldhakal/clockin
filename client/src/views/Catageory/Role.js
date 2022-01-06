@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col } from "react-bootstrap";
+import { Card, Col, ListGroup } from "react-bootstrap";
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 
@@ -48,8 +48,17 @@ export default ({ type }) => {
       });
   };
 
-  const del = (value, id) => {
+  const removeList = (value, id) => {
     console.log(id);
+    axios
+      .delete(API_SERVER + "category/" + type.toLocaleLowerCase() + "/" + id)
+      .then((res) => {
+        reload();
+        setEdit("");
+      })
+      .catch((res) => {
+        alert("Something went wrong");
+      });
   };
 
   useEffect(reload, []);
@@ -69,7 +78,12 @@ export default ({ type }) => {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                   />
-                  <button onClick={(e) => add(type, value)}>Add</button>
+                  <button
+                    className="btn btn-warning"
+                    onClick={(e) => add(type, value)}
+                  >
+                    Add
+                  </button>
                 </Col>
               )}
               {edit && (
@@ -81,27 +95,30 @@ export default ({ type }) => {
                   <button onClick={(e) => update(edit.name, edit._id)}>
                     Update
                   </button>
+                  <button
+                    className="btn btn-danger btn-rounded btn-sm"
+                    onClick={(e) => removeList(edit.name, edit._id)}
+                  >
+                    Delete
+                  </button>
                 </Col>
               )}
               <div>
-                <ul>
-                  {values.map((value) => {
+                <ListGroup>
+                  {values.map((value, id) => {
                     return (
-                      <li>
-                        {value.name}{" "}
+                      <ListGroup.Item key={id}>
+                        <span className="pr-2">{value.name}</span>
                         <button
-                          class="btn btn-primary btn-rounded btn-sm"
+                          className="btn btn-primary btn-rounded btn-sm"
                           onClick={() => setEdit(value)}
                         >
                           Edit
-                        </button>{" "}
-                        <button onClick={(e) => del(value.name, value.id)}>
-                          Remove
                         </button>
-                      </li>
+                      </ListGroup.Item>
                     );
                   })}
-                </ul>
+                </ListGroup>
               </div>
             </Card.Body>
           </Card>

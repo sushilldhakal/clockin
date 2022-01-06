@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import { Form, Col, Card, Row } from "react-bootstrap";
+
 import { API_SERVER } from "../../config/constant";
 
 import swal from "sweetalert";
@@ -19,6 +20,9 @@ const defaultEmployee = {
   dob: "",
   category: [],
 };
+
+const val = Math.floor(1000 + Math.random() * 9000);
+
 export const AddEmployee = (props) => {
   function setEmployeeDetails(obj) {
     setEmployee({
@@ -27,8 +31,29 @@ export const AddEmployee = (props) => {
     });
   }
 
+  const [numeroAleatorio, setNumeroAleatorio] = useState(0);
+  const [employee, setEmployee] = useState(defaultEmployee);
+
+  const [pin, setPin] = useState(defaultEmployee);
+
+  const object = props;
+
+  const gerarNumero = () => {
+    const newNumber = Math.floor(1000 + Math.random() * 9000);
+    setNumeroAleatorio(newNumber);
+    setEmployeeDetails({ pin: newNumber });
+  };
+
+  const staffRole = object.retrieveRole.map((o) => o.name);
+  const staffLocation = object.retrieveLocation.map((o) => o.name);
+  const staffEmployer = object.retrieveEmployer.map((o) => o.name);
+  const usersRoleCollection = [].concat(...staffRole);
+  const usersLocationCollection = [].concat(...staffLocation);
+  const usersEmployerCollection = [].concat(...staffEmployer);
+
+  console.log(usersRoleCollection[0]);
+
   const add = (employee) => {
-    console.log(employee);
     axios
       .post(API_SERVER + "add-employee", employee)
       .then((res) => {
@@ -40,8 +65,6 @@ export const AddEmployee = (props) => {
         swal(err.response.data.message);
       });
   };
-
-  const [employee, setEmployee] = useState(defaultEmployee);
 
   console.log(employee);
 
@@ -70,70 +93,86 @@ export const AddEmployee = (props) => {
                   />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridPin">
+                <Form.Group
+                  as={Col}
+                  controlId="formGridPin"
+                  id="custom-pinGroup"
+                >
                   <Form.Label>PIN</Form.Label>
+                  <a
+                    href="#"
+                    className="btn btn-default btn-rounded btn-small btn-custom"
+                    onClick={gerarNumero}
+                  >
+                    Generate Pin
+                  </a>
                   <input
                     id="formGridPin"
                     type="number"
                     name="pin"
                     className="form-control"
-                    value={employee.pin}
+                    value={numeroAleatorio}
                     onChange={(e) =>
                       setEmployeeDetails({ pin: e.target.value })
                     }
-                    placeholder="Pin"
+                    placeholder="PIN"
                     maxLength="4"
                     minLength="4"
                   />
                 </Form.Group>
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridRole">
-                  <Form.Label>Job Role</Form.Label>
-                  <input
-                    id="formGridRole"
-                    type="text"
-                    name="role"
-                    className="form-control"
-                    value={employee.role}
+                <Form.Group as={Col} controlId="exampleForm.formGridRole">
+                  <Form.Label>Select Role</Form.Label>
+                  <Form.Control
+                    as="select"
                     onChange={(e) =>
                       setEmployeeDetails({ role: e.target.value })
                     }
-                    placeholder="Job Role"
-                  />
+                  >
+                    <option>Select Role</option>
+                    {usersRoleCollection.map((role) => (
+                      <option key={role} value={role}>
+                        {role}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridHire">
-                  <Form.Label>Employer</Form.Label>
-                  <input
-                    id="formGridHire"
-                    type="text"
-                    name="hire"
-                    className="form-control"
-                    value={employee.hire}
+                <Form.Group as={Col} controlId="exampleForm.formGridHire">
+                  <Form.Label>Select Employer</Form.Label>
+                  <Form.Control
+                    as="select"
                     onChange={(e) =>
                       setEmployeeDetails({ hire: e.target.value })
                     }
-                    placeholder="Employer"
-                  />
+                  >
+                    <option>Select Employer</option>
+                    {usersEmployerCollection.map((employer) => (
+                      <option key={employer} value={employer}>
+                        {employer}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridSite">
-                  <Form.Label>Job Location</Form.Label>
-                  <input
-                    id="formGridSite"
-                    type="text"
-                    name="site"
-                    className="form-control"
-                    value={employee.site}
+                <Form.Group as={Col} controlId="exampleForm.formGridSite">
+                  <Form.Label>Select Location</Form.Label>
+                  <Form.Control
+                    as="select"
                     onChange={(e) =>
                       setEmployeeDetails({ site: e.target.value })
                     }
-                    placeholder="Job Location"
-                  />
+                  >
+                    <option>Select Location</option>
+                    {usersLocationCollection.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
               </Form.Row>
-
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>

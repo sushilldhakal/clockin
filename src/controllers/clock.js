@@ -3,12 +3,13 @@ const connect = require("../config/connect");
 const moment = require("moment-timezone");
 
 module.exports = (request, reply) => {
-
-  if(request.body.pin === null) {
-    return reply.response({
-      status: "error",
-      message: "Invalid pin"
-    }).code(400);
+  if (request.body.pin === null) {
+    return reply
+      .response({
+        status: "error",
+        message: "Invalid pin",
+      })
+      .code(400);
   }
   let data = {
     pin: request.body.pin,

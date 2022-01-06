@@ -63,8 +63,6 @@ class Timesheet extends Component {
       console.log(`current date: ${currenDate}`);
     };
 
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
     const handleWeekPick = (startDate, endDate) => {
       const months = [
         "Jan",
@@ -111,11 +109,6 @@ class Timesheet extends Component {
         sortable: false,
         cell: (d) => (
           <div className="image-popover">
-            {/* <a
-              href={d.image}
-              onClick="window.open(d.image);return false;"
-              target="_blank"
-            > */}
             <img
               src={d.image}
               className="img-circle rounded-circle"
@@ -127,7 +120,6 @@ class Timesheet extends Component {
               alt="user"
               onClick={() => window.open(d.image, "_blank")}
             />
-            {/* </a> */}
           </div>
         ),
       },
@@ -170,6 +162,8 @@ class Timesheet extends Component {
       columns,
       data: getTimesheet,
     };
+
+    console.log(this.state.user);
 
     return (
       <div>
