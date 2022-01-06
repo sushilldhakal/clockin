@@ -4,6 +4,8 @@ import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
+import swal from "sweetalert";
+
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
@@ -12,7 +14,7 @@ class UserProfile extends Component {
   state = {
     show: false,
     timesheets: [],
-    user: false,
+    user: false
   };
 
   componentDidMount() {
@@ -21,7 +23,7 @@ class UserProfile extends Component {
       .then((res) => {
         this.setState({
           timesheets: res.data.timesheets,
-          user: res.data.user[0],
+          user: res.data.user[0]
         });
       })
       .catch((err) => {
@@ -30,21 +32,18 @@ class UserProfile extends Component {
   }
   handleShowForm = () => {
     this.setState({
-      show: !this.state.show,
+      show: !this.state.show
     });
   };
 
   handleRemove(id, e) {
     axios
       .delete(API_SERVER + "employees/" + id)
-
       .then((res) => {
-        console.log(res);
         console.log(res.data);
-
         const user = this.state.user.filter((item) => item.id !== id);
         this.setState({ user });
-        alert("User Removed");
+        swal("User Removed");
         window.location.href = "/dashboard/staff";
       })
       .catch((err) => {
@@ -62,43 +61,43 @@ class UserProfile extends Component {
       {
         name: "Date",
         selector: (row) => row["date"],
-        sortable: true,
+        sortable: true
       },
       {
         name: "Clock In",
         selector: (row) => row["in"],
-        sortable: false,
+        sortable: false
       },
       {
         name: "Break Start",
         selector: (row) => row["break"],
-        sortable: true,
+        sortable: true
       },
       {
         name: "Break End",
         selector: (row) => row["endBreak"],
-        sortable: true,
+        sortable: true
       },
       {
         name: "Clock Out",
         selector: (row) => row["out"],
-        sortable: true,
+        sortable: true
       },
       {
         name: "Break hours",
         selector: (row) => row["btotal"],
-        sortable: true,
+        sortable: true
       },
       {
         name: "Total hours",
         selector: (row) => row["total"],
-        sortable: true,
-      },
+        sortable: true
+      }
     ];
 
     const tableData = {
       columns,
-      data: timesheets,
+      data: timesheets
     };
     return (
       <div>

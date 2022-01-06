@@ -25,5 +25,5 @@ export const CONFIG = {
   configBlock: true,
   layout6Background:
     "linear-gradient(to right, #A445B2 0%, #D41872 52%, #FF0066 100%)",
-  layout6BackSize: "",
+  layout6BackSize: ""
 };

@@ -2,29 +2,27 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Card, Col, Form, Button } from "react-bootstrap";
 import { API_SERVER } from "../../config/constant";
+import swal from "sweetalert";
 
 export default ({ user, onUpdate }) => {
   console.log(user);
 
   const [employee, setUser] = useState(user);
+  const [isDisabled, setIsDisabled] = useState();
 
-  const [category, setCategory] = useState(user);
+  const handleClick = () => {
+    setIsDisabled(!isDisabled);
+  };
 
   const updateEmployee = () => {
     axios
       .post(API_SERVER + "employee/update/" + employee._id, employee)
       .then((res) => {
-        alert("User updated successfully");
+        swal("User updated successfully");
         onUpdate();
       });
   };
-  const getCategoryRole = () => {
-    axios
-      .get(API_SERVER + "category/", +category.type, category)
-      .then((res) => {
-        alert("User updated successfully");
-      });
-  };
+
   return (
     <form className="add-employee-form">
       <div className="container-add-employee">
@@ -43,13 +41,22 @@ export default ({ user, onUpdate }) => {
               />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridPin">
+            <Form.Group as={Col} controlId="formGridPin" id="custom-pinGroup">
               <Form.Label>PIN</Form.Label>
+              <a
+                href="#"
+                className="btn btn-default btn-rounded btn-custom"
+                onClick={handleClick}
+              >
+                Edit Pin
+              </a>
               <input
                 id="formGridPin"
                 type="number"
                 name="pin"
+                onChange={(e) => setUser({ ...employee, pin: e.target.value })}
                 value={employee.pin}
+                disabled={isDisabled}
                 className="form-control"
                 placeholder="Pin"
                 maxLength="4"

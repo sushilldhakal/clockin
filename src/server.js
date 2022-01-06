@@ -46,7 +46,7 @@ fastify.get("/api/category/:category_type", get_category);
 
 fastify.post("/api/employee/update/:employee_id", update_employee);
 
-fastify.post("/api/employees/:employee_id", delete_employee);
+fastify.delete("/api/employees/:employee_id", delete_employee);
 
 const start = async () => {
   try {
