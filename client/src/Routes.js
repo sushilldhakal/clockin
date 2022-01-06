@@ -46,72 +46,72 @@ export const renderRoutes = (routes = []) => (
 );
 
 const routes = [
-  {
-    exact: true,
-    guard: PublicRoute,
-    path: "/login",
-    component: lazy(() => import("./views/Login/Login")),
-  },
-  {
-    exact: true,
-    guard: PublicRoute,
-    path: "/pin",
-    component: lazy(() => import("./views/Pin/Pin")),
-  },
-  {
-    exact: true,
-    guard: PublicRoute,
-    path: "/home",
-    component: lazy(() => import("./views/Home/Home")),
-  },
+  // {
+  //   exact: true,
+  //   guard: PublicRoute,
+  //   path: "/login",
+  //   component: lazy(() => import("./views/Login/Login")),
+  // },
+  // {
+  //   exact: true,
+  //   guard: PublicRoute,
+  //   path: "/pin",
+  //   component: lazy(() => import("./views/Pin/Pin")),
+  // },
+  // {
+  //   exact: true,
+  //   guard: PublicRoute,
+  //   path: "/home",
+  //   component: lazy(() => import("./views/Home/Home")),
+  // },
   {
     path: "*",
     layout: AdminLayout,
-    guard: PrivateRoute,
+    guard: PublicRoute,
     routes: [
       {
         exact: true,
         path: "/dashboard",
-        component: lazy(() => import("./views/dashboard/DashDefault")),
+        component: lazy(() => import("./views/dashboard/DashDefault"))
       },
       {
         exact: true,
         path: "/dashboard/staff",
-        component: lazy(() => import("./views/Staff/Staff")),
+        component: lazy(() => import("./views/Staff/Staff"))
       },
       {
         exact: true,
         path: "/dashboard/each-staff/:staff_id",
-        component: lazy(() => import("./views/Staff/UserProfile")),
+        component: lazy(() => import("./views/Staff/UserProfile"))
       },
-      {
-        exact: true,
-        path: "/dashboard/user",
-        component: lazy(() => import("./views/Staff/UserProfile")),
-      },
-      {
-        exact: true,
-        path: "/dashboard/staff/*",
-        component: lazy(() => import("./views/Staff/Staff")),
-      },
-      {
-        exact: true,
-        path: "/dashboard/timesheet",
-        component: lazy(() => import("./views/Timesheet/Timesheet")),
-      },
-      {
-        exact: true,
-        path: "/dashboard/catageory",
-        component: lazy(() => import("./views/Catageory/Catageory")),
-      },
+      // {
+      //   exact: true,
+      //   path: "/dashboard/user",
+      //   component: lazy(() => import("./views/Staff/UserProfile")),
+      // },
+      // {
+      //   exact: true,
+      //   path: "/dashboard/staff/*",
+      //   component: lazy(() => import("./views/Staff/Staff")),
+      // },
+      // {
+      //   exact: true,
+      //   path: "/dashboard/timesheet",
+      //   component: lazy(() => import("./views/Timesheet/Timesheet")),
+      // },
+      // {
+      //   exact: true,
+      //   path: "/dashboard/catageory",
+      //   component: lazy(() => import("./views/Catageory/Catageory")),
+      // },
 
       {
         path: "*",
         exact: true,
-        component: () => <Redirect to={BASE_URL} />,
-      },
-    ],
-  },
+        component: () => <Redirect to={BASE_URL} />
+      }
+    ]
+  }
 ];
 
 export default routes;

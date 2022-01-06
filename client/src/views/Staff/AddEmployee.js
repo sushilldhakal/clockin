@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import { Form, Col, Card, Row } from "react-bootstrap";
+
 import { API_SERVER } from "../../config/constant";
 
 import swal from "sweetalert";
@@ -17,7 +18,7 @@ const defaultEmployee = {
   email: "",
   phone: "",
   dob: "",
-  category: [],
+  category: []
 };
 
 const val = Math.floor(1000 + Math.random() * 9000);
@@ -26,11 +27,23 @@ export const AddEmployee = (props) => {
   function setEmployeeDetails(obj) {
     setEmployee({
       ...employee,
-      ...obj,
+      ...obj
     });
   }
-  let [values, setValues] = useState([]);
 
+  const [employee, setEmployee] = useState(defaultEmployee);
+  const object = props;
+
+  const staffRole = object.retrieveRole.map((o) => o.name);
+  const staffLocation = object.retrieveLocation.map((o) => o.name);
+  const staffEmployer = object.retrieveEmployer.map((o) => o.name);
+  const usersRoleCollection = [].concat(...staffRole);
+  const usersLocationCollection = [].concat(...staffLocation);
+  const usersEmployerCollection = [].concat(...staffEmployer);
+  console.log(usersRoleCollection);
+  // console.log(usersLocationCollection);
+  // console.log(usersEmployerCollection);
+  //console.log(object);
   const add = (employee) => {
     axios
       .post(API_SERVER + "add-employee", employee)
@@ -43,39 +56,6 @@ export const AddEmployee = (props) => {
         swal(err.response.data.message);
       });
   };
-
-  const role = () => {
-    axios
-      .get(API_SERVER + "category/role")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((res) => {
-        alert("Something went wrong");
-      });
-  };
-
-  // const categoryLocation = (e) => {
-  //   axios
-  //     .get(API_SERVER + "category/role")
-  //     .then(({ data }) => {
-  //       console.log(data);
-  //       this.setState({ categoryLocation: data.data });
-  //     })
-  //     .catch((err) => {});
-  // };
-
-  // const categoryEmployer = (e) => {
-  //   axios
-  //     .get(API_SERVER + "category/Employer")
-  //     .then(({ data }) => {
-  //       console.log(data);
-  //       this.setState({ categoryEmployer: data.data });
-  //     })
-  //     .catch((err) => {});
-  // };
-
-  const [employee, setEmployee] = useState(defaultEmployee);
 
   return (
     <form className="add-employee-form" onSubmit={() => add(employee)}>
@@ -123,13 +103,20 @@ export const AddEmployee = (props) => {
               <Form.Row>
                 <Form.Group as={Col} controlId="exampleForm.formGridRole">
                   <Form.Label>Select Role</Form.Label>
-                  <Form.Control as="select">
-                    <option value="">Select Role</option>
-                    <option value="">Select Role</option>
-                    <option value="">Select Role</option>
-                    <option value="">Select Role</option>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) =>
+                      setEmployeeDetails({ role: e.target.value })
+                    }
+                  >
+                    {usersRoleCollection.map((role, id) => (
+                      <option key={id} value={role._id}>
+                        {role.name}
+                      </option>
+                    ))}
                   </Form.Control>
                 </Form.Group>
+
                 {/* <Form.Group as={Col} controlId="formGridRole">
                   <Form.Label>Job Role</Form.Label>
                   <input
@@ -144,7 +131,6 @@ export const AddEmployee = (props) => {
                     placeholder="Job Role"
                   />
                 </Form.Group> */}
-
                 <Form.Group as={Col} controlId="exampleForm.formGridHire">
                   <Form.Label>Select Employer</Form.Label>
                   <Form.Control as="select">
@@ -154,7 +140,6 @@ export const AddEmployee = (props) => {
                     <option value="">Select Employer</option>
                   </Form.Control>
                 </Form.Group>
-
                 {/* <Form.Group as={Col} controlId="formGridHire">
                   <Form.Label>Employer</Form.Label>
                   <input
@@ -169,7 +154,6 @@ export const AddEmployee = (props) => {
                     placeholder="Employer"
                   />
                 </Form.Group> */}
-
                 <Form.Group as={Col} controlId="exampleForm.formGridSite">
                   <Form.Label>Select Location</Form.Label>
                   <Form.Control as="select">
@@ -179,7 +163,6 @@ export const AddEmployee = (props) => {
                     <option value="">Select Location</option>
                   </Form.Control>
                 </Form.Group>
-
                 {/* <Form.Group as={Col} controlId="formGridSite">
                   <Form.Label>Job Location</Form.Label>
                   <input

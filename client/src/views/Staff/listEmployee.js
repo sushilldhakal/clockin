@@ -26,7 +26,7 @@ class ListEmployee extends Component {
     categoryRole: [],
     categoryLocation: [],
     categoryEmployer: [],
-    edit: false,
+    edit: false
   };
 
   // Get and Set value from form
@@ -42,12 +42,34 @@ class ListEmployee extends Component {
 
   componentDidMount() {
     this.retrieveData = this.retrieveData.bind(this);
+    this.retrieveRole = this.retrieveRole.bind(this);
+    this.retrieveLocation = this.retrieveLocation.bind(this);
+    this.retrieveEmployer = this.retrieveEmployer.bind(this);
     this.retrieveData();
+    this.retrieveRole();
+    this.retrieveLocation();
+    this.retrieveEmployer();
   }
 
   retrieveData() {
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({ data: res.data });
+    });
+  }
+
+  retrieveRole() {
+    axios.get(API_SERVER + "category/role").then((res) => {
+      this.setState({ categoryRole: res.data });
+    });
+  }
+  retrieveLocation() {
+    axios.get(API_SERVER + "category/location").then((res) => {
+      this.setState({ categoryLocation: res.data });
+    });
+  }
+  retrieveEmployer() {
+    axios.get(API_SERVER + "category/employer").then((res) => {
+      this.setState({ categoryEmployer: res.data });
     });
   }
 
@@ -82,7 +104,7 @@ class ListEmployee extends Component {
         email,
         phone,
         pin,
-        dob,
+        dob
       };
 
       axios
@@ -111,7 +133,7 @@ class ListEmployee extends Component {
       pin: editEmployee.pin,
       dob: editEmployee.dob,
       edit: true,
-      id: editEmployee.id,
+      id: editEmployee.id
     });
   };
 
@@ -123,11 +145,17 @@ class ListEmployee extends Component {
   //Show form
   handleShowForm = () => {
     this.setState({
-      show: !this.state.show,
+      show: !this.state.show
     });
   };
 
   render() {
+    const getRole = this.state.categoryRole;
+    const getLocation = this.state.categoryLocation;
+    const getEmployer = this.state.categoryEmployer;
+    // console.log(getRole);
+    // console.log(getLocation);
+    // console.log(getEmployer);
     return (
       <React.Fragment>
         <Row>
@@ -163,8 +191,11 @@ class ListEmployee extends Component {
                       pin={this.state.pin}
                       dob={this.state.dob}
                       edit={this.state.edit}
-                      getNewEmployee={this.getNewEmployee}
+                      getNewEmployee={this.state.getNewEmployee}
                       addNewEmployee={this.addNewEmployee}
+                      retrieveRole={getRole}
+                      retrieveLocation={getLocation}
+                      retrieveEmployer={getEmployer}
                     />
                   )}
                 </div>
