@@ -11,11 +11,15 @@ module.exports = async (request, reply) => {
   const user = await collection.findOne({
     _id: ObjectId(request.params.employee_id)
   });
-  console.log(user);
 
   await db
     .collection("employees")
     .deleteOne({ _id: ObjectId(request.params.employee_id) });
+
+  // delete related timesheets using users pin
+  await db.collection("timesheets").deleteMany({
+    pin: user.pin
+  });
 
   client.close();
   reply.send({
