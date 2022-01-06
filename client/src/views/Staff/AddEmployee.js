@@ -43,38 +43,6 @@ export const AddEmployee = (props) => {
         swal(err.response.data.message);
       });
   };
-
-  const role = () => {
-    axios
-      .get(API_SERVER + "category/role")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((res) => {
-        alert("Something went wrong");
-      });
-  };
-
-  // const categoryLocation = (e) => {
-  //   axios
-  //     .get(API_SERVER + "category/role")
-  //     .then(({ data }) => {
-  //       console.log(data);
-  //       this.setState({ categoryLocation: data.data });
-  //     })
-  //     .catch((err) => {});
-  // };
-
-  // const categoryEmployer = (e) => {
-  //   axios
-  //     .get(API_SERVER + "category/Employer")
-  //     .then(({ data }) => {
-  //       console.log(data);
-  //       this.setState({ categoryEmployer: data.data });
-  //     })
-  //     .catch((err) => {});
-  // };
-
   const [employee, setEmployee] = useState(defaultEmployee);
 
   return (
@@ -130,21 +98,6 @@ export const AddEmployee = (props) => {
                     <option value="">Select Role</option>
                   </Form.Control>
                 </Form.Group>
-                {/* <Form.Group as={Col} controlId="formGridRole">
-                  <Form.Label>Job Role</Form.Label>
-                  <input
-                    id="formGridRole"
-                    type="text"
-                    name="role"
-                    className="form-control"
-                    value={employee.role}
-                    onChange={(e) =>
-                      setEmployeeDetails({ role: e.target.value })
-                    }
-                    placeholder="Job Role"
-                  />
-                </Form.Group> */}
-
                 <Form.Group as={Col} controlId="exampleForm.formGridHire">
                   <Form.Label>Select Employer</Form.Label>
                   <Form.Control as="select">
@@ -154,22 +107,6 @@ export const AddEmployee = (props) => {
                     <option value="">Select Employer</option>
                   </Form.Control>
                 </Form.Group>
-
-                {/* <Form.Group as={Col} controlId="formGridHire">
-                  <Form.Label>Employer</Form.Label>
-                  <input
-                    id="formGridHire"
-                    type="text"
-                    name="hire"
-                    className="form-control"
-                    value={employee.hire}
-                    onChange={(e) =>
-                      setEmployeeDetails({ hire: e.target.value })
-                    }
-                    placeholder="Employer"
-                  />
-                </Form.Group> */}
-
                 <Form.Group as={Col} controlId="exampleForm.formGridSite">
                   <Form.Label>Select Location</Form.Label>
                   <Form.Control as="select">
@@ -179,23 +116,7 @@ export const AddEmployee = (props) => {
                     <option value="">Select Location</option>
                   </Form.Control>
                 </Form.Group>
-
-                {/* <Form.Group as={Col} controlId="formGridSite">
-                  <Form.Label>Job Location</Form.Label>
-                  <input
-                    id="formGridSite"
-                    type="text"
-                    name="site"
-                    className="form-control"
-                    value={employee.site}
-                    onChange={(e) =>
-                      setEmployeeDetails({ site: e.target.value })
-                    }
-                    placeholder="Job Location"
-                  />
-                </Form.Group> */}
               </Form.Row>
-
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>

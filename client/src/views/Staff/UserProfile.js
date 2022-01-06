@@ -100,7 +100,6 @@ class UserProfile extends Component {
       columns,
       data: timesheets,
     };
-
     return (
       <div>
         <Card>
