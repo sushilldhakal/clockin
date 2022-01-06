@@ -40,10 +40,9 @@ export const AddEmployee = (props) => {
   const usersRoleCollection = [].concat(...staffRole);
   const usersLocationCollection = [].concat(...staffLocation);
   const usersEmployerCollection = [].concat(...staffEmployer);
-  console.log(usersRoleCollection);
-  // console.log(usersLocationCollection);
-  // console.log(usersEmployerCollection);
-  //console.log(object);
+
+  console.log(usersRoleCollection[0]);
+
   const add = (employee) => {
     axios
       .post(API_SERVER + "add-employee", employee)
@@ -109,74 +108,48 @@ export const AddEmployee = (props) => {
                       setEmployeeDetails({ role: e.target.value })
                     }
                   >
-                    {usersRoleCollection.map((role, id) => (
-                      <option key={id} value={role._id}>
-                        {role.name}
+                    <option>Select Role</option>
+                    {usersRoleCollection.map((role) => (
+                      <option key={role} value={role}>
+                        {role}
                       </option>
                     ))}
                   </Form.Control>
                 </Form.Group>
 
-                {/* <Form.Group as={Col} controlId="formGridRole">
-                  <Form.Label>Job Role</Form.Label>
-                  <input
-                    id="formGridRole"
-                    type="text"
-                    name="role"
-                    className="form-control"
-                    value={employee.role}
-                    onChange={(e) =>
-                      setEmployeeDetails({ role: e.target.value })
-                    }
-                    placeholder="Job Role"
-                  />
-                </Form.Group> */}
                 <Form.Group as={Col} controlId="exampleForm.formGridHire">
                   <Form.Label>Select Employer</Form.Label>
-                  <Form.Control as="select">
-                    <option value="">Select Employer</option>
-                    <option value="">Select Employer</option>
-                    <option value="">Select Employer</option>
-                    <option value="">Select Employer</option>
-                  </Form.Control>
-                </Form.Group>
-                {/* <Form.Group as={Col} controlId="formGridHire">
-                  <Form.Label>Employer</Form.Label>
-                  <input
-                    id="formGridHire"
-                    type="text"
-                    name="hire"
-                    className="form-control"
-                    value={employee.hire}
+                  <Form.Control
+                    as="select"
                     onChange={(e) =>
                       setEmployeeDetails({ hire: e.target.value })
                     }
-                    placeholder="Employer"
-                  />
-                </Form.Group> */}
-                <Form.Group as={Col} controlId="exampleForm.formGridSite">
-                  <Form.Label>Select Location</Form.Label>
-                  <Form.Control as="select">
-                    <option value="">Select Location</option>
-                    <option value="">Select Location</option>
-                    <option value="">Select Location</option>
-                    <option value="">Select Location</option>
+                  >
+                    <option>Select Employer</option>
+                    {usersEmployerCollection.map((employer) => (
+                      <option key={employer} value={employer}>
+                        {employer}
+                      </option>
+                    ))}
                   </Form.Control>
                 </Form.Group>
-                {/* <Form.Group as={Col} controlId="formGridSite">
-                  <Form.Label>Job Location</Form.Label>
-                  <input
-                    id="formGridSite"
-                    type="text"
-                    name="site"
-                    className="form-control"
-                    value={employee.site}
+
+                <Form.Group as={Col} controlId="exampleForm.formGridSite">
+                  <Form.Label>Select Location</Form.Label>
+                  <Form.Control
+                    as="select"
                     onChange={(e) =>
                       setEmployeeDetails({ site: e.target.value })
                     }
-                    placeholder="Job Location"
-                  />
-                </Form.Group> */}
+                  >
+                    <option>Select Location</option>
+                    {usersLocationCollection.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
               </Form.Row>
 
               <Form.Row>
