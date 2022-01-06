@@ -34,7 +34,7 @@ export default ({ user, onUpdate }) => {
               />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridPin">
+            <Form.Group as={Col} controlId="formGridPin" id="custom-pinGroup">
               <Form.Label>PIN</Form.Label>
               <input
                 id="formGridPin"
