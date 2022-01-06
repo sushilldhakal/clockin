@@ -50,10 +50,10 @@ class Home extends Component {
         });
       });
 
-    // setTimeout(() => {
-    //   localStorage.removeItem("pin");
-    //   window.location.href = "/";
-    // }, 6000);
+     setTimeout(() => {
+       localStorage.removeItem("pin");
+       window.location.href = "/";
+     }, 6000);
   }
 
   render() {
