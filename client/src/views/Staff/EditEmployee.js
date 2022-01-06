@@ -5,14 +5,7 @@ import { API_SERVER } from "../../config/constant";
 import swal from "sweetalert";
 
 export default ({ user, onUpdate }) => {
-  console.log(user);
-
   const [employee, setUser] = useState(user);
-  const [isDisabled, setIsDisabled] = useState();
-
-  const handleClick = () => {
-    setIsDisabled(!isDisabled);
-  };
 
   const updateEmployee = () => {
     axios
@@ -41,22 +34,14 @@ export default ({ user, onUpdate }) => {
               />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridPin" id="custom-pinGroup">
+            <Form.Group as={Col} controlId="formGridPin">
               <Form.Label>PIN</Form.Label>
-              <a
-                href="#"
-                className="btn btn-default btn-rounded btn-custom"
-                onClick={handleClick}
-              >
-                Edit Pin
-              </a>
               <input
                 id="formGridPin"
                 type="number"
                 name="pin"
                 onChange={(e) => setUser({ ...employee, pin: e.target.value })}
                 value={employee.pin}
-                disabled={isDisabled}
                 className="form-control"
                 placeholder="Pin"
                 maxLength="4"
