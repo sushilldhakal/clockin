@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import PinInput from "react-pin-input";
 import axios from "axios";
 import moment from "moment";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 import "./Pin.css";
 
 class Pin extends Component {
   state = {
     value: "",
-    currentTime: moment().format("LT")
+    currentTime: moment().format("LT"),
   };
 
   onChange = (value) => {
@@ -18,7 +18,7 @@ class Pin extends Component {
 
   onClear = () => {
     this.setState({
-      value: ""
+      value: "",
     });
     this.pin.clear();
   };
@@ -27,7 +27,7 @@ class Pin extends Component {
     //e.preventDefault();
     axios
       .post(process.env.REACT_APP_BASE_URL + "auth/login", {
-        pin: this.state.value
+        pin: this.state.value,
       })
       .then((res) => {
         console.log(this.pin);
@@ -54,7 +54,6 @@ class Pin extends Component {
           onChange={this.onChange}
           onComplete={this.onSubmitHandler}
         />
-       
       </div>
     );
   }
