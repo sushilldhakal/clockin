@@ -15,14 +15,24 @@ import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Form } from "react-bootstrap";
 
+const today = new Date();
+const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
+const sunday = new Date(today.setDate(today.getDate() - today.getDay() + 7));
+
+const addOne = monday.getMonth() + 1;
+const addOne1 = sunday.getMonth() + 1;
+const getMonday = monday.getDate() + "-" + addOne + "-" + monday.getFullYear();
+const getSunday = sunday.getDate() + "-" + addOne1 + "-" + sunday.getFullYear();
+
 class Timesheet extends Component {
   state = {
     users: [],
     user: "",
     timesheets: [],
-    startDate: moment(new Date()).format("DD-MM-YYYY"),
-    endDate: moment(new Date()).format("DD-MM-YYYY"),
+    startDate: getMonday,
+    endDate: getSunday,
   };
+
   componentDidMount() {
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({
@@ -198,10 +208,12 @@ class Timesheet extends Component {
                   </Col>
                   <Col md={6}>
                     <Form.Label>Select Week</Form.Label>
+                    <span className="pl-2 pr-2">{this.state.startDate}</span>To
+                    <span className="pl-2">{this.state.endDate}</span>
                     <WeeklyCalendar
                       onWeekPick={handleWeekPick}
-                      jumpToCurrentWeekRequired={true}
-                      onJumpToCurrentWeek={handleJumpToCurrentWeek}
+                      //jumpToCurrentWeekRequired={true}
+                      //onJumpToCurrentWeek={handleJumpToCurrentWeek}
                     />
                   </Col>
                 </Row>

@@ -5,6 +5,7 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
+import swal from "sweetalert";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
 
@@ -31,16 +32,28 @@ class UserProfile extends Component {
         console.log(err);
       });
 
-    axios
-      .get(API_SERVER + "category/role")
-      .then((res) => {
-        this.setState({
-          role: res.data.role,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.retrieveRole = this.retrieveRole.bind(this);
+    this.retrieveLocation = this.retrieveLocation.bind(this);
+    this.retrieveEmployer = this.retrieveEmployer.bind(this);
+    this.retrieveRole();
+    this.retrieveLocation();
+    this.retrieveEmployer();
+  }
+
+  retrieveRole() {
+    axios.get(API_SERVER + "category/role").then((res) => {
+      this.setState({ categoryRole: res.data });
+    });
+  }
+  retrieveLocation() {
+    axios.get(API_SERVER + "category/location").then((res) => {
+      this.setState({ categoryLocation: res.data });
+    });
+  }
+  retrieveEmployer() {
+    axios.get(API_SERVER + "category/employer").then((res) => {
+      this.setState({ categoryEmployer: res.data });
+    });
   }
 
   handleShowForm = () => {
@@ -54,13 +67,14 @@ class UserProfile extends Component {
       .delete(API_SERVER + "employees/" + id)
 
       .then((res) => {
-        console.log(res);
         console.log(res.data);
-
-        const user = this.state.user.filter((item) => item.id !== id);
-        this.setState({ user });
-        alert("User Removed");
-        window.location.href = "/dashboard/staff";
+        swal({
+          title: "User Deleted",
+          text: "User Deleted Sucessfull, please click on ok to go back to staff listing page",
+          icon: "success",
+        }).then(function () {
+          window.location.href = "/dashboard/staff";
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -143,9 +157,9 @@ class UserProfile extends Component {
             {this.state.user && this.state.show && (
               <EditEmployee
                 user={this.state.user}
-                role={this.state.role}
-                location={this.state.location}
-                employer={this.state.employer}
+                role={this.state.categoryRole}
+                location={this.state.categoryLocation}
+                employer={this.state.categoryEmployer}
                 onUpdate={(e) => this.setState({ show: false })}
               />
             )}

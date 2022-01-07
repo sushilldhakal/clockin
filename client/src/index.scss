@@ -17,6 +17,17 @@
     }
   }
 }
+btn-hover:hover {
+  background-color: #576274;
+  color: #fff !important;
+  cursor: pointer;
+}
+a {
+  cursor: pointer;
+}
+select {
+  -webkit-appearance: listbox !important;
+}
 #custom-pinGroup {
   position: relative;
 }
@@ -36,6 +47,11 @@ a.btn-custom {
   border: 1px solid #3f4d67;
   background-color: #3f4d67;
   color: #fff;
+}
+a.btn-custom:hover {
+  color: #fff;
+  cursor: pointer;
+  background: #5c677c;
 }
 
 .user-home-clocksheet {

@@ -4,7 +4,7 @@ import { Card, Col, Form, Button } from "react-bootstrap";
 import { API_SERVER } from "../../config/constant";
 import swal from "sweetalert";
 
-export default ({ user, onUpdate }) => {
+export default ({ user, role, location, employer, onUpdate }) => {
   const [employee, setUser] = useState(user);
 
   const updateEmployee = () => {
@@ -53,42 +53,54 @@ export default ({ user, onUpdate }) => {
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridRole">
-              <Form.Label>Job Role</Form.Label>
-              <input
-                id="formGridRole"
-                type="text"
-                name="role"
-                onChange={(e) => setUser({ ...employee, role: e.target.value })}
+              <Form.Label>Select Role</Form.Label>
+              <Form.Control
+                aria-label="Default select example"
+                as="select"
                 value={employee.role}
-                className="form-control"
-                placeholder="Job Role"
-              />
+                onChange={(e) => setUser({ ...employee, role: e.target.value })}
+              >
+                <option>Select Role</option>
+                {role.map((rolename) => (
+                  <option key={rolename._id} value={rolename.name}>
+                    {rolename.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridHire">
-              <Form.Label>Employer</Form.Label>
-              <input
-                id="formGridHire"
-                type="text"
-                name="hire"
-                onChange={(e) => setUser({ ...employee, hire: e.target.value })}
-                value={employee.hire}
-                className="form-control"
-                placeholder="Employer"
-              />
+              <Form.Label>Select Employer</Form.Label>
+              <Form.Control
+                aria-label="Default select example"
+                as="select"
+                value={employee.site}
+                onChange={(e) => setUser({ ...employee, site: e.target.value })}
+              >
+                <option>Select Role</option>
+                {location.map((site) => (
+                  <option key={site._id} value={site.name}>
+                    {site.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridSite">
-              <Form.Label>Job Location</Form.Label>
-              <input
-                id="formGridSite"
-                type="text"
-                name="site"
-                onChange={(e) => setUser({ ...employee, site: e.target.value })}
+              <Form.Label>Select Job Location</Form.Label>
+              <Form.Control
+                aria-label="Default select example"
+                as="select"
                 value={employee.site}
-                className="form-control"
-                placeholder="Job Location"
-              />
+                onChange={(e) => setUser({ ...employee, site: e.target.value })}
+              >
+                <option>Select Role</option>
+                {location.map((site) => (
+                  <option key={site._id} value={site.name}>
+                    {site.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
           </Form.Row>
 

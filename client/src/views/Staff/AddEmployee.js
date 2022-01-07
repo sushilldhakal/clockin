@@ -31,7 +31,7 @@ export const AddEmployee = (props) => {
     });
   }
 
-  const [numeroAleatorio, setNumeroAleatorio] = useState(0);
+  const [numeroAleatorio, setNumeroAleatorio] = useState(1111);
   const [employee, setEmployee] = useState(defaultEmployee);
 
   const [pin, setPin] = useState(defaultEmployee);
@@ -51,22 +51,27 @@ export const AddEmployee = (props) => {
   const usersLocationCollection = [].concat(...staffLocation);
   const usersEmployerCollection = [].concat(...staffEmployer);
 
-  console.log(usersRoleCollection[0]);
-
   const add = (employee) => {
-    axios
-      .post(API_SERVER + "add-employee", employee)
-      .then((res) => {
-        swal(res.data.message);
-        setEmployee(defaultEmployee);
-        window.location.reload();
-      })
-      .catch((err) => {
-        swal(err.response.data.message);
-      });
+    if (employee.pin === null) {
+      alert("please generate a pin before");
+    } else {
+      axios
+        .post(API_SERVER + "add-employee", employee)
+        .then((res) => {
+          setEmployee(defaultEmployee);
+          swal({
+            title: "User Added",
+            text: "User added Sucessfull, please click on ok to load user list",
+            icon: "success",
+          }).then(function () {
+            window.location.reload();
+          });
+        })
+        .catch((err) => {
+          swal(err.response.data.message);
+        });
+    }
   };
-
-  console.log(employee);
 
   return (
     <form className="add-employee-form" onSubmit={() => add(employee)}>
@@ -101,7 +106,7 @@ export const AddEmployee = (props) => {
                   <Form.Label>PIN</Form.Label>
                   <a
                     href="#"
-                    className="btn btn-default btn-rounded btn-small btn-custom"
+                    className="btn btn-hover btn-default btn-rounded btn-small btn-custom"
                     onClick={gerarNumero}
                   >
                     Generate Pin
