@@ -39,9 +39,9 @@ export const AddEmployee = (props) => {
   const object = props;
 
   const gerarNumero = () => {
-    const newNumber = Math.floor(1000 + Math.random() * 9000);
-    setNumeroAleatorio(newNumber);
-    setEmployeeDetails({ pin: newNumber });
+    const newNumber = "" + Math.floor(1000 + Math.random() * 9000);
+    setNumeroAleatorio(newNumber.toString());
+    setEmployeeDetails({ pin: newNumber.toString() });
   };
 
   const staffRole = object.retrieveRole.map((o) => o.name);
@@ -110,6 +110,7 @@ export const AddEmployee = (props) => {
                     id="formGridPin"
                     type="number"
                     name="pin"
+                    disabled
                     className="form-control"
                     value={numeroAleatorio}
                     onChange={(e) =>

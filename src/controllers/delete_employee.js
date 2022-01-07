@@ -9,7 +9,7 @@ module.exports = async (request, reply) => {
 
   // update empoloyee
   const user = await collection.findOne({
-    _id: ObjectId(request.params.employee_id)
+    _id: ObjectId(request.params.employee_id),
   });
 
   await db
@@ -18,11 +18,11 @@ module.exports = async (request, reply) => {
 
   // delete related timesheets using users pin
   await db.collection("timesheets").deleteMany({
-    pin: user.pin
+    pin: user.pin,
   });
 
   client.close();
   reply.send({
-    message: "Employee deleted successfully"
+    message: "Employee deleted successfully",
   });
 };

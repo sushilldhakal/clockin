@@ -16,6 +16,8 @@ export default ({ user, onUpdate }) => {
       });
   };
 
+  console.log(employee);
+
   return (
     <form className="add-employee-form">
       <div className="container-add-employee">
