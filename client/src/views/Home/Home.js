@@ -32,7 +32,7 @@ class Home extends Component {
         })
         .then((res) => {
           localStorage.clear();
-          window.location.href = "/pin";
+          this.props.history.push("/");
         })
         .catch((err) => {
           swal("Error: Something went wrong.");
@@ -50,10 +50,10 @@ class Home extends Component {
         });
       });
 
-     setTimeout(() => {
-       localStorage.removeItem("pin");
-       window.location.href = "/";
-     }, 6000);
+    setTimeout(() => {
+      localStorage.removeItem("pin");
+      this.props.history.push("/");
+    }, 8000);
   }
 
   render() {
