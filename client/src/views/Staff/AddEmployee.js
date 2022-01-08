@@ -52,8 +52,23 @@ export const AddEmployee = (props) => {
   const usersEmployerCollection = [].concat(...staffEmployer);
 
   const add = (employee) => {
-    if (employee.pin === null) {
-      alert("please generate a pin before");
+    if (
+      !employee.pin ||
+      !employee.email ||
+      !employee.name ||
+      !employee.role ||
+      !employee.hire ||
+      !employee.site ||
+      !employee.phone ||
+      !employee.dob
+    ) {
+      swal({
+        title: "Error",
+        text: "Please enter all the fields",
+        icon: "error",
+        button: "Go Back",
+      });
+      console.log(employee);
     } else {
       axios
         .post(API_SERVER + "add-employee", employee)

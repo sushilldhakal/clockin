@@ -8,12 +8,36 @@ export default ({ user, role, location, employer, onUpdate }) => {
   const [employee, setUser] = useState(user);
 
   const updateEmployee = () => {
-    axios
-      .post(API_SERVER + "employee/update/" + employee._id, employee)
-      .then((res) => {
-        swal("User updated successfully");
-        onUpdate();
+    if (
+      !employee.pin ||
+      !employee.email ||
+      !employee.name ||
+      !employee.role ||
+      !employee.hire ||
+      !employee.site ||
+      !employee.phone ||
+      !employee.dob
+    ) {
+      swal({
+        title: "Error",
+        text: "Please enter all the fields",
+        icon: "error",
+        button: "Go Back",
       });
+      console.log(employee);
+    } else {
+      axios
+        .post(API_SERVER + "employee/update/" + employee._id, employee)
+        .then((res) => {
+          swal({
+            title: "Staff Detail Updated",
+            text: "Staff details has been updated.",
+            icon: "success",
+            button: "OK",
+          });
+          onUpdate();
+        });
+    }
   };
 
   console.log(employee);
