@@ -98,13 +98,13 @@ export default ({ user, role, location, employer, onUpdate }) => {
               <Form.Control
                 aria-label="Default select example"
                 as="select"
-                value={employee.site}
-                onChange={(e) => setUser({ ...employee, site: e.target.value })}
+                value={employee.hire}
+                onChange={(e) => setUser({ ...employee, hire: e.target.value })}
               >
-                <option>Select Role</option>
-                {location.map((site) => (
-                  <option key={site._id} value={site.name}>
-                    {site.name}
+                <option>Select Employer</option>
+                {employer.map((hire) => (
+                  <option key={hire._id} value={hire.name}>
+                    {hire.name}
                   </option>
                 ))}
               </Form.Control>
@@ -118,7 +118,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
                 value={employee.site}
                 onChange={(e) => setUser({ ...employee, site: e.target.value })}
               >
-                <option>Select Role</option>
+                <option>Select Location</option>
                 {location.map((site) => (
                   <option key={site._id} value={site.name}>
                     {site.name}
