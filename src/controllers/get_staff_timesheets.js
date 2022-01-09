@@ -23,9 +23,11 @@ module.exports = async (request, reply) => {
       times[timesheet.date] = {};
     }
     times[timesheet.date]["date"] = timesheet.date;
+    times[timesheet.date][timesheet.type] = {};
     times[timesheet.date][timesheet.type] = moment(timesheet.time).format(
       "HH:mm:ss"
     );
+    times[timesheet.date]["image" + timesheet.type] = timesheet.image;
 
     // moment add time difference in hours
   });

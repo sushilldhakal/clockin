@@ -13,7 +13,10 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
-import { Row, Col, Card, Form } from "react-bootstrap";
+import { Row, Col, Card, Form, Accordion } from "react-bootstrap";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
@@ -29,6 +32,7 @@ class Timesheet extends Component {
     users: [],
     user: "",
     timesheets: [],
+    timeLog: [],
     startDate: getMonday,
     endDate: getSunday,
   };
@@ -110,12 +114,12 @@ class Timesheet extends Component {
     const columns = [
       {
         name: "date",
-        selector: "date",
+        selector: (row) => row["date"],
         sortable: true,
       },
       {
         name: "Staff Image",
-        selector: "image",
+        selector: (row) => row["image"],
         sortable: false,
         cell: (d) => (
           <div className="image-popover">
@@ -135,7 +139,7 @@ class Timesheet extends Component {
       },
       {
         name: "Name",
-        selector: "name",
+        selector: (row) => row["name"],
         sortable: false,
         cell: (d) => (
           <Link to={"/dashboard/each-staff/" + d.user._id}>{d.name}</Link>
@@ -143,27 +147,27 @@ class Timesheet extends Component {
       },
       {
         name: "Employee",
-        selector: "hire",
+        selector: (row) => row["hire"],
         sortable: false,
       },
       {
         name: "Job Role",
-        selector: "role",
+        selector: (row) => row["role"],
         sortable: true,
       },
       {
         name: "Location",
-        selector: "site",
+        selector: (row) => row["site"],
         sortable: true,
       },
       {
         name: "Type",
-        selector: "type",
+        selector: (row) => row["type"],
         sortable: true,
       },
       {
         name: "Logged In time",
-        selector: "time",
+        selector: (row) => row["time"],
         sortable: true,
       },
     ];
@@ -173,7 +177,9 @@ class Timesheet extends Component {
       data: getTimesheet,
     };
 
-    console.log(this.state.user);
+    const userTimesheet = this.state.timesheets;
+
+    console.log(userTimesheet);
 
     return (
       <div>
@@ -233,6 +239,46 @@ class Timesheet extends Component {
               </Card.Body>
             </Card>
           </Col>
+          {/* <Accordion defaultActiveKey="0" flush>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>3-1-2022 To 9-1-2022</Accordion.Header>
+              <Accordion.Body>
+                <Card>
+                  <Card.Header>
+                    <span className="float-start">Total Hours</span>
+
+                    <span className="float-end">40hrs</span>
+                  </Card.Header>
+                </Card>
+                <Card>
+                  <Card.Header>
+                    <Card.Title>
+                      <i className="far fa-calendar-alt"></i>
+                      <span className="align-left">Mon, 3 Jan</span>
+                    </Card.Title>
+                  </Card.Header>
+
+                  <Card.Body>
+                    <Row>
+                      <Col>
+                        <i className="far fa-clock"></i>
+                        8:00am - 4:30pm
+                        <br />
+                        <i className="fas fa-mug-hot"></i>
+                        30min
+                      </Col>
+                      <Col>
+                        <span className="float-end">
+                          <i className="fas fa-hourglass-half"></i>
+                          8hrs
+                        </span>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion> */}
         </Row>
       </div>
     );
