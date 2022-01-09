@@ -25,7 +25,7 @@ const DashDefault = () => {
   const columns = [
     {
       name: "Staff Image",
-      selector: "image",
+      selector: (row) => row["image"],
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
@@ -45,39 +45,39 @@ const DashDefault = () => {
     },
     {
       name: "Date",
-      selector: "date",
+      selector: (row) => row["date"],
       sortable: true,
     },
     {
       name: "Time",
-      selector: "time",
+      selector: (row) => row["time"],
       sortable: true,
       cell: (d) => <span>{d.time}</span>,
     },
     {
       name: "Type",
-      selector: "type",
+      selector: (row) => row["type"],
       sortable: true,
     },
     {
       name: "Name",
-      selector: "userDetail",
+      selector: (row) => row["userDetail"],
       sortable: true,
       cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
       name: "Role",
-      selector: "role",
+      selector: (row) => row["role"],
       sortable: true,
     },
     {
       name: "Employe",
-      selector: "hire",
+      selector: (row) => row["hire"],
       sortable: true,
     },
     {
       name: "Location",
-      selector: "site",
+      selector: (row) => row["site"],
       sortable: true,
     },
   ];

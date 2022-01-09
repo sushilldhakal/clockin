@@ -97,7 +97,7 @@ export const AddEmployee = (props) => {
               <Card.Title as="h5">Add New Staff</Card.Title>
             </Card.Header>
             <Card.Body>
-              <Form.Row>
+              <div className="form-row">
                 <Form.Group as={Col} controlId="formGridName">
                   <Form.Label>Full Name</Form.Label>
                   <input
@@ -141,8 +141,8 @@ export const AddEmployee = (props) => {
                     minLength="4"
                   />
                 </Form.Group>
-              </Form.Row>
-              <Form.Row>
+              </div>
+              <div className="form-row">
                 <Form.Group as={Col} controlId="exampleForm.formGridRole">
                   <Form.Label>Select Role</Form.Label>
                   <Form.Control
@@ -193,8 +193,8 @@ export const AddEmployee = (props) => {
                     ))}
                   </Form.Control>
                 </Form.Group>
-              </Form.Row>
-              <Form.Row>
+              </div>
+              <div className="form-row">
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>
                   <input
@@ -239,8 +239,8 @@ export const AddEmployee = (props) => {
                     placeholder="DOB"
                   />
                 </Form.Group>
-              </Form.Row>
-              <Form.Row>
+              </div>
+              <div className="form-row">
                 <Form.Group as={Col} controlId="formGridDob">
                   <a
                     className="btn btn-success"
@@ -250,7 +250,7 @@ export const AddEmployee = (props) => {
                     Add Employee
                   </a>
                 </Form.Group>
-              </Form.Row>
+              </div>
             </Card.Body>
           </Card>
         </Col>

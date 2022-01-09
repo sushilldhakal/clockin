@@ -28,6 +28,22 @@ a {
 select {
   -webkit-appearance: listbox !important;
 }
+.accordion-body .card {
+  margin-bottom: 0px;
+}
+.accordion-body .card-header {
+  padding: 10px 20px;
+}
+.accordion-body .card-body {
+  padding: 10px 25px;
+}
+
+.accordion-item i {
+  padding-right: 5px;
+}
+.accordion-item {
+  border: 1px solid #3f4d67 !important;
+}
 #custom-pinGroup {
   position: relative;
 }
@@ -39,7 +55,12 @@ select {
 a {
   cursor: pointer !important;
 }
-
+.accordion-body .card-header .card-title {
+  width: 200px;
+  overflow: hidden;
+  height: 25px;
+  margin: 0;
+}
 a.btn-custom {
   padding: 6px 10px;
   outline: #3f4d67;
@@ -250,6 +271,7 @@ form.add-employee-form .col-sm-3 {
 }
 .image-popover {
   cursor: pointer;
+  position: relative;
 }
 
 .image-popover .show-on-popover {
