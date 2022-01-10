@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Form, Col, Card, Row } from "react-bootstrap";
 
 import { API_SERVER } from "../../config/constant";
-
+import FileBase64 from "react-file-base64";
 import swal from "sweetalert";
 
 import "./Staff";
@@ -18,7 +18,8 @@ const defaultEmployee = {
   email: "",
   phone: "",
   dob: "",
-  category: [],
+  img: "",
+  comment: "",
 };
 
 const val = Math.floor(1000 + Math.random() * 9000);
@@ -30,18 +31,22 @@ export const AddEmployee = (props) => {
       ...obj,
     });
   }
-
-  const [numeroAleatorio, setNumeroAleatorio] = useState(1111);
+  const [numeroAleatorio, setNumeroAleatorio] = useState();
   const [employee, setEmployee] = useState(defaultEmployee);
-
-  const [pin, setPin] = useState(defaultEmployee);
-
+  const [img, setImg] = useState(defaultEmployee);
   const object = props;
 
   const gerarNumero = () => {
     const newNumber = "" + Math.floor(1000 + Math.random() * 9000);
     setNumeroAleatorio(newNumber.toString());
     setEmployeeDetails({ pin: newNumber });
+  };
+
+  const getFiles = (e) => {
+    let files = e;
+    let userImage = files.base64;
+    console.log(userImage);
+    setEmployeeDetails({ img: userImage });
   };
 
   const staffRole = object.retrieveRole.map((o) => o.name);
@@ -52,23 +57,21 @@ export const AddEmployee = (props) => {
   const usersEmployerCollection = [].concat(...staffEmployer);
 
   const add = (employee) => {
-    if (
-      !employee.pin ||
-      !employee.email ||
-      !employee.name ||
-      !employee.role ||
-      !employee.hire ||
-      !employee.site ||
-      !employee.phone ||
-      !employee.dob
-    ) {
+    if (!employee.pin) {
+      swal({
+        title: "Error",
+        text: "Please Generate Pin",
+        icon: "error",
+        button: "Go Back",
+      });
+    }
+    if (!employee.name || !employee.role || !employee.hire || !employee.site) {
       swal({
         title: "Error",
         text: "Please enter all the fields",
         icon: "error",
         button: "Go Back",
       });
-      console.log(employee);
     } else {
       axios
         .post(API_SERVER + "add-employee", employee)
@@ -97,7 +100,7 @@ export const AddEmployee = (props) => {
               <Card.Title as="h5">Add New Staff</Card.Title>
             </Card.Header>
             <Card.Body>
-              <div className="form-row">
+              <div className="form-row mb-4">
                 <Form.Group as={Col} controlId="formGridName">
                   <Form.Label>Full Name</Form.Label>
                   <input
@@ -142,7 +145,7 @@ export const AddEmployee = (props) => {
                   />
                 </Form.Group>
               </div>
-              <div className="form-row">
+              <div className="form-row mb-4">
                 <Form.Group as={Col} controlId="exampleForm.formGridRole">
                   <Form.Label>Select Role</Form.Label>
                   <Form.Control
@@ -194,7 +197,7 @@ export const AddEmployee = (props) => {
                   </Form.Control>
                 </Form.Group>
               </div>
-              <div className="form-row">
+              <div className="form-row mb-4">
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>
                   <input
@@ -240,7 +243,35 @@ export const AddEmployee = (props) => {
                   />
                 </Form.Group>
               </div>
-              <div className="form-row">
+              <div className="form-row mb-4">
+                <Form.Group as={Col} controlId="formGridComments">
+                  <Form.Label>Comments</Form.Label>
+                  <textarea
+                    id="formGridComments"
+                    type="textarea"
+                    name="comment"
+                    className="form-control"
+                    value={employee.comment}
+                    onChange={(e) =>
+                      setEmployeeDetails({ comment: e.target.value })
+                    }
+                    placeholder="Comment"
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col}>
+                  <Form.Label>Staff Image</Form.Label>
+                  <img src={employee.img} />
+                  <div>
+                    <FileBase64
+                      type="file"
+                      multiple={false}
+                      onDone={getFiles}
+                    />
+                  </div>
+                </Form.Group>
+              </div>
+              <div className="form-row mb-4">
                 <Form.Group as={Col} controlId="formGridDob">
                   <a
                     className="btn btn-success"

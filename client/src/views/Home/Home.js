@@ -11,10 +11,8 @@ class Home extends Component {
   state = {
     currentTime: moment().format("LT"),
     name: "",
-    role: "",
-    clockin: "",
-    breakin: "",
-    breakout: "",
+    lat: "",
+    lng: "",
     user: { name: "" },
     timesheets: [],
   };
@@ -27,10 +25,13 @@ class Home extends Component {
     setTimeout(() => {
       axios
         .post(API_SERVER + "clock/" + e, {
+          lat: this.state.lat.toString(),
+          lng: this.state.lng.toString(),
           pin: localStorage.getItem("pin"),
           image: document.getElementById("screen-image").src,
         })
         .then((res) => {
+          console.log(res);
           localStorage.clear();
           this.props.history.push("/");
         })
@@ -49,7 +50,12 @@ class Home extends Component {
           user: res.data.user,
         });
       });
-
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
     setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
@@ -71,9 +77,9 @@ class Home extends Component {
                 <div className="user-name">
                   <h2 className="white-text">{this.state.user.name}</h2>
                 </div>
-                {this.state.timesheets.map((timesheet) => {
+                {this.state.timesheets.map((timesheet, id) => {
                   return (
-                    <div className="user-home-clocksheet">
+                    <div key={id} className="user-home-clocksheet">
                       <span className="clock-time">
                         Clock {timesheet.type} :
                       </span>

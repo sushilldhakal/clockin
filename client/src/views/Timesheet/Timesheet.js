@@ -17,6 +17,7 @@ import { Row, Col, Card, Form, Accordion } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import CsvDownload from "react-json-to-csv";
 
 const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
@@ -33,6 +34,8 @@ class Timesheet extends Component {
     user: "",
     timesheets: [],
     timeLog: [],
+    employer: [],
+    categoryEmployer: [],
     startDate: getMonday,
     endDate: getSunday,
   };
@@ -43,8 +46,29 @@ class Timesheet extends Component {
         users: res.data,
       });
     });
+    axios.get(API_SERVER + "category/employer").then((res) => {
+      this.setState({
+        categoryEmployer: res.data,
+      });
+    });
+
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
+
+  handleChange = (e) => {
+    this.setState({
+      startDate: e.target.value,
+    });
+    console.log("startDate" + this.state.startDate);
+  };
+  handleChangeEnd = (e) => {
+    this.setState({
+      endDate: e.target.value,
+    });
+    console.log("endDate" + this.state.endDate);
+  };
 
   reloadTimesheet = () => {
     let obj = {
@@ -73,44 +97,6 @@ class Timesheet extends Component {
   };
 
   render() {
-    const handleJumpToCurrentWeek = (currenDate) => {
-      console.log(`current date: ${currenDate}`);
-    };
-
-    const handleWeekPick = (startDate, endDate) => {
-      const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-
-      const Value = startDate.split(" ");
-      const Value1 = endDate.split(" ");
-      const rStartDate = Number(Value[0]) + 1;
-      const rEndDate = Number(Value1[0]) + 1;
-      const month = months.indexOf(Value[1]) + 1;
-      const month1 = months.indexOf(Value1[1]) + 1;
-      const sDate = rStartDate + "-" + month + "-" + Value[2];
-      const eDate = rEndDate + "-" + month1 + "-" + Value1[2];
-
-      this.setState({
-        startDate: sDate,
-        endDate: eDate,
-      });
-
-      this.reloadTimesheet();
-      setTimeout(this.reloadTimesheet, 100);
-    };
-
     const columns = [
       {
         name: "date",
@@ -176,22 +162,39 @@ class Timesheet extends Component {
       columns,
       data: getTimesheet,
     };
-
-    const userTimesheet = this.state.timesheets;
-
-    console.log(userTimesheet);
-
+    console.log(this.state.categoryEmployer);
     return (
       <div>
         <Row>
           <Col md={12} xl={12}>
             <Card className="Recent-Users">
               <Card.Header>
-                <Card.Title as="h5">{this.state.user}</Card.Title>
+                <Card.Title as="h5">Timesheets</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
                 <Row className="container">
-                  <Col md={6}>
+                  <Col md={3} sm={6}>
+                    <Form.Group as={Col} controlId="formGridHire">
+                      <Form.Label>Select Employer</Form.Label>
+                      <Form.Control
+                        aria-label="Default select example"
+                        as="select"
+                        onChange={(e) => {
+                          this.setState({
+                            hire: e.target.value,
+                          });
+                        }}
+                      >
+                        <option>Select Employer</option>
+                        {this.state.categoryEmployer.map((hire, id) => (
+                          <option key={id} value={hire.name}>
+                            {hire.name}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col md={3} sm={6}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Select User</Form.Label>
                       <Form.Control
@@ -212,73 +215,62 @@ class Timesheet extends Component {
                       </Form.Control>
                     </Form.Group>
                   </Col>
-                  <Col md={6}>
-                    <Form.Label>Select Week</Form.Label>
-                    <span className="pl-2 pr-2">{this.state.startDate}</span>To
-                    <span className="pl-2">{this.state.endDate}</span>
-                    <WeeklyCalendar
-                      onWeekPick={handleWeekPick}
-                      //jumpToCurrentWeekRequired={true}
-                      //onJumpToCurrentWeek={handleJumpToCurrentWeek}
+                  <Col md={3} sm={6}>
+                    <Form.Label>Range DD-MM-YYYY</Form.Label>
+                    <input
+                      id="formGridsDate"
+                      type="text"
+                      name="startDate"
+                      data-date=""
+                      data-date-format="DD MMMM YYYY"
+                      className="form-control"
+                      value={this.state.startDate}
+                      onChange={(e) => {
+                        this.handleChange(e);
+                      }}
+                      placeholder="Start Date"
+                    />
+                    To
+                    <input
+                      id="formGrideDate"
+                      type="text"
+                      name="endDate"
+                      data-date=""
+                      data-date-format="DD MMMM YYYY"
+                      className="form-control"
+                      value={this.state.endDate}
+                      onChange={(e) => {
+                        this.handleChangeEnd(e);
+                      }}
+                      placeholder="End Date"
                     />
                   </Col>
+                  <Col md={3} sm={6}>
+                    <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
+                    <br />
+                    Total Hours: 40hrs
+                  </Col>
                 </Row>
-
-                <DataTableExtensions {...tableData}>
+                <DataTableExtensions
+                  filter={false}
+                  print={false}
+                  exportHeaders={true}
+                  {...tableData}
+                >
                   <DataTable
                     columns={columns}
                     data={getTimesheet}
-                    noHeader
                     defaultSortField="id"
                     defaultSortAsc={true}
                     pagination
                     highlightOnHover
+                    export={true}
                     sortIcon={<SortIcon />}
                   />
                 </DataTableExtensions>
               </Card.Body>
             </Card>
           </Col>
-          {/* <Accordion defaultActiveKey="0" flush>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>3-1-2022 To 9-1-2022</Accordion.Header>
-              <Accordion.Body>
-                <Card>
-                  <Card.Header>
-                    <span className="float-start">Total Hours</span>
-
-                    <span className="float-end">40hrs</span>
-                  </Card.Header>
-                </Card>
-                <Card>
-                  <Card.Header>
-                    <Card.Title>
-                      <i className="far fa-calendar-alt"></i>
-                      <span className="align-left">Mon, 3 Jan</span>
-                    </Card.Title>
-                  </Card.Header>
-
-                  <Card.Body>
-                    <Row>
-                      <Col>
-                        <i className="far fa-clock"></i>
-                        8:00am - 4:30pm
-                        <br />
-                        <i className="fas fa-mug-hot"></i>
-                        30min
-                      </Col>
-                      <Col>
-                        <span className="float-end">
-                          <i className="fas fa-hourglass-half"></i>
-                          8hrs
-                        </span>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion> */}
         </Row>
       </div>
     );

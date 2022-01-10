@@ -61,6 +61,14 @@ const ExpandableComponent = ({ data }) => {
           </th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
     </table>
   );
 };
@@ -72,6 +80,7 @@ class UserProfile extends Component {
     role: "",
     location: "",
     employer: "",
+    comment: "",
   };
 
   componentDidMount() {
@@ -142,6 +151,7 @@ class UserProfile extends Component {
     const userDetails = this.state.user;
     const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
+
     const columns = [
       {
         name: "Date",
@@ -241,7 +251,9 @@ class UserProfile extends Component {
       <div>
         <Card>
           <Card.Header>
-            <Card.Title as="h5">{userName}</Card.Title>
+            <Card.Title as="h5">
+              {userDetails.name} {userDetails.comment}
+            </Card.Title>
             <div className="float-right">
               <button
                 className="btn btn-danger btn-rounded"
@@ -254,23 +266,36 @@ class UserProfile extends Component {
           <Card.Body>
             {this.state.user && (
               <Col>
-                <Button
-                  className="btn btn-primary toggle-button"
-                  onClick={this.handleShowForm}
-                >
-                  {!this.state.show ? "Edit Employee Details" : "Close Form"}
-                </Button>
+                <div className="edit-employee-bottom-row clearfix">
+                  <Button
+                    className="btn btn-primary toggle-button float-start"
+                    onClick={this.handleShowForm}
+                  >
+                    {!this.state.show ? "Edit Employee Details" : "Close Form"}
+                  </Button>
+                </div>
               </Col>
             )}
-            {this.state.user && this.state.show && (
-              <EditEmployee
-                user={this.state.user}
-                role={this.state.categoryRole}
-                location={this.state.categoryLocation}
-                employer={this.state.categoryEmployer}
-                onUpdate={(e) => this.setState({ show: false })}
-              />
-            )}
+
+            <div className="row">
+              <div className="col-sm-8">
+                {this.state.user && this.state.show && (
+                  <EditEmployee
+                    user={this.state.user}
+                    role={this.state.categoryRole}
+                    location={this.state.categoryLocation}
+                    employer={this.state.categoryEmployer}
+                    onUpdate={(e) => this.setState({ show: false })}
+                  />
+                )}
+              </div>
+              <div className="col-sm-4">
+                <img
+                  src={userDetails.img}
+                  className="img img-responsive img-custom"
+                />
+              </div>
+            </div>
 
             <DataTableExtensions {...tableData}>
               <DataTable
