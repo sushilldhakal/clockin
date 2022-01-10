@@ -64,7 +64,38 @@ const ExpandableComponent = ({ data }) => {
       <tbody>
         <tr>
           <td></td>
-          <td></td>
+          <td>
+            <a
+              href={"https://www.google.com/maps/place/" + data.wherein}
+              target="_blank"
+            >
+              Check Location
+            </a>
+          </td>
+          <td>
+            <a
+              href={"https://www.google.com/maps/place/" + data.wherebreak}
+              target="_blank"
+            >
+              Check Location
+            </a>
+          </td>
+          <td>
+            <a
+              href={"https://www.google.com/maps/place/" + data.whereendBreak}
+              target="_blank"
+            >
+              Check Location
+            </a>
+          </td>
+          <td>
+            <a
+              href={"https://www.google.com/maps/place/" + data.whereout}
+              target="_blank"
+            >
+              Check Location
+            </a>
+          </td>
           <td></td>
           <td></td>
         </tr>
@@ -81,6 +112,7 @@ class UserProfile extends Component {
     location: "",
     employer: "",
     comment: "",
+    edit: false,
   };
 
   componentDidMount() {
@@ -120,6 +152,14 @@ class UserProfile extends Component {
       this.setState({ categoryEmployer: res.data });
     });
   }
+
+  handleButtonClick = (row) => {
+    this.setState({
+      edit: !this.state.edit,
+    });
+
+    console.log(row.target.id);
+  };
 
   handleShowForm = () => {
     this.setState({
@@ -172,8 +212,16 @@ class UserProfile extends Component {
         sortable: false,
         cell: (d) => (
           <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">{moment(d.in, "hh:mm a").format("LT")}</span>
+            {d.in == null ? (
+              <input name="in" type="text" value="" />
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                <span className="pl-1">
+                  {moment(d.in, "hh:mm a").format("LT")}
+                </span>
+              </div>
+            )}
           </div>
         ),
       },
@@ -183,10 +231,16 @@ class UserProfile extends Component {
         sortable: true,
         cell: (d) => (
           <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.break, "hh:mm a").format("LT")}
-            </span>
+            {d.break == null ? (
+              <input name="break" type="text" value="" />
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                <span className="pl-1">
+                  {moment(d.break, "hh:mm a").format("LT")}
+                </span>
+              </div>
+            )}
           </div>
         ),
       },
@@ -196,10 +250,16 @@ class UserProfile extends Component {
         sortable: true,
         cell: (d) => (
           <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.endBreak, "hh:mm a").format("LT")}
-            </span>
+            {d.endBreak == null ? (
+              <input name="endBreak" type="text" value="" />
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                <span className="pl-1">
+                  {moment(d.endBreak, "hh:mm a").format("LT")}
+                </span>
+              </div>
+            )}
           </div>
         ),
       },
@@ -209,10 +269,16 @@ class UserProfile extends Component {
         sortable: true,
         cell: (d) => (
           <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.out, "hh:mm a").format("LT")}
-            </span>
+            {d.out == null ? (
+              <input name="out" type="text" value="" />
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                <span className="pl-1">
+                  {moment(d.out, "hh:mm a").format("LT")}
+                </span>
+              </div>
+            )}
           </div>
         ),
       },
@@ -239,6 +305,17 @@ class UserProfile extends Component {
             <span className="pl-1">{d.total}</span>
           </div>
         ),
+      },
+      {
+        name: "Action",
+        cell: (d) => (
+          <button onClick={this.handleButtonClick} id={d.ID}>
+            {!this.state.edit ? "Edit" : "Update"}
+          </button>
+        ),
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
       },
     ];
 
