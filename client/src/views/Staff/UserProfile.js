@@ -103,6 +103,7 @@ const ExpandableComponent = ({ data }) => {
     </table>
   );
 };
+
 class UserProfile extends Component {
   state = {
     show: false,
@@ -112,7 +113,13 @@ class UserProfile extends Component {
     location: "",
     employer: "",
     comment: "",
-    edit: false,
+    inputValue: "",
+    in: "",
+    break: "",
+    breakOut: "",
+    out: "",
+    selected_row_index: 0,
+    is_action_menu_active: false,
   };
 
   componentDidMount() {
@@ -123,7 +130,7 @@ class UserProfile extends Component {
           timesheets: res.data.timesheets,
           user: res.data.user[0],
         });
-        console.log(res.data.timesheets);
+        //console.log(res.data.timesheets);
       })
       .catch((err) => {
         console.log(err);
@@ -153,12 +160,32 @@ class UserProfile extends Component {
     });
   }
 
-  handleButtonClick = (row) => {
+  // handleButtonClick = (row, index) => {
+  //   this.setState({
+  //     edit: !this.state.edit,
+  //   });
+
+  //   console.log(row);
+  //   console.log(index);
+  // };
+  open_setting_menu(row, index) {
     this.setState({
-      edit: !this.state.edit,
+      is_action_menu_active: !this.state.is_action_menu_active,
+      selected_row_index: index,
     });
 
-    console.log(row.target.id);
+    console.log(index);
+    console.log(row);
+  }
+
+  handleTableInput = (e) => {
+    let input = e.target;
+    let name = input.name;
+    let value = input.value;
+    this.setState({
+      [name]: value,
+    });
+    console.log(name, value);
   };
 
   handleShowForm = () => {
@@ -195,8 +222,9 @@ class UserProfile extends Component {
     const columns = [
       {
         name: "Date",
-        selector: (row) => row["date"],
+        selector: (row) => row.date,
         sortable: true,
+        id: "Date",
         cell: (d) => (
           <div>
             <i className="far fa-calendar-alt"></i>
@@ -207,84 +235,157 @@ class UserProfile extends Component {
         ),
       },
       {
+        id: "clock-in",
         name: "Clock In",
-        selector: (row) => row["in"],
+        selector: (row) => row.in,
         sortable: false,
-        cell: (d) => (
+        cell: (row, index) => (
           <div>
-            {d.in == null ? (
-              <input name="in" type="text" value="" />
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <input
+                name="in"
+                type="text"
+                className="custom-table-input"
+                value={
+                  row.in == null
+                    ? "00:00 am"
+                    : moment(row.in, "hh:mm a").format("LT")
+                }
+                onChange={(e) => {
+                  this.handleTableInput(e);
+                }}
+              />
             ) : (
               <div>
                 <i className="far fa-clock"></i>
-                <span className="pl-1">
-                  {moment(d.in, "hh:mm a").format("LT")}
-                </span>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.in, "hh:mm a").format("LT")}
+                  </span>
+                )}
               </div>
             )}
           </div>
         ),
       },
       {
+        id: "Break-Start",
         name: "Break Start",
-        selector: (row) => row["break"],
+        selector: (row) => row.break,
         sortable: true,
-        cell: (d) => (
+        cell: (row, index) => (
           <div>
-            {d.break == null ? (
-              <input name="break" type="text" value="" />
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <input
+                name="break"
+                className="custom-table-input"
+                type="text"
+                value={
+                  row.break == null
+                    ? "00:00 am"
+                    : moment(row.break, "hh:mm a").format("LT")
+                }
+                onChange={(e) => {
+                  this.handleTableInput(e);
+                }}
+              />
             ) : (
               <div>
                 <i className="far fa-clock"></i>
-                <span className="pl-1">
-                  {moment(d.break, "hh:mm a").format("LT")}
-                </span>
+                {row.break == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.break, "hh:mm a").format("LT")}
+                  </span>
+                )}
               </div>
             )}
           </div>
         ),
       },
       {
+        id: "Break-End",
         name: "Break End",
-        selector: (row) => row["endBreak"],
+        selector: (row) => row.endBreak,
         sortable: true,
-        cell: (d) => (
+        cell: (row, index) => (
           <div>
-            {d.endBreak == null ? (
-              <input name="endBreak" type="text" value="" />
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <input
+                name="endBreak"
+                className="custom-table-input"
+                value={
+                  row.endBreak == null
+                    ? "00:00 am"
+                    : moment(row.endBreak, "hh:mm a").format("LT")
+                }
+                type="text"
+                onChange={(e) => {
+                  this.handleTableInput(e);
+                }}
+              />
             ) : (
               <div>
                 <i className="far fa-clock"></i>
-                <span className="pl-1">
-                  {moment(d.endBreak, "hh:mm a").format("LT")}
-                </span>
+                {row.endBreak == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.endBreak, "hh:mm a").format("LT")}
+                  </span>
+                )}
               </div>
             )}
           </div>
         ),
       },
       {
+        id: "Clock-Out",
         name: "Clock Out",
-        selector: (row) => row["out"],
+        selector: (row) => row.out,
         sortable: true,
-        cell: (d) => (
+        cell: (row, index) => (
           <div>
-            {d.out == null ? (
-              <input name="out" type="text" value="" />
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <input
+                name="out"
+                className="custom-table-input"
+                value={
+                  row.out == null
+                    ? "00:00 am"
+                    : moment(row.out, "hh:mm a").format("LT")
+                }
+                type="text"
+                onChange={(e) => {
+                  this.handleTableInput(e);
+                }}
+              />
             ) : (
               <div>
                 <i className="far fa-clock"></i>
-                <span className="pl-1">
-                  {moment(d.out, "hh:mm a").format("LT")}
-                </span>
+                {row.out == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.out, "hh:mm a").format("LT")}
+                  </span>
+                )}
               </div>
             )}
           </div>
         ),
       },
       {
+        id: "Break-hours",
         name: "Break hours",
-        selector: (row) => row["btotal"],
+        selector: (row) => row.btotal,
         sortable: true,
         cell: (d) => (
           <div>
@@ -295,8 +396,9 @@ class UserProfile extends Component {
         ),
       },
       {
+        id: "Total-hours",
         name: "Total hours",
-        selector: (row) => row["total"],
+        selector: (row) => row.total,
         sortable: true,
         cell: (d) => (
           <div>
@@ -307,15 +409,41 @@ class UserProfile extends Component {
         ),
       },
       {
+        key: "action",
+        id: "Action",
         name: "Action",
-        cell: (d) => (
-          <button onClick={this.handleButtonClick} id={d.ID}>
-            {!this.state.edit ? "Edit" : "Update"}
-          </button>
+        className: "action",
+        cell: (row, index) => (
+          <div
+            className={`btn btn-default ui right pointing dropdown icon ${
+              this.state.is_action_menu_active &&
+              this.state.selected_row_index === index
+                ? "active"
+                : ""
+            }`}
+            onClick={() => this.open_setting_menu(row, index)}
+          >
+            <i className="setting icon" />
+            <div
+              className={`menu ${
+                this.state.is_action_menu_active &&
+                this.state.selected_row_index === index
+                  ? "transition visible"
+                  : ""
+              }`}
+            >
+              <div className="item item-edit">Edit</div>
+              <div className="item item-update">Update</div>
+            </div>
+          </div>
+          // <button
+          //   onClick={() => this.handleButtonClick(row, index)}
+          //   id={"cell-" + row.id + "-undefined"}
+          //   className={"ctn" + row.id}
+          // >
+          //   {!this.state.edit ? "Edit" : "Update"}
+          // </button>
         ),
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
       },
     ];
 
@@ -390,53 +518,6 @@ class UserProfile extends Component {
             </DataTableExtensions>
           </Card.Body>
         </Card>
-
-        {/* <Accordion defaultActiveKey="0" flush>
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>3-1-2022 To 9-1-2022</Accordion.Header>
-            <Accordion.Body>
-              <Card>
-                <Card.Header>
-                  <span className="float-start">Total Hours</span>
-
-                  <span className="float-end">40hrs</span>
-                </Card.Header>
-              </Card>
-              {timesheets.map((time, id) => {
-                return (
-                  <Card key={id}>
-                    <Card.Header>
-                      <Card.Title>
-                        <i className="far fa-calendar-alt"></i>
-                        <span className="align-left">
-                          {moment(time.date, "DD, MM, YYYY").format("llll")}
-                        </span>
-                      </Card.Title>
-                    </Card.Header>
-
-                    <Card.Body>
-                      <Row>
-                        <Col>
-                          <i className="far fa-clock"></i>
-                          {time.in} - {time.out}
-                          <br />
-                          <i className="fas fa-mug-hot"></i>
-                          {time.btotal}
-                        </Col>
-                        <Col>
-                          <span className="float-end">
-                            <i className="fas fa-hourglass-half"></i>
-                            {time.total}
-                          </span>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                  </Card>
-                );
-              })}
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion> */}
       </div>
     );
   }

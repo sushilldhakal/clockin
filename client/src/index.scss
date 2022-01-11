@@ -21,6 +21,9 @@
   width: 100px;
   height: 100px;
 }
+.custom-table-input {
+  width: 80px;
+}
 btn-hover:hover {
   background-color: #576274;
   color: #fff !important;
@@ -109,6 +112,17 @@ a.btn-custom:hover {
   display: flex !important;
   justify-content: space-between !important;
   border-bottom: 1px solid !important;
+}
+
+.pointing .item-update {
+  display: none;
+}
+
+.pointing.active .item-edit {
+  display: none;
+}
+.pointing.active .item-update {
+  display: block;
 }
 
 .toggle-switch {
