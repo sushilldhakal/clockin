@@ -65,36 +65,52 @@ const ExpandableComponent = ({ data }) => {
         <tr>
           <td></td>
           <td>
-            <a
-              href={"https://www.google.com/maps/place/" + data.wherein}
-              target="_blank"
-            >
-              Check Location
-            </a>
+            {data.wherein != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.wherein}
+                target="_blank"
+              >
+                Check Location
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
           </td>
           <td>
-            <a
-              href={"https://www.google.com/maps/place/" + data.wherebreak}
-              target="_blank"
-            >
-              Check Location
-            </a>
+            {data.wherebreak != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.wherebreak}
+                target="_blank"
+              >
+                Check Location
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
           </td>
           <td>
-            <a
-              href={"https://www.google.com/maps/place/" + data.whereendBreak}
-              target="_blank"
-            >
-              Check Location
-            </a>
+            {data.whereendBreak != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.whereendBreak}
+                target="_blank"
+              >
+                Check Location
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
           </td>
           <td>
-            <a
-              href={"https://www.google.com/maps/place/" + data.whereout}
-              target="_blank"
-            >
-              Check Location
-            </a>
+            {data.whereout != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.whereout}
+                target="_blank"
+              >
+                Check Location
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
           </td>
           <td></td>
           <td></td>
@@ -114,12 +130,14 @@ class UserProfile extends Component {
     employer: "",
     comment: "",
     inputValue: "",
+    date: "",
     in: "",
     break: "",
-    breakOut: "",
+    breakEnd: "",
     out: "",
     selected_row_index: 0,
     is_action_menu_active: false,
+    edited: false,
   };
 
   componentDidMount() {
@@ -130,7 +148,6 @@ class UserProfile extends Component {
           timesheets: res.data.timesheets,
           user: res.data.user[0],
         });
-        //console.log(res.data.timesheets);
       })
       .catch((err) => {
         console.log(err);
@@ -160,22 +177,38 @@ class UserProfile extends Component {
     });
   }
 
-  // handleButtonClick = (row, index) => {
-  //   this.setState({
-  //     edit: !this.state.edit,
-  //   });
-
-  //   console.log(row);
-  //   console.log(index);
-  // };
   open_setting_menu(row, index) {
     this.setState({
       is_action_menu_active: !this.state.is_action_menu_active,
       selected_row_index: index,
     });
+  }
 
-    console.log(index);
-    console.log(row);
+  sendData(row, index) {
+    console.log(row, index);
+
+    const data = {
+      date: this.state.date,
+      in: this.state.in,
+      break: this.state.break,
+      breakEnd: this.state.breakEnd,
+      out: this.state.out,
+    };
+    console.log(data);
+    axios
+      .post(API_SERVER + "update-timesheet", data)
+      .then((res) => {
+        swal({
+          title: "User Added",
+          text: "User added Sucessfull, please click on ok to load user list",
+          icon: "success",
+        }).then(function () {
+          window.location.reload();
+        });
+      })
+      .catch((err) => {
+        swal(err.response.data.message);
+      });
   }
 
   handleTableInput = (e) => {
@@ -225,12 +258,32 @@ class UserProfile extends Component {
         selector: (row) => row.date,
         sortable: true,
         id: "Date",
-        cell: (d) => (
+        cell: (row, index) => (
           <div>
-            <i className="far fa-calendar-alt"></i>
-            <span className="align-left pl-2">
-              {moment(d.date, "DD, MM, YYYY").format("llll")}
-            </span>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <input
+                name="date"
+                type="text"
+                className="custom-table-input"
+                placeholder="12/02/2022"
+                value={row.date}
+                onChange={(e) => {
+                  this.handleTableInput(e);
+                }}
+              />
+            ) : (
+              <div>
+                <i className="far fa-calendar-alt"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="align-left pl-2">
+                    {moment(row.date, "DD, MM, YYYY").format("llll")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
@@ -247,11 +300,8 @@ class UserProfile extends Component {
                 name="in"
                 type="text"
                 className="custom-table-input"
-                value={
-                  row.in == null
-                    ? "00:00 am"
-                    : moment(row.in, "hh:mm a").format("LT")
-                }
+                placeholder="20:20:00"
+                value={row.in}
                 onChange={(e) => {
                   this.handleTableInput(e);
                 }}
@@ -284,11 +334,8 @@ class UserProfile extends Component {
                 name="break"
                 className="custom-table-input"
                 type="text"
-                value={
-                  row.break == null
-                    ? "00:00 am"
-                    : moment(row.break, "hh:mm a").format("LT")
-                }
+                placeholder="20:20:00"
+                value={row.break}
                 onChange={(e) => {
                   this.handleTableInput(e);
                 }}
@@ -318,13 +365,10 @@ class UserProfile extends Component {
             {this.state.is_action_menu_active &&
             this.state.selected_row_index === index ? (
               <input
-                name="endBreak"
+                name="breakEnd"
                 className="custom-table-input"
-                value={
-                  row.endBreak == null
-                    ? "00:00 am"
-                    : moment(row.endBreak, "hh:mm a").format("LT")
-                }
+                placeholder="20:20:00"
+                value={row.endBreak}
                 type="text"
                 onChange={(e) => {
                   this.handleTableInput(e);
@@ -357,11 +401,8 @@ class UserProfile extends Component {
               <input
                 name="out"
                 className="custom-table-input"
-                value={
-                  row.out == null
-                    ? "00:00 am"
-                    : moment(row.out, "hh:mm a").format("LT")
-                }
+                value={row.out}
+                placeholder="20:20:00"
                 type="text"
                 onChange={(e) => {
                   this.handleTableInput(e);
@@ -423,7 +464,6 @@ class UserProfile extends Component {
             }`}
             onClick={() => this.open_setting_menu(row, index)}
           >
-            <i className="setting icon" />
             <div
               className={`menu ${
                 this.state.is_action_menu_active &&
@@ -432,17 +472,17 @@ class UserProfile extends Component {
                   : ""
               }`}
             >
-              <div className="item item-edit">Edit</div>
-              <div className="item item-update">Update</div>
+              <div className="btn btn-custom btn-border item item-edit">
+                Edit
+              </div>
+              <div
+                onClick={() => this.sendData(row, index)}
+                className="btn btn-custom btn-border item item-update"
+              >
+                Update
+              </div>
             </div>
           </div>
-          // <button
-          //   onClick={() => this.handleButtonClick(row, index)}
-          //   id={"cell-" + row.id + "-undefined"}
-          //   className={"ctn" + row.id}
-          // >
-          //   {!this.state.edit ? "Edit" : "Update"}
-          // </button>
         ),
       },
     ];

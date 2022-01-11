@@ -107,6 +107,11 @@ const routes = [
         path: "/dashboard/catageory",
         component: lazy(() => import("./views/Catageory/Catageory")),
       },
+      {
+        exact: true,
+        path: "/dashboard/flag",
+        component: lazy(() => import("./views/Flag/Flag")),
+      },
 
       {
         path: "*",
