@@ -59,13 +59,13 @@ class Timesheet extends Component {
 
   handleChange = (e) => {
     this.setState({
-      startDate: e.target.value,
+      startDate: Date(e.target.value),
     });
     console.log("startDate" + this.state.startDate);
   };
   handleChangeEnd = (e) => {
     this.setState({
-      endDate: e.target.value,
+      endDate: Date(e.target.value),
     });
     console.log("endDate" + this.state.endDate);
   };
@@ -182,6 +182,7 @@ class Timesheet extends Component {
                         onChange={(e) => {
                           this.setState({
                             hire: e.target.value,
+                            user: ''
                           });
                         }}
                       >
@@ -221,7 +222,7 @@ class Timesheet extends Component {
                     <Form.Label>Range DD-MM-YYYY</Form.Label>
                     <input
                       id="formGridsDate"
-                      type="text"
+                      type="date"
                       name="startDate"
                       data-date=""
                       data-date-format="DD MMMM YYYY"
@@ -229,13 +230,14 @@ class Timesheet extends Component {
                       value={this.state.startDate}
                       onChange={(e) => {
                         this.handleChange(e);
+                        setTimeout(this.reloadTimesheet, 100);
                       }}
                       placeholder="Start Date"
                     />
                     To
                     <input
                       id="formGrideDate"
-                      type="text"
+                      type="date"
                       name="endDate"
                       data-date=""
                       data-date-format="DD MMMM YYYY"
@@ -243,6 +245,7 @@ class Timesheet extends Component {
                       value={this.state.endDate}
                       onChange={(e) => {
                         this.handleChangeEnd(e);
+                        setTimeout(this.reloadTimesheet, 100);
                       }}
                       placeholder="End Date"
                     />
