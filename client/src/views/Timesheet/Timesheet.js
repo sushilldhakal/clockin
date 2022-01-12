@@ -207,7 +207,9 @@ class Timesheet extends Component {
                         }}
                       >
                         <option value="">Select User</option>
-                        {this.state.users.map((user, id) => (
+                        {this.state.users.filter(e=>{
+                          return this.state.hire === e.hire
+                        }).map((user, id) => (
                           <option key={id} value={user._id}>
                             {user.name}
                           </option>
