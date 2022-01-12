@@ -156,6 +156,7 @@ class UserProfile extends Component {
     this.retrieveRole = this.retrieveRole.bind(this);
     this.retrieveLocation = this.retrieveLocation.bind(this);
     this.retrieveEmployer = this.retrieveEmployer.bind(this);
+    this.sendData = this.sendData.bind(this);
     this.retrieveRole();
     this.retrieveLocation();
     this.retrieveEmployer();
@@ -166,11 +167,13 @@ class UserProfile extends Component {
       this.setState({ categoryRole: res.data });
     });
   }
+  
   retrieveLocation() {
     axios.get(API_SERVER + "category/location").then((res) => {
       this.setState({ categoryLocation: res.data });
     });
   }
+
   retrieveEmployer() {
     axios.get(API_SERVER + "category/employer").then((res) => {
       this.setState({ categoryEmployer: res.data });
@@ -185,16 +188,26 @@ class UserProfile extends Component {
   }
 
   sendData(row, index) {
-    console.log(row, index);
-
     const data = {
-      date: this.state.date,
-      in: this.state.in,
-      break: this.state.break,
-      breakEnd: this.state.breakEnd,
-      out: this.state.out,
+
     };
-    console.log(data);
+
+    if (this.state.in) {
+      data.in = this.state.in;
+    }
+    if (this.state.break) {
+      data.break = this.state.break;
+    }
+    if (this.state.breakEnd) {
+      data.endBreak = this.state.breakEnd;
+    }
+    if (this.state.out) {
+      data.out = this.state.out;
+    }
+
+    data.pin = row.pin;
+    data.date = row.date;
+    data.user_id = this.props.match.params.staff_id;
     axios
       .post(API_SERVER + "update-timesheet", data)
       .then((res) => {
@@ -261,7 +274,7 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
+              this.state.selected_row_index === index ? (
               <input
                 name="date"
                 type="text"
@@ -295,10 +308,10 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
+              this.state.selected_row_index === index ? (
               <input
                 name="in"
-                type="text"
+                type="time"
                 className="custom-table-input"
                 placeholder="20:20:00"
                 value={row.in}
@@ -329,11 +342,11 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
+              this.state.selected_row_index === index ? (
               <input
                 name="break"
                 className="custom-table-input"
-                type="text"
+                type="time"
                 placeholder="20:20:00"
                 value={row.break}
                 onChange={(e) => {
@@ -363,13 +376,13 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
+              this.state.selected_row_index === index ? (
               <input
                 name="breakEnd"
                 className="custom-table-input"
                 placeholder="20:20:00"
                 value={row.endBreak}
-                type="text"
+                type="time"
                 onChange={(e) => {
                   this.handleTableInput(e);
                 }}
@@ -397,13 +410,13 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
+              this.state.selected_row_index === index ? (
               <input
                 name="out"
                 className="custom-table-input"
                 value={row.out}
                 placeholder="20:20:00"
-                type="text"
+                type="time"
                 onChange={(e) => {
                   this.handleTableInput(e);
                 }}
@@ -456,21 +469,19 @@ class UserProfile extends Component {
         className: "action",
         cell: (row, index) => (
           <div
-            className={`btn btn-default ui right pointing dropdown icon ${
-              this.state.is_action_menu_active &&
-              this.state.selected_row_index === index
+            className={`btn btn-default ui right pointing dropdown icon ${this.state.is_action_menu_active &&
+                this.state.selected_row_index === index
                 ? "active"
                 : ""
-            }`}
+              }`}
             onClick={() => this.open_setting_menu(row, index)}
           >
             <div
-              className={`menu ${
-                this.state.is_action_menu_active &&
-                this.state.selected_row_index === index
+              className={`menu ${this.state.is_action_menu_active &&
+                  this.state.selected_row_index === index
                   ? "transition visible"
                   : ""
-              }`}
+                }`}
             >
               <div className="btn btn-custom btn-border item item-edit">
                 Edit

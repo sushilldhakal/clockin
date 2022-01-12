@@ -1,6 +1,5 @@
 const connect = require("../config/connect");
 const moment = require("moment");
-const { ObjectId } = require("bson");
 
 module.exports = async (request, reply) => {
   const client = await connect();
