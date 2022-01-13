@@ -17,12 +17,24 @@
     }
   }
 }
+
+.single-user-table .insert {
+  color: red;
+}
+
+.single-user-table .update {
+  color: #249d71;
+}
+
 .img-fixed {
   width: 100px;
   height: 100px;
 }
 .custom-table-input {
-  width: 80px;
+  min-width: 100px;
+}
+#cell-Date-undefined input {
+  width: 120px;
 }
 btn-hover:hover {
   background-color: #576274;

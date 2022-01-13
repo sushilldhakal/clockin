@@ -9,7 +9,7 @@ import swal from "sweetalert";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
 
-import moment from "moment";
+import moment, { relativeTimeThreshold } from "moment";
 
 const ExpandableComponent = ({ data }) => {
   return (
@@ -70,7 +70,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.wherein}
                 target="_blank"
               >
-                Check Location
+                {data.wherein}
               </a>
             ) : (
               <span>No record</span>
@@ -82,7 +82,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.wherebreak}
                 target="_blank"
               >
-                Check Location
+                {data.wherebreak}
               </a>
             ) : (
               <span>No record</span>
@@ -94,7 +94,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.whereendBreak}
                 target="_blank"
               >
-                Check Location
+                {data.whereendBreak}
               </a>
             ) : (
               <span>No record</span>
@@ -106,7 +106,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.whereout}
                 target="_blank"
               >
-                Check Location
+                {data.whereout}
               </a>
             ) : (
               <span>No record</span>
@@ -167,7 +167,7 @@ class UserProfile extends Component {
       this.setState({ categoryRole: res.data });
     });
   }
-  
+
   retrieveLocation() {
     axios.get(API_SERVER + "category/location").then((res) => {
       this.setState({ categoryLocation: res.data });
@@ -188,9 +188,7 @@ class UserProfile extends Component {
   }
 
   sendData(row, index) {
-    const data = {
-
-    };
+    const data = {};
 
     if (this.state.in) {
       data.in = this.state.in;
@@ -264,7 +262,7 @@ class UserProfile extends Component {
     const userDetails = this.state.user;
     const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
-
+    console.log(timesheets);
     const columns = [
       {
         name: "Date",
@@ -274,17 +272,27 @@ class UserProfile extends Component {
         cell: (row, index) => (
           <div>
             {this.state.is_action_menu_active &&
-              this.state.selected_row_index === index ? (
-              <input
-                name="date"
-                type="text"
-                className="custom-table-input"
-                placeholder="12/02/2022"
-                value={row.date}
-                onChange={(e) => {
-                  this.handleTableInput(e);
-                }}
-              />
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-calendar-alt"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="align-left pl-2">
+                    {moment(row.date, "DD, MM, YYYY").format("llll")}
+                  </span>
+                )}
+                <input
+                  name="date"
+                  type="date"
+                  className="custom-table-input"
+                  placeholder="12/02/2022"
+                  value={this.state.date}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
             ) : (
               <div>
                 <i className="far fa-calendar-alt"></i>
@@ -303,22 +311,32 @@ class UserProfile extends Component {
       {
         id: "clock-in",
         name: "Clock In",
-        selector: (row) => row.in,
+        selector: (row) => [row.in, row.workingin],
         sortable: false,
         cell: (row, index) => (
-          <div>
+          <div className={row.workingin}>
             {this.state.is_action_menu_active &&
-              this.state.selected_row_index === index ? (
-              <input
-                name="in"
-                type="time"
-                className="custom-table-input"
-                placeholder="20:20:00"
-                value={row.in}
-                onChange={(e) => {
-                  this.handleTableInput(e);
-                }}
-              />
+            this.state.selected_row_index === index ? (
+              <div className={row.workingin}>
+                <i className="far fa-clock"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.in, "hh:mm a").format("LT")}
+                  </span>
+                )}
+                <input
+                  name="in"
+                  type="time"
+                  className="custom-table-input"
+                  placeholder="20:20:00"
+                  value={this.state.in}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
             ) : (
               <div>
                 <i className="far fa-clock"></i>
@@ -337,22 +355,33 @@ class UserProfile extends Component {
       {
         id: "Break-Start",
         name: "Break Start",
-        selector: (row) => row.break,
+        selector: (row) => [row.break, row.workingbreak],
         sortable: true,
         cell: (row, index) => (
-          <div>
+          <div className={row.workingbreak}>
             {this.state.is_action_menu_active &&
-              this.state.selected_row_index === index ? (
-              <input
-                name="break"
-                className="custom-table-input"
-                type="time"
-                placeholder="20:20:00"
-                value={row.break}
-                onChange={(e) => {
-                  this.handleTableInput(e);
-                }}
-              />
+            this.state.selected_row_index === index ? (
+              <div className={row.workingbreak}>
+                <i className="far fa-clock"></i>
+                {row.break == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.break, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="break"
+                  className="custom-table-input"
+                  type="time"
+                  placeholder="20:20:00"
+                  value={this.state.break}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
             ) : (
               <div>
                 <i className="far fa-clock"></i>
@@ -371,22 +400,33 @@ class UserProfile extends Component {
       {
         id: "Break-End",
         name: "Break End",
-        selector: (row) => row.endBreak,
+        selector: (row) => [row.endBreak, row.workingendBreak],
         sortable: true,
         cell: (row, index) => (
-          <div>
+          <div className={row.workingendBreak}>
             {this.state.is_action_menu_active &&
-              this.state.selected_row_index === index ? (
-              <input
-                name="breakEnd"
-                className="custom-table-input"
-                placeholder="20:20:00"
-                value={row.endBreak}
-                type="time"
-                onChange={(e) => {
-                  this.handleTableInput(e);
-                }}
-              />
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.endBreak == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.endBreak, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="breakEnd"
+                  className="custom-table-input"
+                  placeholder="20:20:00"
+                  value={this.state.breakEnd}
+                  type="time"
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
             ) : (
               <div>
                 <i className="far fa-clock"></i>
@@ -408,19 +448,30 @@ class UserProfile extends Component {
         selector: (row) => row.out,
         sortable: true,
         cell: (row, index) => (
-          <div>
+          <div className={row.workingout}>
             {this.state.is_action_menu_active &&
-              this.state.selected_row_index === index ? (
-              <input
-                name="out"
-                className="custom-table-input"
-                value={row.out}
-                placeholder="20:20:00"
-                type="time"
-                onChange={(e) => {
-                  this.handleTableInput(e);
-                }}
-              />
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.out == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.out, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="out"
+                  className="custom-table-input"
+                  value={this.state.out}
+                  placeholder="20:20:00"
+                  type="time"
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
             ) : (
               <div>
                 <i className="far fa-clock"></i>
@@ -469,19 +520,21 @@ class UserProfile extends Component {
         className: "action",
         cell: (row, index) => (
           <div
-            className={`btn btn-default ui right pointing dropdown icon ${this.state.is_action_menu_active &&
-                this.state.selected_row_index === index
+            className={`btn btn-default ui right pointing dropdown icon ${
+              this.state.is_action_menu_active &&
+              this.state.selected_row_index === index
                 ? "active"
                 : ""
-              }`}
+            }`}
             onClick={() => this.open_setting_menu(row, index)}
           >
             <div
-              className={`menu ${this.state.is_action_menu_active &&
-                  this.state.selected_row_index === index
+              className={`menu ${
+                this.state.is_action_menu_active &&
+                this.state.selected_row_index === index
                   ? "transition visible"
                   : ""
-                }`}
+              }`}
             >
               <div className="btn btn-custom btn-border item item-edit">
                 Edit
@@ -552,21 +605,22 @@ class UserProfile extends Component {
                 />
               </div>
             </div>
-
-            <DataTableExtensions {...tableData}>
-              <DataTable
-                columns={columns}
-                data={timesheets}
-                noHeader
-                defaultSortField="id"
-                defaultSortAsc={true}
-                pagination
-                highlightOnHover
-                sortIcon={<SortIcon />}
-                expandableRows
-                expandableRowsComponent={ExpandableComponent}
-              />
-            </DataTableExtensions>
+            <div className="single-user-table">
+              <DataTableExtensions {...tableData}>
+                <DataTable
+                  columns={columns}
+                  data={timesheets}
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={true}
+                  pagination
+                  highlightOnHover
+                  sortIcon={<SortIcon />}
+                  expandableRows
+                  expandableRowsComponent={ExpandableComponent}
+                />
+              </DataTableExtensions>
+            </div>
           </Card.Body>
         </Card>
       </div>

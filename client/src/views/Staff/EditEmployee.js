@@ -202,6 +202,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
                   type="file"
                   multiple={false}
                   onDone={getFiles}
+                  value={employee.img}
                   onChange={(e) =>
                     setUser({ ...employee, img: e.target.value })
                   }
