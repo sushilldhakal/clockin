@@ -18,6 +18,9 @@ module.exports = async (request, reply) => {
             { $set: { name: value } }
         );
 
+        // update on employees
+        const employees = await db.collection("employees").find({ categories: category.name }).toArray();
+
         client.close();
 
         if (update) {

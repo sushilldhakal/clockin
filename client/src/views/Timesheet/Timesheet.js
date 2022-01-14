@@ -14,19 +14,14 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Form, Accordion } from "react-bootstrap";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 import CsvDownload from "react-json-to-csv";
 
 const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
 const sunday = new Date(today.setDate(today.getDate() - today.getDay() + 7));
 
-const addOne = monday.getMonth() + 1;
-const addOne1 = sunday.getMonth() + 1;
-const getMonday = monday.getDate() + "-" + addOne + "-" + monday.getFullYear();
-const getSunday = sunday.getDate() + "-" + addOne1 + "-" + sunday.getFullYear();
+const getMonday = moment().startOf('isoWeek').format('YYYY-MM-DD');
+const getSunday = moment().startOf('isoWeek').add(6,'days').format('YYYY-MM-DD');
 
 class Timesheet extends Component {
   state = {
@@ -55,32 +50,22 @@ class Timesheet extends Component {
       });
     });
 
-    axios
-      .get(API_SERVER + "timesheets")
-      .then((res) => {
-        this.setState({
-          timesheets: res.data.timesheets,
-          users: res.data.user,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.reloadTimesheet()
   }
 
   handleChange = (e) => {
     this.setState({
-      startDate: Date(e.target.value),
+      startDate: moment(e.target.value).format('YYYY-MM-DD'),
     });
     console.log("startDate" + this.state.startDate);
   };
   handleChangeEnd = (e) => {
     this.setState({
-      endDate: Date(e.target.value),
+      endDate: moment(e.target.value).format('YYYY-MM-DD'),
     });
     console.log("endDate" + this.state.endDate);
   };
@@ -94,9 +79,9 @@ class Timesheet extends Component {
     if (this.state.user) {
       obj.user_id = this.state.user;
     }
-
+    console.log(obj)
     axios
-      .get(API_SERVER + "timesheets")
+      .get(API_SERVER + "timesheets", {params: obj})
       .then((res) => {
         this.setState({
           timesheets: res.data.timesheets.map((timesheet) => {
@@ -231,6 +216,7 @@ class Timesheet extends Component {
                             hire: e.target.value,
                             user: "",
                           });
+                          setTimeout(this.reloadTimesheet, 100)
                         }}
                       >
                         <option>Select Employer</option>
@@ -248,9 +234,7 @@ class Timesheet extends Component {
                       <Form.Control
                         as="select"
                         onChange={(e) => {
-                          this.setState({
-                            user: e.target.value,
-                          });
+                          this.setState({user: e.target.value});
                           setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
