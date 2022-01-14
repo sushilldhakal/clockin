@@ -119,9 +119,11 @@ class Timesheet extends Component {
   render() {
     const map = new Map();
     this.state.timesheets.forEach((item) => map.set(item.pin, item));
+
     this.state.users.forEach((item) =>
       map.set(item.pin, { ...map.get(item.pin), ...item })
     );
+
     const mergedArr = Array.from(map.values());
 
     console.log(mergedArr);
@@ -196,7 +198,10 @@ class Timesheet extends Component {
         sortable: true,
       },
     ];
-    const getTimesheet = this.state.timesheets;
+    const getTimesheet = this.state.timesheets.map(e=>{
+      e.id = e.id + e.date;
+      return e;
+    });
     const tableData = {
       columns,
       data: getTimesheet,
@@ -268,7 +273,7 @@ class Timesheet extends Component {
                       data-date=""
                       data-date-format="DD MMMM YYYY"
                       className="form-control"
-                      value={this.state.startDate}
+                      value={moment(this.state.startDate).format('YYYY-MM-DD')}
                       onChange={(e) => {
                         this.handleChange(e);
                         setTimeout(this.reloadTimesheet, 100);
@@ -283,7 +288,7 @@ class Timesheet extends Component {
                       data-date=""
                       data-date-format="DD MMMM YYYY"
                       className="form-control"
-                      value={this.state.endDate}
+                      value={moment(this.state.endDate).format('YYYY-MM-DD')}
                       onChange={(e) => {
                         this.handleChangeEnd(e);
                         setTimeout(this.reloadTimesheet, 100);
