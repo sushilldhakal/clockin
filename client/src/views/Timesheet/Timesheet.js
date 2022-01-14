@@ -20,8 +20,11 @@ const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
 const sunday = new Date(today.setDate(today.getDate() - today.getDay() + 7));
 
-const getMonday = moment().startOf('isoWeek').format('YYYY-MM-DD');
-const getSunday = moment().startOf('isoWeek').add(6,'days').format('YYYY-MM-DD');
+const getMonday = moment().startOf("isoWeek").format("YYYY-MM-DD");
+const getSunday = moment()
+  .startOf("isoWeek")
+  .add(6, "days")
+  .format("YYYY-MM-DD");
 
 class Timesheet extends Component {
   state = {
@@ -47,21 +50,20 @@ class Timesheet extends Component {
       });
     });
 
-    
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
-    this.reloadTimesheet()
+    this.reloadTimesheet();
   }
 
   handleChange = (e) => {
     this.setState({
-      startDate: moment(e.target.value).format('YYYY-MM-DD'),
+      startDate: moment(e.target.value).format("YYYY-MM-DD"),
     });
   };
   handleChangeEnd = (e) => {
     this.setState({
-      endDate: moment(e.target.value).format('YYYY-MM-DD'),
+      endDate: moment(e.target.value).format("YYYY-MM-DD"),
     });
   };
 
@@ -74,14 +76,11 @@ class Timesheet extends Component {
     if (this.state.user) {
       obj.user_id = this.state.user;
     }
-    if(this.state.hire) {
+    if (this.state.hire) {
       obj.hire = this.state.hire;
     }
-
-    console.log(this.state)
-
     axios
-      .get(API_SERVER + "timesheets", {params: obj})
+      .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
         this.setState({
           timesheets: res.data.timesheets.map((timesheet) => {
@@ -128,7 +127,7 @@ class Timesheet extends Component {
         selector: (row) => row["name"],
         sortable: true,
         cell: (d) => (
-          <Link to={"/dashboard/each-staff/" + d.id}>
+          <Link to={"/dashboard/each-staff/" + d._id}>
             {d.name}
             {"-" + d.comment}
           </Link>
@@ -183,7 +182,7 @@ class Timesheet extends Component {
         sortable: true,
       },
     ];
-    const getTimesheet = this.state.timesheets.map(e=>{
+    const getTimesheet = this.state.timesheets.map((e) => {
       e.id = e.id + e.date;
       return e;
     });
@@ -213,7 +212,7 @@ class Timesheet extends Component {
                             hire: e.target.value,
                             user: "",
                           });
-                          setTimeout(this.reloadTimesheet, 100)
+                          setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
                         <option>Select Employer</option>
@@ -225,13 +224,46 @@ class Timesheet extends Component {
                       </Form.Control>
                     </Form.Group>
                   </Col>
+
+                  <Col md={3} sm={6}>
+                    <Form.Label>Range DD-MM-YYYY</Form.Label>
+                    <input
+                      id="formGridsDate"
+                      type="date"
+                      name="startDate"
+                      data-date=""
+                      data-date-format="DD MMMM YYYY"
+                      className="form-control"
+                      value={moment(this.state.startDate).format("YYYY-MM-DD")}
+                      onChange={(e) => {
+                        this.handleChange(e);
+                        setTimeout(this.reloadTimesheet, 100);
+                      }}
+                      placeholder="Start Date"
+                    />
+                    To
+                    <input
+                      id="formGrideDate"
+                      type="date"
+                      name="endDate"
+                      data-date=""
+                      data-date-format="DD MMMM YYYY"
+                      className="form-control"
+                      value={moment(this.state.endDate).format("YYYY-MM-DD")}
+                      onChange={(e) => {
+                        this.handleChangeEnd(e);
+                        setTimeout(this.reloadTimesheet, 100);
+                      }}
+                      placeholder="End Date"
+                    />
+                  </Col>
                   <Col md={3} sm={6}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Select User</Form.Label>
                       <Form.Control
                         as="select"
                         onChange={(e) => {
-                          this.setState({user: e.target.value});
+                          this.setState({ user: e.target.value });
                           setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
@@ -247,38 +279,6 @@ class Timesheet extends Component {
                           ))}
                       </Form.Control>
                     </Form.Group>
-                  </Col>
-                  <Col md={3} sm={6}>
-                    <Form.Label>Range DD-MM-YYYY</Form.Label>
-                    <input
-                      id="formGridsDate"
-                      type="date"
-                      name="startDate"
-                      data-date=""
-                      data-date-format="DD MMMM YYYY"
-                      className="form-control"
-                      value={moment(this.state.startDate).format('YYYY-MM-DD')}
-                      onChange={(e) => {
-                        this.handleChange(e);
-                        setTimeout(this.reloadTimesheet, 100);
-                      }}
-                      placeholder="Start Date"
-                    />
-                    To
-                    <input
-                      id="formGrideDate"
-                      type="date"
-                      name="endDate"
-                      data-date=""
-                      data-date-format="DD MMMM YYYY"
-                      className="form-control"
-                      value={moment(this.state.endDate).format('YYYY-MM-DD')}
-                      onChange={(e) => {
-                        this.handleChangeEnd(e);
-                        setTimeout(this.reloadTimesheet, 100);
-                      }}
-                      placeholder="End Date"
-                    />
                   </Col>
                   <Col md={3} sm={6}>
                     <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
@@ -297,6 +297,7 @@ class Timesheet extends Component {
                     defaultSortField="id"
                     defaultSortAsc={true}
                     pagination
+                    noHeader
                     highlightOnHover
                     export={true}
                     sortIcon={<SortIcon />}

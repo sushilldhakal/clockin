@@ -70,7 +70,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.wherein}
                 target="_blank"
               >
-                {data.wherein}
+                Location
               </a>
             ) : (
               <span>No record</span>
@@ -82,7 +82,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.wherebreak}
                 target="_blank"
               >
-                {data.wherebreak}
+                Location
               </a>
             ) : (
               <span>No record</span>
@@ -94,7 +94,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.whereendBreak}
                 target="_blank"
               >
-                {data.whereendBreak}
+                Location
               </a>
             ) : (
               <span>No record</span>
@@ -106,7 +106,7 @@ const ExpandableComponent = ({ data }) => {
                 href={"https://www.google.com/maps/place/" + data.whereout}
                 target="_blank"
               >
-                {data.whereout}
+                Location
               </a>
             ) : (
               <span>No record</span>

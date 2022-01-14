@@ -14,6 +14,7 @@ const delete_category = require("./controllers/delete_category");
 const update_employee = require("./controllers/update_employee");
 const delete_employee = require("./controllers/delete_employee");
 const update_timesheet = require("./controllers/update_timesheet");
+const flag = require("./controllers/flag");
 
 const fastify = require("fastify")({ logger: true });
 
@@ -32,6 +33,8 @@ fastify.post("/api/clock/:type", clock);
 fastify.get("/api/get-timesheets/:pin", get_timesheets);
 
 fastify.get("/api/timesheets/:staff_id", get_staff_timesheets);
+
+fastify.get("/api/flag", flag);
 
 fastify.post("/api/auth/login", login);
 
