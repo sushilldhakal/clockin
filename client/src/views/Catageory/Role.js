@@ -17,7 +17,7 @@ export default ({ type }) => {
         setValues(res.data);
       })
       .catch((res) => {
-        alert("Something went wrong");
+        alert(res.response.data.message);
       });
   };
 
@@ -30,7 +30,7 @@ export default ({ type }) => {
         reload();
       })
       .catch((res) => {
-        alert("Something went wrong");
+        alert(res.response.data.message);
       });
   };
 
@@ -44,7 +44,8 @@ export default ({ type }) => {
         setEdit("");
       })
       .catch((res) => {
-        alert("Something went wrong");
+        alert(res.response.data.message);
+        setEdit("");
       });
   };
 
@@ -57,7 +58,7 @@ export default ({ type }) => {
         setEdit("");
       })
       .catch((res) => {
-        alert("Something went wrong");
+        alert(res.response.data.message);
       });
   };
 
