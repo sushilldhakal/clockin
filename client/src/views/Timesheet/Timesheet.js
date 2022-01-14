@@ -141,7 +141,7 @@ class Timesheet extends Component {
         selector: (row) => row["name"],
         sortable: true,
         cell: (d) => (
-          <Link to={"/dashboard/each-staff/" + d.id}>
+          <Link to={"/dashboard/each-staff/" + d._id}>
             {d.name}
             {"-" + d.comment}
           </Link>
@@ -308,6 +308,7 @@ class Timesheet extends Component {
                     defaultSortField="id"
                     defaultSortAsc={true}
                     pagination
+                    noHeader
                     highlightOnHover
                     export={true}
                     sortIcon={<SortIcon />}

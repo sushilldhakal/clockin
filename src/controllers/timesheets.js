@@ -23,7 +23,7 @@ module.exports = async (request, reply) => {
         times[timesheet.date]["role"] = users.role;
         times[timesheet.date]["site"] = users.site;
         times[timesheet.date]["hire"] = users.hire;
-        times[timesheet.date]["id"] = users._id;
+        times[timesheet.date]["_id"] = users._id;
         times[timesheet.date]["comment"] = users.comment;
       }
     });
