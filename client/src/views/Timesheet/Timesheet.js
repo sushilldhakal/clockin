@@ -41,6 +41,9 @@ class Timesheet extends Component {
   };
 
   componentDidMount() {
+    console.log(this.state.startDate);
+    console.log(this.state.endDate);
+
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({
         users: res.data,
@@ -198,7 +201,7 @@ class Timesheet extends Component {
         sortable: true,
       },
     ];
-    const getTimesheet = this.state.timesheets.map(e=>{
+    const getTimesheet = this.state.timesheets.map((e) => {
       e.id = e.id + e.date;
       return e;
     });
@@ -273,7 +276,7 @@ class Timesheet extends Component {
                       data-date=""
                       data-date-format="DD MMMM YYYY"
                       className="form-control"
-                      value={moment(this.state.startDate).format('YYYY-MM-DD')}
+                      value={moment(this.state.startDate).format("YYYY-MM-DD")}
                       onChange={(e) => {
                         this.handleChange(e);
                         setTimeout(this.reloadTimesheet, 100);
@@ -288,7 +291,7 @@ class Timesheet extends Component {
                       data-date=""
                       data-date-format="DD MMMM YYYY"
                       className="form-control"
-                      value={moment(this.state.endDate).format('YYYY-MM-DD')}
+                      value={moment(this.state.endDate).format("YYYY-MM-DD")}
                       onChange={(e) => {
                         this.handleChangeEnd(e);
                         setTimeout(this.reloadTimesheet, 100);
@@ -296,6 +299,7 @@ class Timesheet extends Component {
                       placeholder="End Date"
                     />
                   </Col>
+
                   <Col md={3} sm={6}>
                     <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
                     <br />
