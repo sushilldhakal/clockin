@@ -9,18 +9,35 @@ module.exports = async (request, reply) => {
     const id = request.params.category_id;
     const {  value } = request.body;
 
+    const exists = await db.collection("categories").findOne({ name: value });
+
+    if(exists) {
+        return reply.code(400).send({
+            message: "Same name already exists"
+        });
+    }
 
     const category = await db.collection("categories").findOne({ _id: ObjectId(id) });
+    
+    const keys = {
+        employer: 'hire',
+        location: 'site',
+        role: 'role'
+    }
 
     if (category) {
-        const update = await db.collection("categories").updateOne(
+        let update = await db.collection("categories").updateOne(
             { _id: ObjectId(id) },
             { $set: { name: value } }
         );
 
-        // update on employees
-        const employees = await db.collection("employees").find({ categories: category.name }).toArray();
+        update = await db.collection("employees").updateMany(
+            { [keys[category.type]]: category.name },
+            { $set: { [keys[category.type]]: value } }
+        );
 
+        console.log(category)
+        
         client.close();
 
         if (update) {
@@ -38,10 +55,5 @@ module.exports = async (request, reply) => {
         success: false,
         message: "Category not found"
     });
-
-
-
-
-
 
 };
