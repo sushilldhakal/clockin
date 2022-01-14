@@ -23,6 +23,7 @@ module.exports = async (request, reply) => {
     email: request.body.email,
     phone: request.body.phone,
     dob: request.body.dob,
+    comment: request.body.comment,
     updatedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
   };
   await db

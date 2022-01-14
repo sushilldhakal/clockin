@@ -28,10 +28,14 @@ module.exports = (request, reply) => {
         } else {
           data.time = moment().tz("Australia/melbourne").format("LLLL");
           data.image = request.body.image;
+          data.lat = request.body.lat;
+          data.lng = request.body.lng;
+          data.where = data.lat + "," + data.lng;
+          data.flag = false;
           collection.insertOne(data).then(() => {
             reply.send({
               status: "success",
-              message: "User clocked " + request.params.type,
+              message: "User clocked " + request.body.lat,
             });
             client.close();
           });

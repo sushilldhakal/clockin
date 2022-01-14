@@ -3,20 +3,24 @@ import React, { useState } from "react";
 import { Card, Col, Form, Button } from "react-bootstrap";
 import { API_SERVER } from "../../config/constant";
 import swal from "sweetalert";
-
+import FileBase64 from "react-file-base64";
 export default ({ user, role, location, employer, onUpdate }) => {
   const [employee, setUser] = useState(user);
+
+  const getFiles = (e) => {
+    let files = e;
+    let userImage = files.base64;
+    setUser({ ...employee, img: userImage });
+    console.log(userImage);
+  };
 
   const updateEmployee = () => {
     if (
       !employee.pin ||
-      !employee.email ||
       !employee.name ||
       !employee.role ||
       !employee.hire ||
-      !employee.site ||
-      !employee.phone ||
-      !employee.dob
+      !employee.site
     ) {
       swal({
         title: "Error",
@@ -46,7 +50,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
     <form className="add-employee-form">
       <div className="container-add-employee">
         <Col sm={12}>
-          <Form.Row>
+          <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Full Name</Form.Label>
               <input
@@ -74,8 +78,8 @@ export default ({ user, role, location, employer, onUpdate }) => {
                 minLength="4"
               />
             </Form.Group>
-          </Form.Row>
-          <Form.Row>
+          </div>
+          <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridRole">
               <Form.Label>Select Role</Form.Label>
               <Form.Control
@@ -126,9 +130,9 @@ export default ({ user, role, location, employer, onUpdate }) => {
                 ))}
               </Form.Control>
             </Form.Group>
-          </Form.Row>
+          </div>
 
-          <Form.Row>
+          <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
               <input
@@ -171,14 +175,48 @@ export default ({ user, role, location, employer, onUpdate }) => {
                 placeholder="DOB"
               />
             </Form.Group>
-          </Form.Row>
-          <Form.Row>
+          </div>
+          <div className="form-row mb-4">
+            <Form.Group as={Col} controlId="formGridComment">
+              <Form.Label>Comment</Form.Label>
+              <textarea
+                id="formGridComment"
+                type="textarea"
+                name="comment"
+                onChange={(e) =>
+                  setUser({ ...employee, comment: e.target.value })
+                }
+                value={employee.comment}
+                className="form-control"
+                placeholder="Comment"
+              />
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Staff Image</Form.Label>
+              <img
+                className="img img-responsive img-fixed"
+                src={employee.img}
+              />
+              <div>
+                <FileBase64
+                  type="file"
+                  multiple={false}
+                  onDone={getFiles}
+                  value={employee.img}
+                  onChange={(e) =>
+                    setUser({ ...employee, img: e.target.value })
+                  }
+                />
+              </div>
+            </Form.Group>
+          </div>
+          <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridDob">
               <a className="btn btn-primary" href="#" onClick={updateEmployee}>
                 Save Employee Details
               </a>
             </Form.Group>
-          </Form.Row>
+          </div>
         </Col>
       </div>
     </form>

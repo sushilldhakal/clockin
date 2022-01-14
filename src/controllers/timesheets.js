@@ -1,39 +1,38 @@
 const connect = require("../config/connect");
-const moment = require("moment");
 const { ObjectId } = require("bson");
+const moment = require("moment");
 
 module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-  const collection = db.collection("timesheets");
 
-  const users = await db.collection("employees").find().toArray();
+  let filter = {}
 
-  let timesheets = await collection
-    .find()
-    .sort({ date: -1 })
-    .map(({ type, date, time, pin, image }) => {
-      let user = users.filter((user) => user.pin === pin)[0];
+  if(request.query.user_id) {
+    filter = {
+      _id: ObjectId(request.query.user_id)
+    }
+  }
+  
+  let user = await db.collection("employees").find(filter).toArray();
 
-      if (time) {
-        time = moment(time).format("h:mm a");
-      }
-      if (user) {
-        let { name, role, hire, site } = user;
-        return { type, date, time, name, pin, role, hire, site, image };
-      }
+  filter = {}
 
-      return { type, date, time, pin, image };
-    })
-    .toArray();
+  if(request.query.user_id) {
+    filter = {
+      pin: user[0].pin
+    }
+  }
+
+  let timesheets = await db.collection("timesheets").find(filter).toArray();
 
   timesheets = timesheets.filter((timesheet) => {
     if (
-      moment(request.query.startDate, 'DD-MM-YYYY').isValid() &&
-      moment(request.query.endDate, 'DD-MM-YYYY').isValid()
+      moment(request.query.startDate, 'YYYY-MM-DD').isValid() &&
+      moment(request.query.endDate, 'YYYY-MM-DD').isValid()
     ) {
-      let startDate = moment(request.query.startDate, "DD-MM-YYYY");
-      let endDate = moment(request.query.endDate, "DD-MM-YYYY");
+      let startDate = moment(request.query.startDate, "YYYY-MM-DD");
+      let endDate = moment(request.query.endDate, "YYYY-MM-DD");
       let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
       if (timesheetDate.isBetween(startDate, endDate, null, '[]')) {
         return true;
@@ -42,27 +41,69 @@ module.exports = async (request, reply) => {
       return false;
     }
 
+
     return true;
   });
 
-  // filter record using user_id
-  if (request.query.user_id) {
-    // get pin from user_id
-    let user = users.filter((user) => {
-      return user._id.toString() === request.query.user_id;
-    })[0];
+  let times = {};
+  let users = {};
 
-    if (user) {
-      timesheets = timesheets.filter((timesheet) => {
-        return timesheet.pin === user.pin;
-      });
+  timesheets = timesheets.map((timesheet) => {
+    if (times[timesheet.date] === undefined) {
+      times[timesheet.date] = {};
     }
-  }
+
+
+    users = user.map((users) => {
+      if (users.pin === timesheet.pin) {
+        times[timesheet.date]["name"] = users.name;
+        times[timesheet.date]["role"] = users.role;
+        times[timesheet.date]["site"] = users.site;
+        times[timesheet.date]["hire"] = users.hire;
+        times[timesheet.date]["id"] = users._id;
+        times[timesheet.date]["comment"] = users.comment;
+      }
+    });
+
+    times[timesheet.date]["date"] = timesheet.date;
+    times[timesheet.date]["pin"] = timesheet.pin;
+    times[timesheet.date][timesheet.type] = {};
+    times[timesheet.date][timesheet.type] = moment(timesheet.time).format(
+      "HH:mm:ss"
+    );
+    // moment add time difference in hours
+  })
+
+  times = Object.values(times).map((t) => {
+    if (t.break && t.endBreak)
+      t.btotal = moment
+        .duration(
+          moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
+        )
+        .asHours()
+        .toFixed(2);
+
+    if (t.in && t.out)
+      t.total = moment
+        .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
+        .asHours()
+        .toFixed(2);
+
+    return t;
+  }).filter(timesheet => {
+    if(request.query.hire) {
+      return request.query.hire === timesheet.hire;
+    }
+    return true;
+  });
 
   client.close();
 
   reply.send({
-    timesheets,
+    // mergedArr,
+    timesheets: times,
+    user,
+    user_id: request.params.staff_id,
     message: "Timesheets fetched successfully",
   });
 };

@@ -9,7 +9,7 @@ import swal from "sweetalert";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
 
-import moment from "moment";
+import moment, { relativeTimeThreshold } from "moment";
 
 const ExpandableComponent = ({ data }) => {
   return (
@@ -61,9 +61,65 @@ const ExpandableComponent = ({ data }) => {
           </th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td>
+            {data.wherein != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.wherein}
+                target="_blank"
+              >
+                {data.wherein}
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
+          </td>
+          <td>
+            {data.wherebreak != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.wherebreak}
+                target="_blank"
+              >
+                {data.wherebreak}
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
+          </td>
+          <td>
+            {data.whereendBreak != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.whereendBreak}
+                target="_blank"
+              >
+                {data.whereendBreak}
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
+          </td>
+          <td>
+            {data.whereout != null ? (
+              <a
+                href={"https://www.google.com/maps/place/" + data.whereout}
+                target="_blank"
+              >
+                {data.whereout}
+              </a>
+            ) : (
+              <span>No record</span>
+            )}
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
     </table>
   );
 };
+
 class UserProfile extends Component {
   state = {
     show: false,
@@ -72,6 +128,16 @@ class UserProfile extends Component {
     role: "",
     location: "",
     employer: "",
+    comment: "",
+    inputValue: "",
+    date: "",
+    in: "",
+    break: "",
+    breakEnd: "",
+    out: "",
+    selected_row_index: 0,
+    is_action_menu_active: false,
+    edited: false,
   };
 
   componentDidMount() {
@@ -82,7 +148,6 @@ class UserProfile extends Component {
           timesheets: res.data.timesheets,
           user: res.data.user[0],
         });
-        console.log(res.data.timesheets);
       })
       .catch((err) => {
         console.log(err);
@@ -91,6 +156,7 @@ class UserProfile extends Component {
     this.retrieveRole = this.retrieveRole.bind(this);
     this.retrieveLocation = this.retrieveLocation.bind(this);
     this.retrieveEmployer = this.retrieveEmployer.bind(this);
+    this.sendData = this.sendData.bind(this);
     this.retrieveRole();
     this.retrieveLocation();
     this.retrieveEmployer();
@@ -101,16 +167,70 @@ class UserProfile extends Component {
       this.setState({ categoryRole: res.data });
     });
   }
+
   retrieveLocation() {
     axios.get(API_SERVER + "category/location").then((res) => {
       this.setState({ categoryLocation: res.data });
     });
   }
+
   retrieveEmployer() {
     axios.get(API_SERVER + "category/employer").then((res) => {
       this.setState({ categoryEmployer: res.data });
     });
   }
+
+  open_setting_menu(row, index) {
+    this.setState({
+      is_action_menu_active: !this.state.is_action_menu_active,
+      selected_row_index: index,
+    });
+  }
+
+  sendData(row, index) {
+    const data = {};
+
+    if (this.state.in) {
+      data.in = this.state.in;
+    }
+    if (this.state.break) {
+      data.break = this.state.break;
+    }
+    if (this.state.breakEnd) {
+      data.endBreak = this.state.breakEnd;
+    }
+    if (this.state.out) {
+      data.out = this.state.out;
+    }
+
+    data.pin = row.pin;
+    data.date = row.date;
+    data.user_id = this.props.match.params.staff_id;
+    axios
+      .post(API_SERVER + "update-timesheet", data)
+      .then((res) => {
+        swal({
+          title: "User Added",
+          text: "User added Sucessfull, please click on ok to load user list",
+          icon: "success",
+        }).then(function () {
+          window.location.reload();
+        });
+      })
+      .catch((err) => {
+        swal(err.response.data.message);
+      });
+  }
+
+  handleTableInput = (e) => {
+    let input = e.target;
+    let name = input.name;
+    let value = input.value;
+    this.setState({
+      [name]: value,
+    });
+    console.log(name, value);
+  };
 
   handleShowForm = () => {
     this.setState({
@@ -142,73 +262,235 @@ class UserProfile extends Component {
     const userDetails = this.state.user;
     const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
+    console.log(timesheets);
     const columns = [
       {
         name: "Date",
-        selector: (row) => row["date"],
+        selector: (row) => row.date,
         sortable: true,
-        cell: (d) => (
+        id: "Date",
+        cell: (row, index) => (
           <div>
-            <i className="far fa-calendar-alt"></i>
-            <span className="align-left pl-2">
-              {moment(d.date, "DD, MM, YYYY").format("llll")}
-            </span>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-calendar-alt"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="align-left pl-2">
+                    {moment(row.date, "DD, MM, YYYY").format("llll")}
+                  </span>
+                )}
+                <input
+                  name="date"
+                  type="date"
+                  className="custom-table-input"
+                  placeholder="12/02/2022"
+                  value={this.state.date}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <i className="far fa-calendar-alt"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="align-left pl-2">
+                    {moment(row.date, "DD, MM, YYYY").format("llll")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
       {
+        id: "clock-in",
         name: "Clock In",
-        selector: (row) => row["in"],
+        selector: (row) => [row.in, row.workingin],
         sortable: false,
-        cell: (d) => (
-          <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">{moment(d.in, "hh:mm a").format("LT")}</span>
+        cell: (row, index) => (
+          <div className={row.workingin}>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <div className={row.workingin}>
+                <i className="far fa-clock"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.in, "hh:mm a").format("LT")}
+                  </span>
+                )}
+                <input
+                  name="in"
+                  type="time"
+                  className="custom-table-input"
+                  placeholder="20:20:00"
+                  value={this.state.in}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.in == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.in, "hh:mm a").format("LT")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
       {
+        id: "Break-Start",
         name: "Break Start",
-        selector: (row) => row["break"],
+        selector: (row) => [row.break, row.workingbreak],
         sortable: true,
-        cell: (d) => (
-          <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.break, "hh:mm a").format("LT")}
-            </span>
+        cell: (row, index) => (
+          <div className={row.workingbreak}>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <div className={row.workingbreak}>
+                <i className="far fa-clock"></i>
+                {row.break == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.break, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="break"
+                  className="custom-table-input"
+                  type="time"
+                  placeholder="20:20:00"
+                  value={this.state.break}
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.break == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.break, "hh:mm a").format("LT")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
       {
+        id: "Break-End",
         name: "Break End",
-        selector: (row) => row["endBreak"],
+        selector: (row) => [row.endBreak, row.workingendBreak],
         sortable: true,
-        cell: (d) => (
-          <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.endBreak, "hh:mm a").format("LT")}
-            </span>
+        cell: (row, index) => (
+          <div className={row.workingendBreak}>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.endBreak == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.endBreak, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="breakEnd"
+                  className="custom-table-input"
+                  placeholder="20:20:00"
+                  value={this.state.breakEnd}
+                  type="time"
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.endBreak == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.endBreak, "hh:mm a").format("LT")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
       {
+        id: "Clock-Out",
         name: "Clock Out",
-        selector: (row) => row["out"],
+        selector: (row) => row.out,
         sortable: true,
-        cell: (d) => (
-          <div>
-            <i className="far fa-clock"></i>
-            <span className="pl-1">
-              {moment(d.out, "hh:mm a").format("LT")}
-            </span>
+        cell: (row, index) => (
+          <div className={row.workingout}>
+            {this.state.is_action_menu_active &&
+            this.state.selected_row_index === index ? (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.out == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.out, "hh:mm a").format("LT")}
+                  </span>
+                )}
+
+                <input
+                  name="out"
+                  className="custom-table-input"
+                  value={this.state.out}
+                  placeholder="20:20:00"
+                  type="time"
+                  onChange={(e) => {
+                    this.handleTableInput(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <i className="far fa-clock"></i>
+                {row.out == null ? (
+                  <span className="pl-1">00:00 am</span>
+                ) : (
+                  <span className="pl-1">
+                    {moment(row.out, "hh:mm a").format("LT")}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         ),
       },
       {
+        id: "Break-hours",
         name: "Break hours",
-        selector: (row) => row["btotal"],
+        selector: (row) => row.btotal,
         sortable: true,
         cell: (d) => (
           <div>
@@ -219,14 +501,51 @@ class UserProfile extends Component {
         ),
       },
       {
+        id: "Total-hours",
         name: "Total hours",
-        selector: (row) => row["total"],
+        selector: (row) => row.total,
         sortable: true,
         cell: (d) => (
           <div>
             <i className="fas fa-hourglass-half"></i>
 
             <span className="pl-1">{d.total}</span>
+          </div>
+        ),
+      },
+      {
+        key: "action",
+        id: "Action",
+        name: "Action",
+        className: "action",
+        cell: (row, index) => (
+          <div
+            className={`btn btn-default ui right pointing dropdown icon ${
+              this.state.is_action_menu_active &&
+              this.state.selected_row_index === index
+                ? "active"
+                : ""
+            }`}
+            onClick={() => this.open_setting_menu(row, index)}
+          >
+            <div
+              className={`menu ${
+                this.state.is_action_menu_active &&
+                this.state.selected_row_index === index
+                  ? "transition visible"
+                  : ""
+              }`}
+            >
+              <div className="btn btn-custom btn-border item item-edit">
+                Edit
+              </div>
+              <div
+                onClick={() => this.sendData(row, index)}
+                className="btn btn-custom btn-border item item-update"
+              >
+                Update
+              </div>
+            </div>
           </div>
         ),
       },
@@ -241,7 +560,9 @@ class UserProfile extends Component {
       <div>
         <Card>
           <Card.Header>
-            <Card.Title as="h5">{userName}</Card.Title>
+            <Card.Title as="h5">
+              {userDetails.name} {userDetails.comment}
+            </Card.Title>
             <div className="float-right">
               <button
                 className="btn btn-danger btn-rounded"
@@ -254,87 +575,54 @@ class UserProfile extends Component {
           <Card.Body>
             {this.state.user && (
               <Col>
-                <Button
-                  className="btn btn-primary toggle-button"
-                  onClick={this.handleShowForm}
-                >
-                  {!this.state.show ? "Edit Employee Details" : "Close Form"}
-                </Button>
+                <div className="edit-employee-bottom-row clearfix">
+                  <Button
+                    className="btn btn-primary toggle-button float-start"
+                    onClick={this.handleShowForm}
+                  >
+                    {!this.state.show ? "Edit Employee Details" : "Close Form"}
+                  </Button>
+                </div>
               </Col>
             )}
-            {this.state.user && this.state.show && (
-              <EditEmployee
-                user={this.state.user}
-                role={this.state.categoryRole}
-                location={this.state.categoryLocation}
-                employer={this.state.categoryEmployer}
-                onUpdate={(e) => this.setState({ show: false })}
-              />
-            )}
 
-            <DataTableExtensions {...tableData}>
-              <DataTable
-                columns={columns}
-                data={timesheets}
-                noHeader
-                defaultSortField="id"
-                defaultSortAsc={true}
-                pagination
-                highlightOnHover
-                sortIcon={<SortIcon />}
-                expandableRows
-                expandableRowsComponent={ExpandableComponent}
-              />
-            </DataTableExtensions>
+            <div className="row">
+              <div className="col-sm-8">
+                {this.state.user && this.state.show && (
+                  <EditEmployee
+                    user={this.state.user}
+                    role={this.state.categoryRole}
+                    location={this.state.categoryLocation}
+                    employer={this.state.categoryEmployer}
+                    onUpdate={(e) => this.setState({ show: false })}
+                  />
+                )}
+              </div>
+              <div className="col-sm-4">
+                <img
+                  src={userDetails.img}
+                  className="img img-responsive img-custom"
+                />
+              </div>
+            </div>
+            <div className="single-user-table">
+              <DataTableExtensions {...tableData}>
+                <DataTable
+                  columns={columns}
+                  data={timesheets}
+                  noHeader
+                  defaultSortField="id"
+                  defaultSortAsc={true}
+                  pagination
+                  highlightOnHover
+                  sortIcon={<SortIcon />}
+                  expandableRows
+                  expandableRowsComponent={ExpandableComponent}
+                />
+              </DataTableExtensions>
+            </div>
           </Card.Body>
         </Card>
-
-        {/* <Accordion defaultActiveKey="0" flush>
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>3-1-2022 To 9-1-2022</Accordion.Header>
-            <Accordion.Body>
-              <Card>
-                <Card.Header>
-                  <span className="float-start">Total Hours</span>
-
-                  <span className="float-end">40hrs</span>
-                </Card.Header>
-              </Card>
-              {timesheets.map((time, id) => {
-                return (
-                  <Card key={id}>
-                    <Card.Header>
-                      <Card.Title>
-                        <i className="far fa-calendar-alt"></i>
-                        <span className="align-left">
-                          {moment(time.date, "DD, MM, YYYY").format("llll")}
-                        </span>
-                      </Card.Title>
-                    </Card.Header>
-
-                    <Card.Body>
-                      <Row>
-                        <Col>
-                          <i className="far fa-clock"></i>
-                          {time.in} - {time.out}
-                          <br />
-                          <i className="fas fa-mug-hot"></i>
-                          {time.btotal}
-                        </Col>
-                        <Col>
-                          <span className="float-end">
-                            <i className="fas fa-hourglass-half"></i>
-                            {time.total}
-                          </span>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                  </Card>
-                );
-              })}
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion> */}
       </div>
     );
   }

@@ -20,21 +20,12 @@ class ListEmployee extends Component {
     site: "",
     pin: "",
     dob: "",
+    comment: "",
+    flag: false,
     categoryRole: [],
     categoryLocation: [],
     categoryEmployer: [],
     edit: false,
-  };
-
-  // Get and Set value from form
-  getFilterValue = (e) => {
-    const search = e.target.value;
-    const matches = search.match(/^[0-9\b]+$/);
-    if (matches != null) {
-      this.setState({ search });
-    } else {
-      this.setState({ search });
-    }
   };
 
   componentDidMount() {
@@ -78,67 +69,6 @@ class ListEmployee extends Component {
     );
   };
 
-  //Get value from input fields
-  getNewEmployee = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  //Add value from state to data array
-  addNewEmployee = (e) => {
-    e.preventDefault();
-    const { name, role, hire, site, email, phone, pin, dob } = this.state;
-
-    if (!name || !role || !hire || !site || !phone || !email || !pin || !dob) {
-      alert("Fill all the fields");
-    } else {
-      const newEmployee = {
-        id: this.state.id,
-        name,
-        role,
-        hire,
-        site,
-        email,
-        phone,
-        pin,
-        dob,
-      };
-
-      axios
-        .post(API_SERVER + "add-employee", newEmployee)
-        .then((res) => {
-          alert(res.data.message);
-          this.retrieveData();
-        })
-        .catch((err) => {
-          alert("Something went wrong");
-        });
-    }
-  };
-
-  // editEmployee = (id) => {
-  //   const editEmployee = this.state.data.find((item) => item.id === id);
-  //   this.setState({
-  //     data: editEmployee.name,
-  //     show: true,
-  //     name: editEmployee.name,
-  //     role: editEmployee.role,
-  //     hire: editEmployee.hire,
-  //     site: editEmployee.site,
-  //     email: editEmployee.email,
-  //     phone: editEmployee.phone,
-  //     pin: editEmployee.pin,
-  //     dob: editEmployee.dob,
-  //     edit: true,
-  //     id: editEmployee.id
-  //   });
-  // };
-
-  //Clear state from data array
-  handleClearList = () => {
-    this.setState({ search: "" });
-  };
-
   //Show form
   handleShowForm = () => {
     this.setState({
@@ -150,9 +80,6 @@ class ListEmployee extends Component {
     const getRole = this.state.categoryRole;
     const getLocation = this.state.categoryLocation;
     const getEmployer = this.state.categoryEmployer;
-    // console.log(getRole);
-    // console.log(getLocation);
-    // console.log(getEmployer);
     return (
       <React.Fragment>
         <Row>
@@ -188,7 +115,7 @@ class ListEmployee extends Component {
                       pin={this.state.pin}
                       dob={this.state.dob}
                       edit={this.state.edit}
-                      getNewEmployee={this.state.getNewEmployee}
+                      comment={this.state.comment}
                       addNewEmployee={this.addNewEmployee}
                       retrieveRole={getRole}
                       retrieveLocation={getLocation}
@@ -199,8 +126,6 @@ class ListEmployee extends Component {
                 <List
                   key={this.state.id}
                   deleteEmployee={this.deleteEmployee}
-                  //editEmployee={this.editEmployee}
-                  handleClearList={this.handleClearList}
                   getFilterData={this.getFilterData}
                 />
               </Card.Body>

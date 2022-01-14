@@ -34,6 +34,13 @@ const menuItems = {
           url: "/dashboard/catageory",
           icon: "feather icon-box",
         },
+        {
+          id: "flag",
+          title: "Flag",
+          type: "item",
+          url: "/dashboard/flag",
+          icon: "feather icon-box",
+        },
       ],
     },
   ],

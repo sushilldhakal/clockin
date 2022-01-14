@@ -28,6 +28,8 @@ module.exports = async (request, reply) => {
       "HH:mm:ss"
     );
     times[timesheet.date]["image" + timesheet.type] = timesheet.image;
+    times[timesheet.date]["where" + timesheet.type] = timesheet.where;
+    times[timesheet.date]["working" + timesheet.type] = timesheet.working;
 
     // moment add time difference in hours
   });

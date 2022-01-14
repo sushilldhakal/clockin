@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "nodemon src/server.js",
     "client": "cd client && npm run start",
     "build": "cd client && npm install --only=dev && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",

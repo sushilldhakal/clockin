@@ -17,6 +17,25 @@
     }
   }
 }
+
+.single-user-table .insert {
+  color: red;
+}
+
+.single-user-table .update {
+  color: #249d71;
+}
+
+.img-fixed {
+  width: 100px;
+  height: 100px;
+}
+.custom-table-input {
+  min-width: 100px;
+}
+#cell-Date-undefined input {
+  width: 120px;
+}
 btn-hover:hover {
   background-color: #576274;
   color: #fff !important;
@@ -105,6 +124,22 @@ a.btn-custom:hover {
   display: flex !important;
   justify-content: space-between !important;
   border-bottom: 1px solid !important;
+}
+
+.pointing .item-update {
+  display: none;
+}
+
+.pointing.active .item-edit {
+  display: none;
+}
+.pointing.active .item-update {
+  display: block;
+}
+
+.btn-border {
+  width: 85px;
+  border: 1px solid #000;
 }
 
 .toggle-switch {
