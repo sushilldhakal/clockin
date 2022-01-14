@@ -52,6 +52,18 @@ class Timesheet extends Component {
       });
     });
 
+    axios
+      .get(API_SERVER + "timesheets")
+      .then((res) => {
+        this.setState({
+          timesheets: res.data.timesheets,
+          users: res.data.user,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
@@ -81,79 +93,106 @@ class Timesheet extends Component {
     }
 
     axios
-      .get(API_SERVER + "timesheets", {
-        params: obj,
-      })
+      .get(API_SERVER + "timesheets")
       .then((res) => {
         this.setState({
           timesheets: res.data.timesheets.map((timesheet) => {
             return {
               ...timesheet,
-              user: this.state.users.find((user) => user.pin === timesheet.pin),
+              user: res.data.user.find((user) => user.pin === timesheet.pin),
             };
           }),
         });
+      })
+      .catch((err) => {
+        console.log(err);
       });
+
+    const map = new Map();
+    this.state.timesheets.forEach((item) => map.set(item.pin, item));
+    this.state.users.forEach((item) =>
+      map.set(item.pin, { ...map.get(item.pin), ...item })
+    );
+    const mergedArr = Array.from(map.values());
   };
 
   render() {
+    const map = new Map();
+    this.state.timesheets.forEach((item) => map.set(item.pin, item));
+    this.state.users.forEach((item) =>
+      map.set(item.pin, { ...map.get(item.pin), ...item })
+    );
+    const mergedArr = Array.from(map.values());
+
+    console.log(mergedArr);
+    console.log(this.state.timesheets);
+
     const columns = [
       {
+        id: "date",
         name: "date",
         selector: (row) => row["date"],
         sortable: true,
       },
+
       {
-        name: "Staff Image",
-        selector: (row) => row["image"],
-        sortable: false,
-        cell: (d) => (
-          <div className="image-popover">
-            <img
-              src={d.image}
-              className="img-circle rounded-circle"
-              alt="user"
-            />
-            <img
-              src={d.image}
-              className="img-circle rounded-circle show-on-popover"
-              alt="user"
-              onClick={() => window.open(d.image, "_blank")}
-            />
-          </div>
-        ),
-      },
-      {
+        id: "name",
         name: "Name",
         selector: (row) => row["name"],
-        sortable: false,
+        sortable: true,
         cell: (d) => (
-          <Link to={"/dashboard/each-staff/" + d.user._id}>{d.name}</Link>
+          <Link to={"/dashboard/each-staff/" + d.id}>
+            {d.name}
+            {"-" + d.comment}
+          </Link>
         ),
       },
       {
+        id: "employee",
         name: "Employee",
         selector: (row) => row["hire"],
-        sortable: false,
+        sortable: true,
       },
       {
+        id: "jobRole",
         name: "Job Role",
         selector: (row) => row["role"],
         sortable: true,
       },
       {
+        id: "location",
         name: "Location",
         selector: (row) => row["site"],
         sortable: true,
       },
       {
-        name: "Type",
-        selector: (row) => row["type"],
+        name: "Clock In",
+        selector: (row) => row["in"],
         sortable: true,
       },
       {
-        name: "Logged In time",
-        selector: (row) => row["time"],
+        name: "Break In",
+        selector: (row) => row["break"],
+        sortable: true,
+      },
+      {
+        name: "Break Out",
+        selector: (row) => row["endBreak"],
+        sortable: true,
+      },
+      {
+        name: "Clock Out",
+        selector: (row) => row["out"],
+        sortable: true,
+      },
+      {
+        name: "Total break",
+        selector: (row) => row["btotal"],
+        sortable: true,
+      },
+      {
+        name: "Total",
+        selector: (row) => row["total"],
         sortable: true,
       },
     ];
@@ -162,7 +201,7 @@ class Timesheet extends Component {
       columns,
       data: getTimesheet,
     };
-    console.log(this.state.categoryEmployer);
+
     return (
       <div>
         <Row>
@@ -182,7 +221,7 @@ class Timesheet extends Component {
                         onChange={(e) => {
                           this.setState({
                             hire: e.target.value,
-                            user: ''
+                            user: "",
                           });
                         }}
                       >
@@ -208,13 +247,15 @@ class Timesheet extends Component {
                         }}
                       >
                         <option value="">Select User</option>
-                        {this.state.users.filter(e=>{
-                          return this.state.hire === e.hire
-                        }).map((user, id) => (
-                          <option key={id} value={user._id}>
-                            {user.name}
-                          </option>
-                        ))}
+                        {this.state.users
+                          .filter((e) => {
+                            return this.state.hire === e.hire;
+                          })
+                          .map((user, id) => (
+                            <option key={id} value={user._id}>
+                              {user.name}
+                            </option>
+                          ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
@@ -253,7 +294,6 @@ class Timesheet extends Component {
                   <Col md={3} sm={6}>
                     <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
                     <br />
-                    Total Hours: 40hrs
                   </Col>
                 </Row>
                 <DataTableExtensions
