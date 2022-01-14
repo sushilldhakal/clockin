@@ -58,13 +58,11 @@ class Timesheet extends Component {
     this.setState({
       startDate: moment(e.target.value).format('YYYY-MM-DD'),
     });
-    console.log("startDate" + this.state.startDate);
   };
   handleChangeEnd = (e) => {
     this.setState({
       endDate: moment(e.target.value).format('YYYY-MM-DD'),
     });
-    console.log("endDate" + this.state.endDate);
   };
 
   reloadTimesheet = () => {
@@ -213,7 +211,6 @@ class Timesheet extends Component {
                             hire: e.target.value,
                             user: "",
                           });
-                          setTimeout(this.reloadTimesheet, 100)
                         }}
                       >
                         <option>Select Employer</option>

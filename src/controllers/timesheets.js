@@ -6,8 +6,44 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
 
-  const user = await db.collection("employees").find().toArray();
-  let timesheets = await db.collection("timesheets").find().toArray();
+  let filter = {}
+
+  if(request.query.user_id) {
+    filter = {
+      _id: ObjectId(request.query.user_id)
+    }
+  }
+  
+  let user = await db.collection("employees").find(filter).toArray();
+
+  filter = {}
+
+  if(request.query.user_id) {
+    filter = {
+      pin: user[0].pin
+    }
+  }
+
+  let timesheets = await db.collection("timesheets").find(filter).toArray();
+
+  timesheets = timesheets.filter((timesheet) => {
+    if (
+      moment(request.query.startDate, 'YYYY-MM-DD').isValid() &&
+      moment(request.query.endDate, 'YYYY-MM-DD').isValid()
+    ) {
+      let startDate = moment(request.query.startDate, "YYYY-MM-DD");
+      let endDate = moment(request.query.endDate, "YYYY-MM-DD");
+      let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
+      if (timesheetDate.isBetween(startDate, endDate, null, '[]')) {
+        return true;
+      }
+
+      return false;
+    }
+
+
+    return true;
+  });
 
   let times = {};
   let users = {};
@@ -16,6 +52,7 @@ module.exports = async (request, reply) => {
     if (times[timesheet.date] === undefined) {
       times[timesheet.date] = {};
     }
+
 
     users = user.map((users) => {
       if (users.pin === timesheet.pin) {
@@ -62,6 +99,6 @@ module.exports = async (request, reply) => {
     timesheets: times,
     user,
     user_id: request.params.staff_id,
-    message: "Timesheets fetched successfully 1",
+    message: "Timesheets fetched successfully",
   });
 };
