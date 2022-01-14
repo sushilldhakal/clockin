@@ -72,7 +72,7 @@ module.exports = async (request, reply) => {
       "HH:mm:ss"
     );
     // moment add time difference in hours
-  });
+  })
 
   times = Object.values(times).map((t) => {
     if (t.break && t.endBreak)
@@ -90,6 +90,11 @@ module.exports = async (request, reply) => {
         .toFixed(2);
 
     return t;
+  }).filter(timesheet => {
+    if(request.query.hire) {
+      return request.query.hire === timesheet.hire;
+    }
+    return true;
   });
 
   client.close();

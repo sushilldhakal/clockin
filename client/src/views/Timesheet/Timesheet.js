@@ -80,6 +80,10 @@ class Timesheet extends Component {
       obj.user_id = this.state.user;
     }
     console.log(obj);
+    if (this.state.hire) {
+      obj.hire = this.state.hire;
+    }
+    console.log(this.state);
     axios
       .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
@@ -113,9 +117,6 @@ class Timesheet extends Component {
     );
 
     const mergedArr = Array.from(map.values());
-
-    console.log(mergedArr);
-    console.log(this.state.timesheets);
 
     const columns = [
       {
@@ -216,6 +217,7 @@ class Timesheet extends Component {
                             hire: e.target.value,
                             user: "",
                           });
+                          setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
                         <option>Select Employer</option>
