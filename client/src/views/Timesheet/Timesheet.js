@@ -20,8 +20,11 @@ const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
 const sunday = new Date(today.setDate(today.getDate() - today.getDay() + 7));
 
-const getMonday = moment().startOf('isoWeek').format('YYYY-MM-DD');
-const getSunday = moment().startOf('isoWeek').add(6,'days').format('YYYY-MM-DD');
+const getMonday = moment().startOf("isoWeek").format("YYYY-MM-DD");
+const getSunday = moment()
+  .startOf("isoWeek")
+  .add(6, "days")
+  .format("YYYY-MM-DD");
 
 class Timesheet extends Component {
   state = {
@@ -50,21 +53,20 @@ class Timesheet extends Component {
       });
     });
 
-    
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
-    this.reloadTimesheet()
+    this.reloadTimesheet();
   }
 
   handleChange = (e) => {
     this.setState({
-      startDate: moment(e.target.value).format('YYYY-MM-DD'),
+      startDate: moment(e.target.value).format("YYYY-MM-DD"),
     });
   };
   handleChangeEnd = (e) => {
     this.setState({
-      endDate: moment(e.target.value).format('YYYY-MM-DD'),
+      endDate: moment(e.target.value).format("YYYY-MM-DD"),
     });
   };
 
@@ -77,9 +79,9 @@ class Timesheet extends Component {
     if (this.state.user) {
       obj.user_id = this.state.user;
     }
-    console.log(obj)
+    console.log(obj);
     axios
-      .get(API_SERVER + "timesheets", {params: obj})
+      .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
         this.setState({
           timesheets: res.data.timesheets.map((timesheet) => {
@@ -225,29 +227,7 @@ class Timesheet extends Component {
                       </Form.Control>
                     </Form.Group>
                   </Col>
-                  <Col md={3} sm={6}>
-                    <Form.Group controlId="exampleForm.ControlSelect1">
-                      <Form.Label>Select User</Form.Label>
-                      <Form.Control
-                        as="select"
-                        onChange={(e) => {
-                          this.setState({user: e.target.value});
-                          setTimeout(this.reloadTimesheet, 100);
-                        }}
-                      >
-                        <option value="">Select User</option>
-                        {this.state.users
-                          .filter((e) => {
-                            return this.state.hire === e.hire;
-                          })
-                          .map((user, id) => (
-                            <option key={id} value={user._id}>
-                              {user.name}
-                            </option>
-                          ))}
-                      </Form.Control>
-                    </Form.Group>
-                  </Col>
+
                   <Col md={3} sm={6}>
                     <Form.Label>Range DD-MM-YYYY</Form.Label>
                     <input
@@ -280,7 +260,29 @@ class Timesheet extends Component {
                       placeholder="End Date"
                     />
                   </Col>
-
+                  <Col md={3} sm={6}>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                      <Form.Label>Select User</Form.Label>
+                      <Form.Control
+                        as="select"
+                        onChange={(e) => {
+                          this.setState({ user: e.target.value });
+                          setTimeout(this.reloadTimesheet, 100);
+                        }}
+                      >
+                        <option value="">Select User</option>
+                        {this.state.users
+                          .filter((e) => {
+                            return this.state.hire === e.hire;
+                          })
+                          .map((user, id) => (
+                            <option key={id} value={user._id}>
+                              {user.name}
+                            </option>
+                          ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
                   <Col md={3} sm={6}>
                     <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
                     <br />
