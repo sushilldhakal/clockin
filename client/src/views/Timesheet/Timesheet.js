@@ -39,9 +39,6 @@ class Timesheet extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state.startDate);
-    console.log(this.state.endDate);
-
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({
         users: res.data,
@@ -79,11 +76,9 @@ class Timesheet extends Component {
     if (this.state.user) {
       obj.user_id = this.state.user;
     }
-    console.log(obj);
     if (this.state.hire) {
       obj.hire = this.state.hire;
     }
-    console.log(this.state);
     axios
       .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
