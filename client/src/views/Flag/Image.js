@@ -76,7 +76,7 @@ const FlagLocation = () => {
     <React.Fragment>
       <Card className="Recent-Users">
         <Card.Header>
-          <Card.Title as="h5">Staff without location</Card.Title>
+          <Card.Title as="h5">Staff without image</Card.Title>
         </Card.Header>
         <Card.Body className="px-0 py-2">
           <DataTableExtensions {...tableData}>

@@ -172,21 +172,41 @@ class Timesheet extends Component {
         name: "Clock In",
         selector: (row) => row["in"],
         sortable: true,
+        cell: (row) => (
+          <span className="align-left pl-2">
+            {moment(row.in, "hh:mm a").format("LT")}
+          </span>
+        ),
       },
       {
         name: "Break In",
         selector: (row) => row["break"],
         sortable: true,
+        cell: (row) => (
+          <span className="align-left pl-2">
+            {moment(row.break, "hh:mm a").format("LT")}
+          </span>
+        ),
       },
       {
         name: "Break Out",
         selector: (row) => row["endBreak"],
         sortable: true,
+        cell: (row) => (
+          <span className="align-left pl-2">
+            {moment(row.endBreak, "hh:mm a").format("LT")}
+          </span>
+        ),
       },
       {
         name: "Clock Out",
         selector: (row) => row["out"],
         sortable: true,
+        cell: (row) => (
+          <span className="align-left pl-2">
+            {moment(row.out, "hh:mm a").format("LT")}
+          </span>
+        ),
       },
       {
         name: "Total break",
@@ -204,10 +224,17 @@ class Timesheet extends Component {
       e.id = e.id + e.date;
       return e;
     });
+
     const tableData = {
       columns,
       data: getTimesheet,
     };
+
+    const time = getTimesheet
+      .map((item) => parseInt(item.total))
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(time);
+    console.log(getTimesheet);
 
     return (
       <div>
@@ -301,7 +328,7 @@ class Timesheet extends Component {
                   <Col md={3} sm={6}>
                     <CSVLink data={getTimesheet} headers={headers}>
                       <Button variant="success"> CSV File</Button> <br />
-                      Total Hours: {displayTotal}
+                      Total Hours: {time}
                     </CSVLink>
 
                     <br />
