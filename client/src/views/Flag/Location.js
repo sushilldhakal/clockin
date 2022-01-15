@@ -7,14 +7,14 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
-import { API_SERVER } from "../../../config/constant";
+import { API_SERVER } from "../../config/constant";
 
-const DashDefault = () => {
+const FlagLocation = () => {
   //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get(API_SERVER + "dashboard")
+      .get(API_SERVER + "flag")
       .then((res) => {
         setTimesheets(res.data.timesheets);
       })
@@ -22,6 +22,10 @@ const DashDefault = () => {
         console.log(err);
       });
   }, []);
+
+  var staffNoLocation = timesheets.filter(function (hero) {
+    return hero.where == null;
+  });
   const columns = [
     {
       name: "Staff Image",
@@ -29,7 +33,7 @@ const DashDefault = () => {
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
-          {!d.image ? (
+          {d.image == null ? (
             <span className="pl-1">No Image</span>
           ) : (
             <span>
@@ -85,52 +89,38 @@ const DashDefault = () => {
       name: "Location",
       selector: (row) => row["site"],
       sortable: true,
-      cell: (d) => (
-        <span>
-          {d.where == null ? (
-            <span className="pl-1">{d.site}</span>
-          ) : (
-            <a href={"maps.google.com/places" + d.where} target="_blank">
-              {d.site}
-            </a>
-          )}
-        </span>
-      ),
+      cell: (d) => <span>{d.site}</span>,
     },
   ];
 
   const tableData = {
     columns,
-    data: timesheets,
+    data: staffNoLocation,
   };
   console.log(timesheets);
   return (
     <React.Fragment>
-      <Row>
-        <Col md={12} xl={12}>
-          <Card className="Recent-Users">
-            <Card.Header>
-              <Card.Title as="h5">Recent ClockIn Staff</Card.Title>
-            </Card.Header>
-            <Card.Body className="px-0 py-2">
-              <DataTableExtensions {...tableData}>
-                <DataTable
-                  columns={columns}
-                  data={timesheets}
-                  noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={true}
-                  pagination
-                  highlightOnHover
-                  sortIcon={<SortIcon />}
-                />
-              </DataTableExtensions>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <Card className="Recent-Users">
+        <Card.Header>
+          <Card.Title as="h5">Staff without location</Card.Title>
+        </Card.Header>
+        <Card.Body className="px-0 py-2">
+          <DataTableExtensions {...tableData}>
+            <DataTable
+              columns={columns}
+              data={staffNoLocation}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={true}
+              pagination
+              highlightOnHover
+              sortIcon={<SortIcon />}
+            />
+          </DataTableExtensions>
+        </Card.Body>
+      </Card>
     </React.Fragment>
   );
 };
 
-export default DashDefault;
+export default FlagLocation;

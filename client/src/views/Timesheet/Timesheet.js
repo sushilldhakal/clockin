@@ -2,19 +2,14 @@ import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-import { WeeklyCalendar } from "react-week-picker";
-import "react-week-picker/src/lib/calendar.css";
-
 import moment from "moment";
-
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import { API_SERVER } from "../../config/constant";
-import { Row, Col, Card, Form, Accordion } from "react-bootstrap";
-import CsvDownload from "react-json-to-csv";
+import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { CSVLink } from "react-csv";
 
 const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
@@ -26,6 +21,7 @@ const getSunday = moment()
   .add(6, "days")
   .format("YYYY-MM-DD");
 
+const displayTotal = 0;
 class Timesheet extends Component {
   state = {
     users: [],
@@ -36,6 +32,7 @@ class Timesheet extends Component {
     categoryEmployer: [],
     startDate: getMonday,
     endDate: getSunday,
+    displayTotal: "",
   };
 
   componentDidMount() {
@@ -102,7 +99,6 @@ class Timesheet extends Component {
     );
     const mergedArr = Array.from(map.values());
   };
-
   render() {
     const map = new Map();
     this.state.timesheets.forEach((item) => map.set(item.pin, item));
@@ -112,6 +108,21 @@ class Timesheet extends Component {
     );
 
     const mergedArr = Array.from(map.values());
+
+    const headers = [
+      { label: "Date", key: "date" },
+      { label: "Name", key: "name" },
+      { label: "Comment", key: "comment" },
+      { label: "Employer", key: "hire" },
+      { label: "Role", key: "role" },
+      { label: "Location", key: "site" },
+      { label: "Clock In", key: "in" },
+      { label: "Break", key: "break" },
+      { label: "End Break", key: "endBreak" },
+      { label: "Clock Out", key: "out" },
+      { label: "Total Break", key: "btotal" },
+      { label: "Total Hour", key: "total" },
+    ];
 
     const columns = [
       {
@@ -129,7 +140,13 @@ class Timesheet extends Component {
         cell: (d) => (
           <Link to={"/dashboard/each-staff/" + d._id}>
             {d.name}
-            {"-" + d.comment}
+            {!d.comment ? (
+              <span></span>
+            ) : (
+              <div className="comment">
+                <span>-{d.comment}</span>
+              </div>
+            )}
           </Link>
         ),
       },
@@ -180,6 +197,7 @@ class Timesheet extends Component {
         name: "Total",
         selector: (row) => row["total"],
         sortable: true,
+        cell: (d) => <span>{d.total}</span>,
       },
     ];
     const getTimesheet = this.state.timesheets.map((e) => {
@@ -281,12 +299,15 @@ class Timesheet extends Component {
                     </Form.Group>
                   </Col>
                   <Col md={3} sm={6}>
-                    <CsvDownload data={tableData.data}>Json to CSV</CsvDownload>
+                    <CSVLink data={getTimesheet} headers={headers}>
+                      <Button variant="success"> CSV File</Button> <br />
+                      Total Hours: {displayTotal}
+                    </CSVLink>
+
                     <br />
                   </Col>
                 </Row>
                 <DataTableExtensions
-                  filter={false}
                   print={false}
                   exportHeaders={true}
                   {...tableData}

@@ -210,8 +210,8 @@ class UserProfile extends Component {
       .post(API_SERVER + "update-timesheet", data)
       .then((res) => {
         swal({
-          title: "User Added",
-          text: "User added Sucessfull, please click on ok to load user list",
+          title: "User time log updated",
+          text: "User time log added Sucessfull, please click on ok to load user time log",
           icon: "success",
         }).then(function () {
           window.location.reload();
