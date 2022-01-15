@@ -6,41 +6,40 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
 
-  let filter = {}
+  let filter = {};
 
-  if(request.query.user_id) {
+  if (request.query.user_id) {
     filter = {
-      _id: ObjectId(request.query.user_id)
-    }
+      _id: ObjectId(request.query.user_id),
+    };
   }
-  
+
   let user = await db.collection("employees").find(filter).toArray();
 
-  filter = {}
+  filter = {};
 
-  if(request.query.user_id) {
+  if (request.query.user_id) {
     filter = {
-      pin: user[0].pin
-    }
+      pin: user[0].pin,
+    };
   }
 
   let timesheets = await db.collection("timesheets").find(filter).toArray();
 
   timesheets = timesheets.filter((timesheet) => {
     if (
-      moment(request.query.startDate, 'YYYY-MM-DD').isValid() &&
-      moment(request.query.endDate, 'YYYY-MM-DD').isValid()
+      moment(request.query.startDate, "YYYY-MM-DD").isValid() &&
+      moment(request.query.endDate, "YYYY-MM-DD").isValid()
     ) {
       let startDate = moment(request.query.startDate, "YYYY-MM-DD");
       let endDate = moment(request.query.endDate, "YYYY-MM-DD");
       let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
-      if (timesheetDate.isBetween(startDate, endDate, null, '[]')) {
+      if (timesheetDate.isBetween(startDate, endDate, null, "[]")) {
         return true;
       }
 
       return false;
     }
-
 
     return true;
   });
@@ -52,7 +51,6 @@ module.exports = async (request, reply) => {
     if (times[timesheet.date] === undefined) {
       times[timesheet.date] = {};
     }
-
 
     users = user.map((users) => {
       if (users.pin === timesheet.pin) {
@@ -72,30 +70,36 @@ module.exports = async (request, reply) => {
       "HH:mm:ss"
     );
     // moment add time difference in hours
-  })
-
-  times = Object.values(times).map((t) => {
-    if (t.break && t.endBreak)
-      t.btotal = moment
-        .duration(
-          moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
-        )
-        .asHours()
-        .toFixed(2);
-
-    if (t.in && t.out)
-      t.total = moment
-        .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
-        .asHours()
-        .toFixed(2);
-
-    return t;
-  }).filter(timesheet => {
-    if(request.query.hire) {
-      return request.query.hire === timesheet.hire;
-    }
-    return true;
   });
+
+  times = Object.values(times)
+    .map((t) => {
+      if (t.break && t.endBreak)
+        t.btotal = moment
+          .duration(
+            moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
+          )
+          .asHours()
+          .toFixed(2);
+
+      if (t.in && t.out)
+        t.total = moment
+          .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
+          .asHours()
+          .toFixed(2);
+
+      t.in = moment(t.in, "hh:mm a").format("LT");
+      t.break = moment(t.break, "hh:mm a").format("LT");
+      t.endBreak = moment(t.endBreak, "hh:mm a").format("LT");
+      t.out = moment(t.out, "hh:mm a").format("LT");
+      return t;
+    })
+    .filter((timesheet) => {
+      if (request.query.hire) {
+        return request.query.hire === timesheet.hire;
+      }
+      return true;
+    });
 
   client.close();
 
