@@ -56,6 +56,7 @@ class Home extends Component {
         lng: position.coords.longitude,
       });
     });
+
     setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");

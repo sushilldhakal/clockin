@@ -44,7 +44,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
     }
   };
 
-  console.log(employee);
+  console.log(employee.image);
 
   return (
     <form className="add-employee-form">

@@ -11,7 +11,7 @@ module.exports = async (request, reply) => {
   const timesheets = await collection
     .find()
     .sort({ date: -1 })
-    .map(({ type, date, time, pin, image }) => {
+    .map(({ type, date, time, pin, image, where }) => {
       let user = users.filter((user) => user.pin === pin)[0];
 
       if (time) {
@@ -19,20 +19,29 @@ module.exports = async (request, reply) => {
       }
       if (user) {
         let { name, role, hire, site, _id } = user;
-        return { _id, type, date, time, name, pin, role, hire, site, image };
+        return {
+          _id,
+          type,
+          date,
+          time,
+          name,
+          pin,
+          role,
+          hire,
+          site,
+          image,
+          where,
+        };
       }
 
-      return { type, date, time, pin, image };
+      return { type, date, time, pin, image, where };
     })
     .toArray();
 
   client.close();
 
   reply.send({
-    users,
-
     timesheets,
-
     message: "Timesheets fetched successfully 1",
   });
 };
