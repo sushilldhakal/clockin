@@ -24,6 +24,7 @@ module.exports = async (request, reply) => {
     phone: request.body.phone,
     dob: request.body.dob,
     comment: request.body.comment,
+    img: request.body.img,
     updatedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
   };
   await db

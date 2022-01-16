@@ -229,7 +229,6 @@ class UserProfile extends Component {
     this.setState({
       [name]: value,
     });
-    console.log(name, value);
   };
 
   handleShowForm = () => {
@@ -243,7 +242,6 @@ class UserProfile extends Component {
       .delete(API_SERVER + "employees/" + id)
 
       .then((res) => {
-        console.log(res.data);
         swal({
           title: "User Deleted",
           text: "User Deleted Sucessfull, please click on ok to go back to staff listing page",
@@ -262,7 +260,7 @@ class UserProfile extends Component {
     const userDetails = this.state.user;
     const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
-    console.log(timesheets);
+
     const columns = [
       {
         name: "Date",
@@ -271,40 +269,11 @@ class UserProfile extends Component {
         id: "Date",
         cell: (row, index) => (
           <div>
-            {this.state.is_action_menu_active &&
-            this.state.selected_row_index === index ? (
-              <div>
-                <i className="far fa-calendar-alt"></i>
-                {row.in == null ? (
-                  <span className="pl-1">00:00 am</span>
-                ) : (
-                  <span className="align-left pl-2">
-                    {moment(row.date, "DD, MM, YYYY").format("llll")}
-                  </span>
-                )}
-                <input
-                  name="date"
-                  type="date"
-                  className="custom-table-input"
-                  placeholder="12/02/2022"
-                  value={this.state.date}
-                  onChange={(e) => {
-                    this.handleTableInput(e);
-                  }}
-                />
-              </div>
-            ) : (
-              <div>
-                <i className="far fa-calendar-alt"></i>
-                {row.in == null ? (
-                  <span className="pl-1">00:00 am</span>
-                ) : (
-                  <span className="align-left pl-2">
-                    {moment(row.date, "DD, MM, YYYY").format("llll")}
-                  </span>
-                )}
-              </div>
-            )}
+            <i className="far fa-calendar-alt"></i>
+
+            <span className="align-left pl-2">
+              {moment(row.date, "DD, MM, YYYY").format("ddd Do MMMM	YYYY")}
+            </span>
           </div>
         ),
       },
@@ -599,14 +568,24 @@ class UserProfile extends Component {
                 )}
               </div>
               <div className="col-sm-4">
-                <img
-                  src={userDetails.img}
-                  className="img img-responsive img-custom"
-                />
+                {userDetails.img ? (
+                  <img
+                    src={userDetails.img}
+                    className="img img-responsive img-custom"
+                  />
+                ) : (
+                  <span></span>
+                )}
               </div>
             </div>
             <div className="single-user-table">
-              <DataTableExtensions {...tableData}>
+              <DataTableExtensions
+                print={true}
+                exportHeaders={true}
+                export={true}
+                filterPlaceholder="Search"
+                {...tableData}
+              >
                 <DataTable
                   columns={columns}
                   data={timesheets}

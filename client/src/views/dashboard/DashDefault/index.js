@@ -25,7 +25,7 @@ const DashDefault = () => {
   const columns = [
     {
       name: "Staff Image",
-      selector: (row) => row["image"],
+      selector: "image",
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
@@ -50,40 +50,41 @@ const DashDefault = () => {
       ),
     },
     {
+      name: "Name",
+      selector: "userDetail",
+      sortable: true,
+      cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
+    },
+    {
       name: "Date",
-      selector: (row) => row["date"],
+      selector: "date",
       sortable: true,
     },
     {
       name: "Time",
-      selector: (row) => row["time"],
+      selector: "time",
       sortable: true,
       cell: (d) => <span>{d.time}</span>,
     },
     {
       name: "Type",
-      selector: (row) => row["type"],
+      selector: "type",
       sortable: true,
     },
-    {
-      name: "Name",
-      selector: (row) => row["userDetail"],
-      sortable: true,
-      cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
-    },
+
     {
       name: "Role",
-      selector: (row) => row["role"],
+      selector: "role",
       sortable: true,
     },
     {
       name: "Employe",
-      selector: (row) => row["hire"],
+      selector: "hire",
       sortable: true,
     },
     {
       name: "Location",
-      selector: (row) => row["site"],
+      selector: "site",
       sortable: true,
       cell: (d) => (
         <span>
@@ -103,7 +104,6 @@ const DashDefault = () => {
     columns,
     data: timesheets,
   };
-  console.log(timesheets);
   return (
     <React.Fragment>
       <Row>
@@ -113,7 +113,13 @@ const DashDefault = () => {
               <Card.Title as="h5">Recent ClockIn Staff</Card.Title>
             </Card.Header>
             <Card.Body className="px-0 py-2">
-              <DataTableExtensions {...tableData}>
+              <DataTableExtensions
+                print={false}
+                exportHeaders={true}
+                export={false}
+                filterPlaceholder="Search"
+                {...tableData}
+              >
                 <DataTable
                   columns={columns}
                   data={timesheets}

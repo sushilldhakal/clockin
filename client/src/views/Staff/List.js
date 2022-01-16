@@ -69,7 +69,13 @@ const List = (props) => {
           </div>
         ) : (
           <div>
-            <DataTableExtensions {...tableData}>
+            <DataTableExtensions
+              print={true}
+              exportHeaders={true}
+              export={true}
+              filterPlaceholder="Search"
+              {...tableData}
+            >
               <DataTable
                 columns={columns}
                 data={data}

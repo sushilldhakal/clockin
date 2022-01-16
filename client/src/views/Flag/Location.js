@@ -97,7 +97,6 @@ const FlagLocation = () => {
     columns,
     data: staffNoLocation,
   };
-  console.log(timesheets);
   return (
     <React.Fragment>
       <Card className="Recent-Users">
@@ -105,7 +104,13 @@ const FlagLocation = () => {
           <Card.Title as="h5">Staff without location</Card.Title>
         </Card.Header>
         <Card.Body className="px-0 py-2">
-          <DataTableExtensions {...tableData}>
+          <DataTableExtensions
+            print={false}
+            exportHeaders={true}
+            export={false}
+            filterPlaceholder="Search"
+            {...tableData}
+          >
             <DataTable
               columns={columns}
               data={staffNoLocation}

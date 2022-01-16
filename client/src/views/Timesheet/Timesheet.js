@@ -230,11 +230,13 @@ class Timesheet extends Component {
       data: getTimesheet,
     };
 
-    const time = getTimesheet
-      .map((item) => parseInt(item.total))
-      .reduce((prev, curr) => prev + curr, 0);
-    console.log(time);
-    console.log(getTimesheet);
+    let sum = getTimesheet.reduce(function (prev, current) {
+      return prev + +current.total;
+    }, 0);
+
+    let totalB = getTimesheet.reduce(function (prev, current) {
+      return prev + +current.btotal;
+    }, 0);
 
     return (
       <div>
@@ -328,15 +330,21 @@ class Timesheet extends Component {
                   <Col md={3} sm={6}>
                     <CSVLink data={getTimesheet} headers={headers}>
                       <Button variant="success"> CSV File</Button> <br />
-                      Total Hours: {time}
                     </CSVLink>
-
+                    Total Working Hours: {sum} hrs
+                    <br />
+                    Total break Hours: {totalB} hrs
+                    <br />
+                    Total Hours: {sum - totalB} hrs
+                    <br />
                     <br />
                   </Col>
                 </Row>
                 <DataTableExtensions
                   print={false}
-                  exportHeaders={true}
+                  exportHeaders={false}
+                  export={false}
+                  filterPlaceholder="Search"
                   {...tableData}
                 >
                   <DataTable
