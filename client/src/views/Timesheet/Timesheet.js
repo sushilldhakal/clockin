@@ -32,6 +32,7 @@ class Timesheet extends Component {
     categoryEmployer: [],
     startDate: getMonday,
     endDate: getSunday,
+    loading: false,
     displayTotal: "",
   };
 
@@ -76,10 +77,12 @@ class Timesheet extends Component {
     if (this.state.hire) {
       obj.hire = this.state.hire;
     }
+    this.setState({loading:true})
     axios
       .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
         this.setState({
+          loading: false,
           timesheets: res.data.timesheets.map((timesheet) => {
             return {
               ...timesheet,
@@ -174,7 +177,7 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {moment(row.in, "hh:mm a").format("LT")}
+            {row.in === 'Invalid date' ? '' : moment(row.in, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -184,7 +187,7 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {moment(row.break, "hh:mm a").format("LT")}
+            {row.break === 'Invalid date' ? '' : moment(row.break, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -194,7 +197,7 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {moment(row.endBreak, "hh:mm a").format("LT")}
+            {row.endBreak === 'Invalid date' ? '' : moment(row.endBreak, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -204,7 +207,7 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {moment(row.out, "hh:mm a").format("LT")}
+            {row.out === 'Invalid date' ? '' : moment(row.out, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -221,7 +224,7 @@ class Timesheet extends Component {
       },
     ];
     const getTimesheet = this.state.timesheets.map((e) => {
-      e.id = e.id + e.date;
+      e.id = e._id + e.date;
       return e;
     });
 
@@ -258,11 +261,12 @@ class Timesheet extends Component {
                           this.setState({
                             hire: e.target.value,
                             user: "",
+                            timesheets: []
                           });
                           setTimeout(this.reloadTimesheet, 100);
                         }}
                       >
-                        <option>Select Employer</option>
+                        <option value="">Select Employer</option>
                         {this.state.categoryEmployer.map((hire, id) => (
                           <option key={id} value={hire.name}>
                             {hire.name}
@@ -348,6 +352,7 @@ class Timesheet extends Component {
                   {...tableData}
                 >
                   <DataTable
+                    progressPending={this.state.loading}
                     columns={columns}
                     data={getTimesheet}
                     defaultSortField="id"
