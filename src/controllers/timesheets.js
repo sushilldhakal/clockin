@@ -51,6 +51,12 @@ module.exports = async (request, reply) => {
   timesheets = timesheets.map((timesheet) => {
     let times = {};
 
+    let alreadyExists = timeCollection.filter(time => time.date === timesheet.date && timesheet.pin === time.pin);
+
+    if(alreadyExists.length > 0) {
+      times = alreadyExists[0]
+    }
+
     users = user.map((users) => {
       if (users.pin === timesheet.pin) {
         times["name"] = users.name;
