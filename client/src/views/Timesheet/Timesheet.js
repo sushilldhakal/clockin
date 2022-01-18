@@ -335,11 +335,11 @@ class Timesheet extends Component {
                     <CSVLink data={getTimesheet} headers={headers}>
                       <Button variant="success"> CSV File</Button> <br />
                     </CSVLink>
-                    Total Working Hours: {sum} hrs
+                    Total Working Hours: {sum || 0} hrs
                     <br />
-                    Total break Hours: {totalB} hrs
+                    Total break Hours: {totalB || 0} hrs
                     <br />
-                    Total Hours: {sum - totalB} hrs
+                    Total Hours: {(sum - totalB) || 0} hrs
                     <br />
                     <br />
                   </Col>
