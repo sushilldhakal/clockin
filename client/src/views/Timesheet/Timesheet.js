@@ -87,17 +87,17 @@ class Timesheet extends Component {
             };
           }),
         });
+        // const map = new Map();
+        // this.state.timesheets.forEach((item) => map.set(item.pin, item));
+        // this.state.users.forEach((item) =>
+        //   map.set(item.pin, { ...map.get(item.pin), ...item })
+        // );
+        // Array.from(map.values());
       })
       .catch((err) => {
         console.log(err);
       });
 
-    const map = new Map();
-    this.state.timesheets.forEach((item) => map.set(item.pin, item));
-    this.state.users.forEach((item) =>
-      map.set(item.pin, { ...map.get(item.pin), ...item })
-    );
-    const mergedArr = Array.from(map.values());
   };
   render() {
     const map = new Map();

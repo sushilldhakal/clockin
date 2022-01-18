@@ -44,35 +44,36 @@ module.exports = async (request, reply) => {
     return true;
   });
 
-  let times = {};
   let users = {};
 
+  let timeCollection = [];
+
   timesheets = timesheets.map((timesheet) => {
-    if (times[timesheet.date] === undefined) {
-      times[timesheet.date] = {};
-    }
+    let times = {};
 
     users = user.map((users) => {
       if (users.pin === timesheet.pin) {
-        times[timesheet.date]["name"] = users.name;
-        times[timesheet.date]["role"] = users.role;
-        times[timesheet.date]["site"] = users.site;
-        times[timesheet.date]["hire"] = users.hire;
-        times[timesheet.date]["_id"] = users._id;
-        times[timesheet.date]["comment"] = users.comment;
+        times["name"] = users.name;
+        times["role"] = users.role;
+        times["site"] = users.site;
+        times["hire"] = users.hire;
+        times["_id"] = users._id;
+        times["comment"] = users.comment;
       }
     });
 
-    times[timesheet.date]["date"] = timesheet.date;
-    times[timesheet.date]["pin"] = timesheet.pin;
-    times[timesheet.date][timesheet.type] = {};
-    times[timesheet.date][timesheet.type] = moment(timesheet.time).format(
+    times["date"] = timesheet.date;
+    times["pin"] = timesheet.pin;
+    times[timesheet.type] = {};
+    times[timesheet.type] = moment(timesheet.time).format(
       "HH:mm:ss"
     );
-    // moment add time difference in hours
+
+    timeCollection.push(times);
+
   });
 
-  times = Object.values(times)
+  times = Object.values(timeCollection)
     .map((t) => {
       if (t.break && t.endBreak)
         t.btotal = moment
