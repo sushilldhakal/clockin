@@ -12,16 +12,22 @@ import { API_SERVER } from "../../../config/constant";
 const DashDefault = () => {
   //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
+
+  const [loading, setLoading] = React.useState(false);
+
   React.useEffect(() => {
+    setLoading(true);
     axios
       .get(API_SERVER + "dashboard")
       .then((res) => {
         setTimesheets(res.data.timesheets);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   const columns = [
     {
       name: "Staff Image",
@@ -124,6 +130,7 @@ const DashDefault = () => {
                   columns={columns}
                   data={timesheets}
                   noHeader
+                  progressPending={loading}
                   defaultSortField="id"
                   defaultSortAsc={true}
                   pagination
