@@ -12,11 +12,14 @@ import { API_SERVER } from "../../config/constant";
 const ImageLocation = () => {
   //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
+    setLoading(true);
     axios
       .get(API_SERVER + "flag")
       .then((res) => {
         setTimesheets(res.data.timesheets);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -88,6 +91,7 @@ const ImageLocation = () => {
             <DataTable
               columns={columns}
               data={staffNoLocation}
+              progressPending={loading}
               noHeader
               defaultSortField="id"
               defaultSortAsc={true}

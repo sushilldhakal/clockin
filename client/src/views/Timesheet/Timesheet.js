@@ -77,7 +77,7 @@ class Timesheet extends Component {
     if (this.state.hire) {
       obj.hire = this.state.hire;
     }
-    this.setState({loading:true})
+    this.setState({ loading: true });
     axios
       .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
@@ -100,7 +100,6 @@ class Timesheet extends Component {
       .catch((err) => {
         console.log(err);
       });
-
   };
   render() {
     const map = new Map();
@@ -177,7 +176,9 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {row.in === 'Invalid date' ? '' : moment(row.in, "hh:mm a").format("LT")}
+            {row.in === "Invalid date"
+              ? ""
+              : moment(row.in, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -187,7 +188,9 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {row.break === 'Invalid date' ? '' : moment(row.break, "hh:mm a").format("LT")}
+            {row.break === "Invalid date"
+              ? ""
+              : moment(row.break, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -197,7 +200,9 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {row.endBreak === 'Invalid date' ? '' : moment(row.endBreak, "hh:mm a").format("LT")}
+            {row.endBreak === "Invalid date"
+              ? ""
+              : moment(row.endBreak, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -207,7 +212,9 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span className="align-left pl-2">
-            {row.out === 'Invalid date' ? '' : moment(row.out, "hh:mm a").format("LT")}
+            {row.out === "Invalid date"
+              ? ""
+              : moment(row.out, "hh:mm a").format("LT")}
           </span>
         ),
       },
@@ -215,12 +222,26 @@ class Timesheet extends Component {
         name: "Total break",
         selector: (row) => row["btotal"],
         sortable: true,
+        cell: (row) => (
+          <span>
+            {console.log(row.btotal)}
+            {row.endBreak == "a few seconds"
+              ? ""
+              : moment.duration(row.btotal, "hours").humanize()}
+          </span>
+        ),
       },
       {
         name: "Total",
         selector: (row) => row["total"],
         sortable: true,
-        cell: (d) => <span>{d.total}</span>,
+        cell: (row) => (
+          <span>
+            {row.endBreak == "a few seconds"
+              ? ""
+              : moment.duration(row.total, "hours").humanize()}
+          </span>
+        ),
       },
     ];
     const getTimesheet = this.state.timesheets.map((e) => {
@@ -240,6 +261,8 @@ class Timesheet extends Component {
     let totalB = getTimesheet.reduce(function (prev, current) {
       return prev + +current.btotal;
     }, 0);
+
+    totalB = totalB.toFixed(2);
 
     return (
       <div>
@@ -261,7 +284,7 @@ class Timesheet extends Component {
                           this.setState({
                             hire: e.target.value,
                             user: "",
-                            timesheets: []
+                            timesheets: [],
                           });
                           setTimeout(this.reloadTimesheet, 100);
                         }}
@@ -339,7 +362,7 @@ class Timesheet extends Component {
                     <br />
                     Total break Hours: {totalB || 0} hrs
                     <br />
-                    Total Hours: {(sum - totalB) || 0} hrs
+                    Total Hours: {sum - totalB || 0} hrs
                     <br />
                     <br />
                   </Col>

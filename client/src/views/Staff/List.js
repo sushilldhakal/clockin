@@ -7,6 +7,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import { CSVLink } from "react-csv";
 const List = (props) => {
   const { getFilterData, editEmployee } = props;
+  const [loading, setLoading] = React.useState(true);
 
   const data = getFilterData();
 
@@ -54,6 +55,10 @@ const List = (props) => {
     data,
   };
 
+  React.useEffect(() => {
+    setLoading(false);
+  }, []);
+
   return (
     <React.Fragment>
       <div className="container">
@@ -79,6 +84,7 @@ const List = (props) => {
               <DataTable
                 columns={columns}
                 data={data}
+                progressPending={loading}
                 noHeader
                 defaultSortField="id"
                 defaultSortAsc={false}
