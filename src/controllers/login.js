@@ -3,7 +3,7 @@ const connect = require("../config/connect");
 module.exports = (req, reply) => {
     connect().then(async (client) => {
       const collection = client.db("clock-in-users").collection("employees");
-      collection.findOne({ pin: req.body.pin }).then((user) => {
+      collection.findOne({ pin: req.body.pin }).then(async (user) => {
         if (user) {
           reply.send({
             status: "success",
@@ -16,7 +16,7 @@ module.exports = (req, reply) => {
           });
         }
         await client.close()
-      }).catch(e=>{
+      }).catch(async (e)=>{
         await client.close()
       });
     });

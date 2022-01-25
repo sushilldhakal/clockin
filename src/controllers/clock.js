@@ -32,7 +32,7 @@ module.exports = (request, reply) => {
           data.lng = request.body.lng;
           data.where = data.lat + "," + data.lng;
           data.flag = false;
-          collection.insertOne(data).then(() => {
+          collection.insertOne(data).then(async () => {
             await client.close();
             reply.send({
               status: "success",

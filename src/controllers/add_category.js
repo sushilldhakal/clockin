@@ -13,13 +13,7 @@ module.exports = async (request, reply) => {
     updatedAt: moment().format("YYYY-MM-DD HH:mm:ss"),
   });
 
-<<<<<<< HEAD
-    await client.close();
-
-    return reply.send(result);
-=======
-  client.close();
->>>>>>> c4becd976e17199180f9134e72d55b6107e47ddb
+  await client.close();
 
   return reply.send(result);
 };
