@@ -16,7 +16,7 @@ module.exports = async (request, reply) => {
       .collection("categories")
       .deleteOne({ _id: ObjectId(id) });
 
-    client.close();
+    await client.close();
 
     if (remove) {
       return reply.send({
@@ -27,7 +27,7 @@ module.exports = async (request, reply) => {
     }
   }
 
-  client.close();
+  await client.close();
 
   return reply.send({
     success: false,

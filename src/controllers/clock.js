@@ -33,11 +33,11 @@ module.exports = (request, reply) => {
           data.where = data.lat + "," + data.lng;
           data.flag = false;
           collection.insertOne(data).then(() => {
+            await client.close();
             reply.send({
               status: "success",
               message: "User clocked " + request.body.lat,
             });
-            client.close();
           });
         }
       });

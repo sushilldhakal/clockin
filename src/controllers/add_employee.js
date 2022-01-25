@@ -18,7 +18,7 @@ module.exports = async (request, reply) => {
         createdAt: moment().format("MMMM Do YYYY, h:mm:ss a")
     };
     await collection.insertOne(employee);
-    client.close();
+    await client.close();
     reply.send({
         message: "Employee added successfully",
         employee

@@ -21,7 +21,7 @@ module.exports = async (request, reply) => {
     pin: user.pin,
   });
 
-  client.close();
+  await client.close();
   reply.send({
     message: "Employee deleted successfully",
   });

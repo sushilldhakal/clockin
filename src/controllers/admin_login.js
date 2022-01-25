@@ -8,8 +8,8 @@ module.exports = (req, reply) => {
         const user = await users.findOne({
             username: req.body.username,
         });
+        await client.close();
         if (user) {
-            console.log(req.body.password, user.password)
             if (bcrypt.compareSync(req.body.password, user.password)) {
                 let token = jwt.sign({
                     id: req.body.username

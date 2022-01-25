@@ -38,7 +38,7 @@ module.exports = async (request, reply) => {
     })
     .toArray();
 
-  client.close();
+  await client.close();
 
   reply.send({
     timesheets,
