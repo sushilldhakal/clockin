@@ -18,7 +18,7 @@ const DashDefault = () => {
   React.useEffect(() => {
     setLoading(true);
     axios
-      .get(API_SERVER + "dashboard")
+      .get(API_SERVER + "dashboard", {headers: {token: localStorage.getItem("token")}})
       .then((res) => {
         setTimesheets(res.data.timesheets);
         setLoading(false);

@@ -14,6 +14,7 @@ module.exports = (req, reply) => {
         let token = jwt.sign(
           {
             id: req.body.username,
+            location: user.location || ''
           },
           "secretssssssaxszxs",
           { expiresIn: "1h" }
