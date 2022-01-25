@@ -32,13 +32,16 @@ class Home extends Component {
         })
         .then((res) => {
           //console.log(res);
-          swal("Your action is recorded");
+          swal({
+            title: "Clock " + e,
+            text: "Your Clock " + e + " has been recorded",
+            icon: "success",
+          });
           setTimeout(() => {
+            swal.close();
             localStorage.clear();
             this.props.history.push("/");
-          }, 2000);
-          //localStorage.clear();
-          //this.props.history.push("/");
+          }, 3000);
         })
         .catch((err) => {
           swal("Error: Something went wrong.");
