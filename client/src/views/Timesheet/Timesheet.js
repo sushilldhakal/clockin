@@ -90,12 +90,6 @@ class Timesheet extends Component {
             };
           }),
         });
-        // const map = new Map();
-        // this.state.timesheets.forEach((item) => map.set(item.pin, item));
-        // this.state.users.forEach((item) =>
-        //   map.set(item.pin, { ...map.get(item.pin), ...item })
-        // );
-        // Array.from(map.values());
       })
       .catch((err) => {
         console.log(err);
