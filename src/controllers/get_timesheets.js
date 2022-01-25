@@ -18,7 +18,7 @@ module.exports = async (request, reply) => {
     .collection("employees")
     .findOne({ pin: request.params.pin });
 
-  client.close();
+  await client.close();
 
   if (!user) {
     // send error response

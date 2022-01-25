@@ -31,9 +31,14 @@ class Home extends Component {
           image: document.getElementById("screen-image").src,
         })
         .then((res) => {
-          console.log(res);
-          localStorage.clear();
-          this.props.history.push("/");
+          //console.log(res);
+          swal("Your action is recorded");
+          setTimeout(() => {
+            localStorage.clear();
+            this.props.history.push("/");
+          }, 2000);
+          //localStorage.clear();
+          //this.props.history.push("/");
         })
         .catch((err) => {
           swal("Error: Something went wrong.");

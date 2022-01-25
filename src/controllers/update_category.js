@@ -12,6 +12,7 @@ module.exports = async (request, reply) => {
   const exists = await db.collection("categories").findOne({ name: value });
 
   if (exists) {
+    await client.close();
     return reply.code(400).send({
       message: "Same name already exists",
     });
@@ -39,9 +40,7 @@ module.exports = async (request, reply) => {
         { $set: { [keys[category.type]]: value } }
       );
 
-    console.log(category);
-
-    client.close();
+    await client.close();
 
     if (update) {
       return reply.send({
@@ -52,7 +51,7 @@ module.exports = async (request, reply) => {
     }
   }
 
-  client.close();
+  await client.close();
 
   return reply.send({
     success: false,

@@ -52,7 +52,7 @@ module.exports = async (request, reply) => {
     return t;
   });
 
-  client.close();
+  await client.close();
 
   reply.send({
     timesheets: times,

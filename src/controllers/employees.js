@@ -6,6 +6,6 @@ module.exports = async (request, reply) => {
   const db = client.db("clock-in-users");
   const collection = db.collection("employees");
   const employees = await collection.find({}).toArray();
-  client.close();
+  await client.close();
   reply.send(employees);
 };

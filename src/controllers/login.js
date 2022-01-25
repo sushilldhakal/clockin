@@ -15,7 +15,9 @@ module.exports = (req, reply) => {
             message: "User not found"
           });
         }
-        client.close()
+        await client.close()
+      }).catch(e=>{
+        await client.close()
       });
     });
   }

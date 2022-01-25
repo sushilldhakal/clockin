@@ -12,11 +12,15 @@ import { API_SERVER } from "../../config/constant";
 const FlagLocation = () => {
   //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+
   React.useEffect(() => {
+    setLoading(true);
     axios
       .get(API_SERVER + "flag")
       .then((res) => {
         setTimesheets(res.data.timesheets);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -24,7 +28,7 @@ const FlagLocation = () => {
   }, []);
 
   var staffNoLocation = timesheets.filter(function (hero) {
-    return hero.where == null;
+    return hero.where == "," || hero.where == null;
   });
   const columns = [
     {
@@ -114,6 +118,7 @@ const FlagLocation = () => {
             <DataTable
               columns={columns}
               data={staffNoLocation}
+              progressPending={loading}
               noHeader
               defaultSortField="id"
               defaultSortAsc={true}

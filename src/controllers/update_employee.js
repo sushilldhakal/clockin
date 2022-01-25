@@ -34,7 +34,7 @@ module.exports = async (request, reply) => {
       { $set: { ...employee } }
     );
 
-  client.close();
+  await client.close();
   reply.send({
     message: "Employee updated successfully",
     employee,

@@ -109,7 +109,7 @@ module.exports = async (request, reply) => {
       return true;
     });
 
-  client.close();
+  await client.close();
 
   reply.send({
     // mergedArr,

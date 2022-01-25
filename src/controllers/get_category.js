@@ -8,7 +8,7 @@ module.exports = async (request, reply) => {
         type: request.params.category_type
     }).toArray();
 
-    client.close();
+    await client.close();
 
     return reply.send(result);
 

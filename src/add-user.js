@@ -26,6 +26,7 @@ connect()
         username: "admin",
         password: bcrypt.hashSync("admin", 10),
       });
+      await client.close();
   })
   .catch((err) => {
     console.log(err);

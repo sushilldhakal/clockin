@@ -74,7 +74,7 @@ module.exports = async (request, reply) => {
       request.body.endBreak
     );
   }
-
+  await client.close();
   return reply.send({
     success: true,
     message: "Timesheet updated successfully",

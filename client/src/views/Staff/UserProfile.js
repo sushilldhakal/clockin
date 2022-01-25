@@ -138,6 +138,7 @@ class UserProfile extends Component {
     selected_row_index: 0,
     is_action_menu_active: false,
     edited: false,
+    loading: true,
   };
 
   componentDidMount() {
@@ -147,6 +148,7 @@ class UserProfile extends Component {
         this.setState({
           timesheets: res.data.timesheets,
           user: res.data.user[0],
+          loading: false,
         });
       })
       .catch((err) => {
@@ -160,6 +162,8 @@ class UserProfile extends Component {
     this.retrieveRole();
     this.retrieveLocation();
     this.retrieveEmployer();
+
+    this.setState({ loading: true });
   }
 
   retrieveRole() {
@@ -589,6 +593,7 @@ class UserProfile extends Component {
                 <DataTable
                   columns={columns}
                   data={timesheets}
+                  progressPending={this.state.loading}
                   noHeader
                   defaultSortField="id"
                   defaultSortAsc={true}
