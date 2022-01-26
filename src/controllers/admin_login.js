@@ -22,6 +22,7 @@ module.exports = (req, reply) => {
         return reply.send({
           status: "success",
           token,
+          location: user.location || ''
         });
       }
     }
