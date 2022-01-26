@@ -10,12 +10,11 @@ client.connect((err, client) => {
   const collection = db.collection("timesheets");
 
   if (err) throw err;
+  const dateString = "2022-01-25T14:56:59.301Z";
   var myquery = {
     date: {
-      $lte: "15-01-2022",
+      $lte: moment("25-01-2022").format("dd-mm-YYYY"),
     },
-
-    //date: "15-01-2022",
   };
   db.collection("timesheets").deleteMany(myquery, function (err, obj) {
     if (err) throw err;
