@@ -34,10 +34,12 @@ let children = [
     url: "/dashboard/flag",
     icon: "feather icon-box",
   },
-]
+];
 
-if (localStorage.getItem('location') !== null) {
-  children = children.filter(item => ['Dashboard', 'Timesheet'].includes(item.title))
+if (localStorage.getItem("location") !== null) {
+  children = children.filter((item) =>
+    ["Dashboard", "Timesheet"].includes(item.title)
+  );
 }
 
 let menuItems = {
@@ -51,6 +53,5 @@ let menuItems = {
     },
   ],
 };
-
 
 export default menuItems;
