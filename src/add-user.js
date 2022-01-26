@@ -7,7 +7,7 @@ connect()
       .db("clock-in-users")
       .collection("users")
       .insertOne({
-        username: "Port Melvourne",
+        username: "Portmelbourne",
         password: bcrypt.hashSync("portmelbourne", 10),
         location: "Port melbourne",
       });
