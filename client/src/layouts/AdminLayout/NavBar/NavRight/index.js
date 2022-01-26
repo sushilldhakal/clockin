@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ListGroup, Dropdown, Media } from "react-bootstrap";
+import React from "react";
+import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const NavRight = () => {
