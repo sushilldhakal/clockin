@@ -1,15 +1,32 @@
 const connect = require("../config/connect");
 const moment = require("moment");
+const jwt = require("jsonwebtoken");
 
+const auth = (request) => {
+  if (request.headers.token === undefined) {
+    throw new Error('Token not found')
+  }
+
+  return jwt.decode(request.headers.token)
+}
 module.exports = async (request, reply) => {
   const client = await connect();
+  const user = auth(request);
   const db = client.db("clock-in-users");
   const collection = db.collection("timesheets");
 
-  const users = await db.collection("employees").find().toArray();
+  let filter = {}
+
+  if (user && user.location) {
+    filter.site = user.location
+  }
+  
+  const users = await db.collection("employees").find(filter).toArray();
 
   const timesheets = await collection
-    .find()
+    .find({
+      pin: { $in: users.map(e => e.pin) }
+    })
     .sort({ date: -1 })
     .map(({ type, date, time, pin, image, where }) => {
       let user = users.filter((user) => user.pin === pin)[0];

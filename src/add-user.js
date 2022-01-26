@@ -9,6 +9,7 @@ connect()
       .insertOne({
         username: "summonshr",
         password: bcrypt.hashSync("summonshr", 10),
+        location: "Melbourne"
       });
 
     client
@@ -17,6 +18,7 @@ connect()
       .insertOne({
         username: "sushil@gmail.com",
         password: bcrypt.hashSync("sushil", 10),
+        location: "Melbourne"
       });
 
     client
@@ -25,8 +27,9 @@ connect()
       .insertOne({
         username: "admin",
         password: bcrypt.hashSync("admin", 10),
+        location: "Melbourne"
       });
-      await client.close();
+    await client.close();
   })
   .catch((err) => {
     console.log(err);

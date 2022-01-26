@@ -5,13 +5,14 @@ const moment = require("moment");
 module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-
   let filter = {};
 
   if (request.query.user_id) {
-    filter = {
-      _id: ObjectId(request.query.user_id),
-    };
+    filter._id = ObjectId(request.query.user_id)
+  }
+
+  if (request.query.location) {
+    filter.site = request.query.location;
   }
 
   let user = await db.collection("employees").find(filter).toArray();
@@ -53,7 +54,7 @@ module.exports = async (request, reply) => {
 
     let alreadyExists = timeCollection.filter(time => time.date === timesheet.date && timesheet.pin === time.pin);
 
-    if(alreadyExists.length > 0) {
+    if (alreadyExists.length > 0) {
       times = alreadyExists[0]
       timeCollection = timeCollection.filter(time => time.date !== timesheet.date || timesheet.pin !== time.pin);
     }
@@ -105,6 +106,10 @@ module.exports = async (request, reply) => {
     .filter((timesheet) => {
       if (request.query.hire) {
         return request.query.hire === timesheet.hire;
+      }
+
+      if(!timesheet.site) {
+        return false;
       }
       return true;
     });
