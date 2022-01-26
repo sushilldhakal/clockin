@@ -5,7 +5,7 @@ export const login = () => {
 };
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  localStorage.clear();
 };
 
 export const isLogin = () => {
