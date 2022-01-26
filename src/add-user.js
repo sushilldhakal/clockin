@@ -2,14 +2,13 @@ const connect = require("./config/connect");
 const bcrypt = require("bcrypt");
 connect()
   .then((client) => {
-    // add user in user collection
     client
       .db("clock-in-users")
       .collection("users")
       .insertOne({
-        username: "Port Melvourne",
+        username: "portmelbourne",
         password: bcrypt.hashSync("portmelbourne", 10),
-        location: "Port melbourne",
+        location: "Port Melbourne",
       });
 
     client
