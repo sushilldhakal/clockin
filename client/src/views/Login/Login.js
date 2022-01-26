@@ -39,7 +39,9 @@ export default class Login extends React.Component {
         localStorage.setItem("user_id", res.data.id);
         if (Boolean(res.data.location))
           localStorage.setItem("location", res.data.location);
-        this.props.history.push("/dashboard");
+        setTimeout(()=>{
+          window.location.href = '/dashboard'
+        }, 1000)
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {
