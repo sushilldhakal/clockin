@@ -18,7 +18,9 @@ const DashDefault = () => {
   React.useEffect(() => {
     setLoading(true);
     axios
-      .get(API_SERVER + "dashboard", {headers: {token: localStorage.getItem("token")}})
+      .get(API_SERVER + "dashboard", {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         setTimesheets(res.data.timesheets);
         setLoading(false);
@@ -94,10 +96,13 @@ const DashDefault = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == null ? (
+          {d.where == "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
-            <a href={"https://maps.google.com/places" + d.where} target="_blank">
+            <a
+              href={`https://maps.google.com/places/` + d.where}
+              target="_blank"
+            >
               {d.site}
             </a>
           )}
