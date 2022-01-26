@@ -7,6 +7,17 @@ import moment from "moment";
 
 import { API_SERVER } from "../../config/constant";
 
+function doDate() {
+  var str = "";
+  var now = new Date();
+
+  str = now.toDateString() + " " + now.toLocaleTimeString();
+
+  var pinTime = moment(str).format("hh:mm:ss A");
+  document.getElementById("todaysDate").innerHTML = pinTime;
+}
+setInterval(doDate, 1000);
+
 class Home extends Component {
   state = {
     currentTime: moment().format("LT"),
@@ -80,7 +91,7 @@ class Home extends Component {
       <div className="home-container">
         <div className="container-fluid">
           <div className="text white-text">
-            <h2> {this.state.currentTime} </h2>
+            <h2 id="todaysDate"> </h2>
             <div className="container">
               <div className="col-sm-4">
                 <div className="user-name">

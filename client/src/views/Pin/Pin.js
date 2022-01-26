@@ -6,6 +6,17 @@ import swal from "sweetalert";
 
 import "./Pin.css";
 
+function doDate() {
+  var str = "";
+  var now = new Date();
+
+  str = now.toDateString() + " " + now.toLocaleTimeString();
+
+  var pinTime = moment(str).format("hh:mm:ss A");
+  document.getElementById("todaysDate").innerHTML = pinTime;
+}
+setInterval(doDate, 1000);
+
 class Pin extends Component {
   state = {
     value: "",
@@ -41,10 +52,11 @@ class Pin extends Component {
   };
 
   render() {
+    console.log(this.state.currentTime);
     return (
       <div className="Pin home-container">
         <div className="text white-text">
-          <h2> {this.state.currentTime} </h2>
+          <h2 id="todaysDate"> </h2>
         </div>
         <PinInput
           length={4}
