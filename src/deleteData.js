@@ -19,13 +19,17 @@ async function deleteData() {
     const timesheets = await collection.find({
     }, { date: 1, _id: 1 }).toArray();
 
-    let deletable = timesheets.filter(timesheet => {
+    let deletableIds = timesheets.filter(timesheet => {
       return moment(timesheet.date,'DD-MM-YYYY').isBefore(moment(), 'day')
     }).map(timesheet => {
-      return collection.deleteOne({ _id: timesheet._id });
+      return timesheet._id;
     })
 
-    await Promise.all(deletable);
+    await collection.deleteMany({
+      _id: {
+        $in: deletableIds
+      }
+    })
 
     await mongo.close();
 
