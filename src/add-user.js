@@ -7,18 +7,26 @@ connect()
       .db("clock-in-users")
       .collection("users")
       .insertOne({
-        username: "summonshr",
-        password: bcrypt.hashSync("summonshr", 10),
-        location: "Melbourne"
+        username: "Port Melvourne",
+        password: bcrypt.hashSync("portmelbourne", 10),
+        location: "Port melbourne",
       });
 
     client
       .db("clock-in-users")
       .collection("users")
       .insertOne({
-        username: "sushil@gmail.com",
+        username: "dandenong",
         password: bcrypt.hashSync("sushil", 10),
-        location: "Melbourne"
+        location: "dandenong",
+      });
+    client
+      .db("clock-in-users")
+      .collection("users")
+      .insertOne({
+        username: "tullamarine",
+        password: bcrypt.hashSync("sushil", 10),
+        location: "tullamarine",
       });
 
     client
@@ -27,9 +35,8 @@ connect()
       .insertOne({
         username: "admin",
         password: bcrypt.hashSync("admin", 10),
-        location: "Melbourne"
       });
-    await client.close();
+    //client.close();
   })
   .catch((err) => {
     console.log(err);

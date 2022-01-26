@@ -35,8 +35,7 @@ let children = [
     icon: "feather icon-box",
   },
 ];
-
-if (localStorage.getItem("location") !== null) {
+if (Boolean(localStorage.getItem("location"))) {
   children = children.filter((item) =>
     ["Dashboard", "Timesheet"].includes(item.title)
   );
