@@ -97,7 +97,7 @@ const DashDefault = () => {
           {d.where == null ? (
             <span className="pl-1">{d.site}</span>
           ) : (
-            <a href={"maps.google.com/places" + d.where} target="_blank">
+            <a href={"https://maps.google.com/places" + d.where} target="_blank">
               {d.site}
             </a>
           )}
