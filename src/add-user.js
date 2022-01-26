@@ -18,7 +18,7 @@ connect()
       .insertOne({
         username: "dandenong",
         password: bcrypt.hashSync("sushil", 10),
-        location: "dandenong",
+        location: "Dandenong",
       });
     client
       .db("clock-in-users")
@@ -26,7 +26,7 @@ connect()
       .insertOne({
         username: "tullamarine",
         password: bcrypt.hashSync("sushil", 10),
-        location: "tullamarine",
+        location: "Tullamarine",
       });
 
     client
