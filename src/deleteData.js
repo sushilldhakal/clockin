@@ -20,7 +20,10 @@ async function deleteData() {
 
     let deletableIds = timesheets
       .filter((timesheet) => {
-        return moment(timesheet.date, "DD-MM-YYYY").isBefore(moment(), "day");
+        return moment(timesheet.date, "DD-MM-YYYY").isBefore(
+          moment().subtract("60", "days"),
+          "day"
+        );
       })
       .map((timesheet) => {
         return timesheet._id;
