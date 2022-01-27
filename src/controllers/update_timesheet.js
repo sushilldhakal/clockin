@@ -57,22 +57,16 @@ module.exports = async (request, reply) => {
   const timesheet = db.collection("timesheets");
 
   if (request.body.out) {
-    updateTimeSheet(timesheet, user.pin, date, "out", request.body.out);
+    await updateTimeSheet(timesheet, user.pin, date, "out", request.body.out);
   }
   if (request.body.in) {
-    updateTimeSheet(timesheet, user.pin, date, "in", request.body.in);
+    await updateTimeSheet(timesheet, user.pin, date, "in", request.body.in);
   }
   if (request.body.break) {
-    updateTimeSheet(timesheet, user.pin, date, "break", request.body.break);
+    await updateTimeSheet(timesheet, user.pin, date, "break", request.body.break);
   }
   if (request.body.endBreak) {
-    updateTimeSheet(
-      timesheet,
-      user.pin,
-      date,
-      "endBreak",
-      request.body.endBreak
-    );
+    await updateTimeSheet(timesheet, user.pin, date, "endBreak", request.body.endBreak);
   }
   await client.close();
   return reply.send({
