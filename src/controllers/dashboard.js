@@ -20,45 +20,46 @@ module.exports = async (request, reply) => {
   if (user && user.location) {
     filter.site = user.location
   }
-  
+
   const users = await db.collection("employees").find(filter).toArray();
 
   const timesheets = await collection
     .find({
-      pin: { $in: users.map(e => e.pin) }
+      pin: { $in: users.map(e => e.pin) },
+      date: moment().format("DD-MM-yyyy"),
     })
     .sort({ date: -1 })
-    .map(({ type, date, time, pin, image, where }) => {
-      let user = users.filter((user) => user.pin === pin)[0];
+  .map(({ type, date, time, pin, image, where }) => {
+    let user = users.filter((user) => user.pin === pin)[0];
 
-      if (time) {
-        time = moment(time).format("h:mm a");
-      }
-      if (user) {
-        let { name, role, hire, site, _id } = user;
-        return {
-          _id,
-          type,
-          date,
-          time,
-          name,
-          pin,
-          role,
-          hire,
-          site,
-          image,
-          where,
-        };
-      }
+    if (time) {
+      time = moment(time).format("h:mm a");
+    }
+    if (user) {
+      let { name, role, hire, site, _id } = user;
+      return {
+        _id,
+        type,
+        date,
+        time,
+        name,
+        pin,
+        role,
+        hire,
+        site,
+        image,
+        where,
+      };
+    }
 
-      return { type, date, time, pin, image, where };
-    })
-    .toArray();
+    return { type, date, time, pin, image, where };
+  })
+  .toArray();
 
-  await client.close();
+await client.close();
 
-  reply.send({
-    timesheets,
-    message: "Timesheets fetched successfully 1",
-  });
+reply.send({
+  timesheets,
+  message: "Timesheets fetched successfully 1",
+});
 };
