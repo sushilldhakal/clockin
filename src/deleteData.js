@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const moment = require('moment')
+const moment = require("moment");
 const uri = `mongodb+srv://clock-in:vwvaR5YVffwzyrZo@testtravel.xcy06.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 async function deleteData() {
@@ -16,27 +16,29 @@ async function deleteData() {
     const collection = db.collection("timesheets");
 
     // fetch all timesheets
-    const timesheets = await collection.find({
-    }, { date: 1, _id: 1 }).toArray();
+    const timesheets = await collection.find({}, { date: 1, _id: 1 }).toArray();
 
-    let deletableIds = timesheets.filter(timesheet => {
-      return moment(timesheet.date, 'DD-MM-YYYY').isBefore(moment().subtract('60', 'days'), 'day')
-    }).map(timesheet => {
-      return timesheet._id;
-    })
+    let deletableIds = timesheets
+      .filter((timesheet) => {
+        return moment(timesheet.date, "DD-MM-YYYY").isBefore(
+          moment().subtract("60", "days"),
+          "day"
+        );
+      })
+      .map((timesheet) => {
+        return timesheet._id;
+      });
 
     await collection.deleteMany({
       _id: {
-        $in: deletableIds
-      }
-    })
+        $in: deletableIds,
+      },
+    });
 
     await mongo.close();
-
-
   } catch (err) {
     console.log(err);
   }
 }
 
-deleteData()
+deleteData();

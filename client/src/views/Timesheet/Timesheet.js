@@ -39,11 +39,11 @@ class Timesheet extends Component {
   componentDidMount() {
     axios.get(API_SERVER + "employees").then((res) => {
       this.setState({
-        users: res.data.filter(e=>{
-          if(localStorage.getItem('location') != null) {
-            return e.site === localStorage.getItem('location')
+        users: res.data.filter((e) => {
+          if (localStorage.getItem("location") != null) {
+            return e.site === localStorage.getItem("location");
           }
-          return true
+          return true;
         }),
       });
     });
@@ -83,8 +83,8 @@ class Timesheet extends Component {
       obj.hire = this.state.hire;
     }
 
-    if(localStorage.getItem('location')) {
-      obj.location = localStorage.getItem('location')
+    if (localStorage.getItem("location")) {
+      obj.location = localStorage.getItem("location");
     }
     this.setState({ loading: true });
     axios
@@ -227,7 +227,6 @@ class Timesheet extends Component {
         sortable: true,
         cell: (row) => (
           <span>
-            {console.log(row.btotal)}
             {row.endBreak == "a few seconds"
               ? ""
               : moment.duration(row.btotal, "hours").humanize()}

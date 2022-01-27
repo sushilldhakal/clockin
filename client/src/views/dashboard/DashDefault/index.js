@@ -7,6 +7,7 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
+import moment from "moment";
 import { API_SERVER } from "../../../config/constant";
 
 const DashDefault = () => {
@@ -29,9 +30,13 @@ const DashDefault = () => {
         console.log(err);
       });
   }, []);
+  const paginationComponentOptions = {
+    selectAllRowsItem: true,
+  };
 
   const columns = [
     {
+      id: "1",
       name: "Staff Image",
       selector: "image",
       sortable: false,
@@ -58,39 +63,46 @@ const DashDefault = () => {
       ),
     },
     {
+      id: "2",
       name: "Name",
       selector: "userDetail",
       sortable: true,
       cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
+      id: "3",
       name: "Date",
       selector: "date",
       sortable: true,
     },
     {
+      id: "4",
       name: "Time",
       selector: "time",
       sortable: true,
-      cell: (d) => <span>{d.time}</span>,
+      cell: (d) => <span>{moment(d.time).format("h:mm a")}</span>,
     },
     {
+      id: "5",
       name: "Type",
       selector: "type",
       sortable: true,
     },
 
     {
+      id: "6",
       name: "Role",
       selector: "role",
       sortable: true,
     },
     {
+      id: "7",
       name: "Employe",
       selector: "hire",
       sortable: true,
     },
     {
+      id: "8",
       name: "Location",
       selector: "site",
       sortable: true,
@@ -115,6 +127,7 @@ const DashDefault = () => {
     columns,
     data: timesheets,
   };
+
   return (
     <React.Fragment>
       <Row>
@@ -136,10 +149,12 @@ const DashDefault = () => {
                   data={timesheets}
                   noHeader
                   progressPending={loading}
-                  defaultSortField="id"
-                  defaultSortAsc={true}
+                  defaultSortFieldId="4"
+                  defaultSortAsc={false}
                   pagination
+                  paginationPerPage="30"
                   highlightOnHover
+                  paginationComponentOptions={paginationComponentOptions}
                   sortIcon={<SortIcon />}
                 />
               </DataTableExtensions>

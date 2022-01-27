@@ -4,21 +4,21 @@ const jwt = require("jsonwebtoken");
 
 const auth = (request) => {
   if (request.headers.token === undefined) {
-    throw new Error('Token not found')
+    throw new Error("Token not found");
   }
 
-  return jwt.decode(request.headers.token)
-}
+  return jwt.decode(request.headers.token);
+};
 module.exports = async (request, reply) => {
   const client = await connect();
   const user = auth(request);
   const db = client.db("clock-in-users");
   const collection = db.collection("timesheets");
 
-  let filter = {}
+  let filter = {};
 
   if (user && user.location) {
-    filter.site = user.location
+    filter.site = user.location;
   }
 
   const users = await db.collection("employees").find(filter).toArray();
