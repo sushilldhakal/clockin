@@ -4,35 +4,35 @@ const jwt = require("jsonwebtoken");
 
 const auth = (request) => {
   if (request.headers.token === undefined) {
-    throw new Error('Token not found')
+    throw new Error("Token not found");
   }
 
-  return jwt.decode(request.headers.token)
-}
+  return jwt.decode(request.headers.token);
+};
 module.exports = async (request, reply) => {
   const client = await connect();
   const user = auth(request);
   const db = client.db("clock-in-users");
   const collection = db.collection("timesheets");
 
-  let filter = {}
+  let filter = {};
 
   if (user && user.location) {
-    filter.site = user.location
+    filter.site = user.location;
   }
-  
+
   const users = await db.collection("employees").find(filter).toArray();
 
   const timesheets = await collection
     .find({
-      pin: { $in: users.map(e => e.pin) }
+      pin: { $in: users.map((e) => e.pin) },
     })
-    .sort({ date: -1 })
+    .filter({ date: moment().format("DD-MM-YYYY") })
     .map(({ type, date, time, pin, image, where }) => {
       let user = users.filter((user) => user.pin === pin)[0];
 
       if (time) {
-        time = moment(time).format("h:mm a");
+        time = moment(time);
       }
       if (user) {
         let { name, role, hire, site, _id } = user;

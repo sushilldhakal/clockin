@@ -37,7 +37,7 @@ let children = [
 ];
 if (Boolean(localStorage.getItem("location"))) {
   children = children.filter((item) =>
-    ["Dashboard", "Timesheet"].includes(item.title)
+    ["Dashboard", "Timesheet", "Add/Edit Catageory"].includes(item.title)
   );
 }
 
