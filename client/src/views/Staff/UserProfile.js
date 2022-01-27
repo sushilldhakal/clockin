@@ -528,6 +528,9 @@ class UserProfile extends Component {
       columns,
       data: timesheets,
     };
+    const paginationComponentOptions = {
+      selectAllRowsItem: true,
+    };
 
     return (
       <div>
@@ -601,6 +604,8 @@ class UserProfile extends Component {
                   highlightOnHover
                   sortIcon={<SortIcon />}
                   expandableRows
+                  paginationPerPage="30"
+                  paginationComponentOptions={paginationComponentOptions}
                   expandableRowsComponent={ExpandableComponent}
                 />
               </DataTableExtensions>

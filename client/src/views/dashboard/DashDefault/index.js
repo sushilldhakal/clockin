@@ -123,9 +123,14 @@ const DashDefault = () => {
     },
   ];
 
+  const result = timesheets.filter((o) =>
+    Object.values(o).some((v) => v !== null)
+  );
+  console.log(result);
+
   const tableData = {
     columns,
-    data: timesheets,
+    data: result,
   };
 
   return (
