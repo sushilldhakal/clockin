@@ -59,6 +59,10 @@ const List = (props) => {
     setLoading(false);
   }, []);
 
+  const paginationComponentOptions = {
+    selectAllRowsItem: true,
+  };
+
   return (
     <React.Fragment>
       <div className="container">
@@ -89,6 +93,8 @@ const List = (props) => {
                 defaultSortField="id"
                 defaultSortAsc={false}
                 pagination
+                paginationPerPage="30"
+                paginationComponentOptions={paginationComponentOptions}
                 highlightOnHover
               />
             </DataTableExtensions>

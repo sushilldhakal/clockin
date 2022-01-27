@@ -114,6 +114,10 @@ class Timesheet extends Component {
 
     const mergedArr = Array.from(map.values());
 
+    const paginationComponentOptions = {
+      selectAllRowsItem: true,
+    };
+
     const headers = [
       { label: "Date", key: "date" },
       { label: "Name", key: "name" },
@@ -384,6 +388,8 @@ class Timesheet extends Component {
                     defaultSortAsc={true}
                     pagination
                     noHeader
+                    paginationPerPage="30"
+                    paginationComponentOptions={paginationComponentOptions}
                     highlightOnHover
                     export={true}
                     sortIcon={<SortIcon />}
