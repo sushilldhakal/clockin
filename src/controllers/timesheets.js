@@ -25,7 +25,18 @@ module.exports = async (request, reply) => {
     };
   }
 
+  if(request.query.startDate && request.query.endDate) {
+    filter.date = {
+      $gte: moment(request.query.startDate).startOf("day").format('DD-MM-yyyy'),
+      $lte: moment(request.query.endDate).endOf("day").format('DD-MM-yyyy'),
+    };
+  }
+
+  console.log(filter)
+
   let timesheets = await db.collection("timesheets").find(filter).toArray();
+
+  console.log(timesheets)
 
   timesheets = timesheets.filter((timesheet) => {
     if (
@@ -44,8 +55,6 @@ module.exports = async (request, reply) => {
 
     return true;
   });
-
-  let users = {};
 
   let timeCollection = [];
 
