@@ -25,7 +25,7 @@ module.exports = async (request, reply) => {
     };
   }
 
-  if(request.query.startDate && request.query.endDate) {
+  if (request.query.startDate && request.query.endDate) {
     filter.date = {
       $gte: moment(request.query.startDate).startOf("day").format('DD-MM-yyyy'),
       $lte: moment(request.query.endDate).endOf("day").format('DD-MM-yyyy'),
@@ -34,7 +34,14 @@ module.exports = async (request, reply) => {
 
   console.log(filter)
 
-  let timesheets = await db.collection("timesheets").find(filter).toArray();
+  // fetch timesheets
+  let timesheets = await db.collection("timesheets").find(filter,
+    {
+      projection: {
+        image: 0,
+      }
+    }
+  ).toArray();
 
   console.log(timesheets)
 
@@ -117,7 +124,7 @@ module.exports = async (request, reply) => {
         return request.query.hire === timesheet.hire;
       }
 
-      if(!timesheet.site) {
+      if (!timesheet.site) {
         return false;
       }
       return true;
