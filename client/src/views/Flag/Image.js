@@ -11,14 +11,14 @@ import { API_SERVER } from "../../config/constant";
 
 const FlagLocation = () => {
   //fetch timesheets
-  const [timesheets, setTimesheets] = React.useState([]);
+  const [staffNoImage, setTimesheets] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     setLoading(true);
     axios
       .get(API_SERVER + "flag")
       .then((res) => {
-        setTimesheets(res.data.timesheets);
+        setTimesheets(res.data.staffNoImage);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,9 +26,9 @@ const FlagLocation = () => {
       });
   }, []);
 
-  var staffNoImage = timesheets.filter(function (hero) {
-    return hero.image == null;
-  });
+  // var staffNoImage = timesheets.filter(function (hero) {
+  //   return hero.image == null;
+  // });
   const columns = [
     {
       name: "Date",

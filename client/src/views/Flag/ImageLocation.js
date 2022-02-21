@@ -11,14 +11,14 @@ import { API_SERVER } from "../../config/constant";
 
 const ImageLocation = () => {
   //fetch timesheets
-  const [timesheets, setTimesheets] = React.useState([]);
+  const [staffNoLocationImage, setTimesheets] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     setLoading(true);
     axios
       .get(API_SERVER + "flag")
       .then((res) => {
-        setTimesheets(res.data.timesheets);
+        setTimesheets(res.data.staffNoLocationImage);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,9 +26,9 @@ const ImageLocation = () => {
       });
   }, []);
 
-  var staffNoLocation = timesheets.filter(function (hero) {
-    return hero.where == null && hero.image == null;
-  });
+  // var staffNoLocation = timesheets.filter(function (hero) {
+  //   return hero.where == null && hero.image == null;
+  // });
   const columns = [
     {
       name: "Date",
@@ -72,7 +72,7 @@ const ImageLocation = () => {
 
   const tableData = {
     columns,
-    data: staffNoLocation,
+    data: staffNoLocationImage,
   };
   return (
     <React.Fragment>
@@ -90,7 +90,7 @@ const ImageLocation = () => {
           >
             <DataTable
               columns={columns}
-              data={staffNoLocation}
+              data={staffNoLocationImage}
               progressPending={loading}
               noHeader
               defaultSortField="id"

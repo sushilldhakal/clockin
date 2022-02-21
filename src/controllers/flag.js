@@ -36,10 +36,23 @@ module.exports = async (request, reply) => {
     })
     .toArray();
 
+  var staffNoImage = timesheets.filter(function (hero) {
+    return hero.image == null;
+  });
+  var staffNoLocation = timesheets.filter(function (hero) {
+    return hero.where == null && hero.image == null;
+  });
+  var staffNoLocationImage = timesheets.filter(function (hero) {
+    return hero.where == "," || hero.where == null;
+  });
+
   await client.close();
 
   reply.send({
     timesheets,
+    staffNoImage,
+    staffNoLocation,
+    staffNoLocationImage,
     message: "Timesheets fetched successfully 1",
   });
 };

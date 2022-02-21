@@ -8,7 +8,7 @@ module.exports = async (request, reply) => {
   let filter = {};
 
   if (request.query.user_id) {
-    filter._id = ObjectId(request.query.user_id)
+    filter._id = ObjectId(request.query.user_id);
   }
 
   if (request.query.location) {
@@ -52,11 +52,15 @@ module.exports = async (request, reply) => {
   timesheets = timesheets.map((timesheet) => {
     let times = {};
 
-    let alreadyExists = timeCollection.filter(time => time.date === timesheet.date && timesheet.pin === time.pin);
+    let alreadyExists = timeCollection.filter(
+      (time) => time.date === timesheet.date && timesheet.pin === time.pin
+    );
 
     if (alreadyExists.length > 0) {
-      times = alreadyExists[0]
-      timeCollection = timeCollection.filter(time => time.date !== timesheet.date || timesheet.pin !== time.pin);
+      times = alreadyExists[0];
+      timeCollection = timeCollection.filter(
+        (time) => time.date !== timesheet.date || timesheet.pin !== time.pin
+      );
     }
 
     users = user.map((users) => {
@@ -73,12 +77,9 @@ module.exports = async (request, reply) => {
     times["date"] = timesheet.date;
     times["pin"] = timesheet.pin;
     times[timesheet.type] = {};
-    times[timesheet.type] = moment(timesheet.time).format(
-      "HH:mm:ss"
-    );
+    times[timesheet.type] = moment(timesheet.time).format("HH:mm:ss");
 
     timeCollection.push(times);
-
   });
 
   times = Object.values(timeCollection)
@@ -108,7 +109,7 @@ module.exports = async (request, reply) => {
         return request.query.hire === timesheet.hire;
       }
 
-      if(!timesheet.site) {
+      if (!timesheet.site) {
         return false;
       }
       return true;
@@ -117,7 +118,6 @@ module.exports = async (request, reply) => {
   await client.close();
 
   reply.send({
-    // mergedArr,
     timesheets: times,
     user,
     user_id: request.params.staff_id,
