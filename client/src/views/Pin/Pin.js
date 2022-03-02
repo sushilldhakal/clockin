@@ -63,6 +63,7 @@ class Pin extends Component {
           focus
           ref={(p) => (this.pin = p)}
           type="numeric"
+          inputMode="number"
           onChange={this.onChange}
           onComplete={this.onSubmitHandler}
         />

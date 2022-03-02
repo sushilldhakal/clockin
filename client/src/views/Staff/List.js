@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
-import { CSVLink } from "react-csv";
+
 const List = (props) => {
-  const { getFilterData, editEmployee } = props;
+  const { getFilterData } = props;
   const [loading, setLoading] = React.useState(true);
 
   const data = getFilterData();
@@ -72,9 +72,6 @@ const List = (props) => {
         {getFilterData().length === 0 ? (
           <div>
             <p className="c-msg">Employee Not Found</p>
-            <button className="c-btn" onClick={editEmployee}>
-              Clear Term
-            </button>
           </div>
         ) : (
           <div>

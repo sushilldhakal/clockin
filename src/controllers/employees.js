@@ -1,5 +1,4 @@
 const connect = require("../config/connect");
-const moment = require("moment");
 
 module.exports = async (request, reply) => {
   const client = await connect();

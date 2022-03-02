@@ -26,14 +26,14 @@ class Flag extends Component {
   render() {
     return (
       <React.Fragment>
-        <Row>
+        {/* <Row>
           <Col md={6} xl={6}>
             <Image />
           </Col>
           <Col md={6} xl={6}>
             <FlagLocation />
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col md={6} xl={6}>
             <ImageLocation />
