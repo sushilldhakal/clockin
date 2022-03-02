@@ -80,7 +80,7 @@ const DashDefault = () => {
       name: "Time",
       selector: "time",
       sortable: true,
-      cell: (d) => <span>{moment(d.time).format("h:mm a")}</span>,
+      cell: (d) => <span>{d.time}</span>,
     },
     {
       id: "5",

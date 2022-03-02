@@ -33,7 +33,7 @@ module.exports = async (request, reply) => {
       let user = users.filter((user) => user.pin === pin)[0];
 
       if (time) {
-        time = moment(time);
+        time = moment(time).format("h:mm a");
       }
       if (user) {
         let { name, role, hire, site, _id } = user;
