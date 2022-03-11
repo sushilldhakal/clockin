@@ -111,9 +111,6 @@ class Timesheet extends Component {
     this.state.users.forEach((item) =>
       map.set(item.pin, { ...map.get(item.pin), ...item })
     );
-
-    const mergedArr = Array.from(map.values());
-
     const paginationComponentOptions = {
       selectAllRowsItem: true,
     };
