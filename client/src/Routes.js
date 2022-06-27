@@ -109,6 +109,11 @@ const routes = [
       },
       {
         exact: true,
+        path: "/dashboard/setting",
+        component: lazy(() => import("./views/setting/setting")),
+      },
+      {
+        exact: true,
         path: "/dashboard/flag",
         component: lazy(() => import("./views/Flag/Flag")),
       },

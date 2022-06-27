@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 import ListEmployee from "./listEmployee";
 
-import "./Staff";
-
 export default class Staff extends Component {
   render() {
     return (

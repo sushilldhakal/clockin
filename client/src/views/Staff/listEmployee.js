@@ -92,7 +92,7 @@ class ListEmployee extends Component {
                 <div
                   className={
                     !this.state.show
-                      ? "App-add-employee hide-employee-form container"
+                      ? "App-add-employee hide-employee-form col-sm-12"
                       : "App-add-employee show-employee-form"
                   }
                 >

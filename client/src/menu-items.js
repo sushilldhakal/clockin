@@ -34,6 +34,13 @@ let children = [
     url: "/dashboard/flag",
     icon: "feather icon-box",
   },
+  {
+    id: "setting",
+    title: "Setting",
+    type: "item",
+    url: "/dashboard/setting",
+    icon: "feather icon-settings",
+  },
 ];
 if (Boolean(localStorage.getItem("location"))) {
   children = children.filter((item) =>

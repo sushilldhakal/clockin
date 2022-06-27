@@ -109,13 +109,13 @@ export default ({ type }) => {
                   {values.map((value, id) => {
                     return (
                       <ListGroup.Item key={id}>
-                        <span className="pr-2">{value.name}</span>
                         <button
                           className="btn btn-primary btn-rounded btn-sm"
                           onClick={() => setEdit(value)}
                         >
                           Edit
                         </button>
+                        <span className="pr-2">{value.name}</span>
                       </ListGroup.Item>
                     );
                   })}

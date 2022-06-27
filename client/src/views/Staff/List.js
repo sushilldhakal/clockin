@@ -65,7 +65,7 @@ const List = (props) => {
 
   return (
     <React.Fragment>
-      <div className="container">
+      <div className="col-sm-12">
         {/* {this.getFilterData().length !== 0 ? this.displayData() : <p>No terms</p>} */}
 
         {/* Count return element from array. If equals to 0 show message*/}
