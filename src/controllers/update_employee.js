@@ -7,11 +7,23 @@ module.exports = async (request, reply) => {
   const db = client.db("clock-in-users");
   const collection = db.collection("employees");
 
-  // update empoloyee
   const user = await collection.findOne({
     _id: ObjectId(request.params.employee_id),
   });
-  console.log(user);
+
+  if(request.body.pin !== user.pin) {
+    const alreadyExists = await db.collection("employees").findOne({
+      pin: request.body.pin,
+      _id: {
+        $ne: ObjectId(request.params.employee_id)
+      } 
+    })
+    if(alreadyExists) {
+      return reply.status(500).send({
+        message: "Pin code already exists"
+      })
+    }
+  }
 
   const employee = {
     ...user,
@@ -27,12 +39,19 @@ module.exports = async (request, reply) => {
     img: request.body.img,
     updatedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
   };
+
   await db
     .collection("employees")
     .updateOne(
       { _id: ObjectId(request.params.employee_id) },
       { $set: { ...employee } }
     );
+
+  if (request.body.pin != user.pin) {
+    await db
+      .collection("timesheets")
+      .updateMany({ pin: user.pin }, { $set: { pin: request.body.pin } });
+  }
 
   await client.close();
   reply.send({

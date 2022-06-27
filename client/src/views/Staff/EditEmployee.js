@@ -40,11 +40,16 @@ export default ({ user, role, location, employer, onUpdate }) => {
             button: "OK",
           });
           onUpdate();
+        }).catch(res=>{
+          swal({
+            title: "Could not update",
+            text: res.response.data.message,
+            icon: "error",
+            button: "OK"
+          })
         });
     }
   };
-
-  console.log(employee.image);
 
   return (
     <form className="add-employee-form">

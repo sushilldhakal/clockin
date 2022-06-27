@@ -5,8 +5,8 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
 
-  // delete category
   const id = request.params.category_id;
+
   const category = await db
     .collection("categories")
     .findOne({ _id: ObjectId(id) });

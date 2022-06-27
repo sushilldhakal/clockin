@@ -6,7 +6,7 @@ module.exports = async (request, reply) => {
   const db = client.db("clock-in-users");
   const collection = db.collection("employees");
   // check if collection already has users with same pin
-  
+
   const user = await collection.findOne({ pin: request.body.pin });
 
   if (user) {
@@ -19,10 +19,13 @@ module.exports = async (request, reply) => {
     ...request.body,
     createdAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
   };
+  
   await collection.insertOne(employee);
+  
   client.close();
+
   reply.send({
     message: "Employee added successfully",
     employee,
-});
+  });
 };
