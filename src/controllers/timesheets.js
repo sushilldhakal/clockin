@@ -40,6 +40,7 @@ module.exports = async (request, reply) => {
       },
     })
     .toArray();
+  
 
   timesheets = timesheets.filter((timesheet) => {
     if (
