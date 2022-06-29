@@ -1,20 +1,10 @@
-@font-face {
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 200;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf)
-    format("truetype");
-}
-@font-face {
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf)
-    format("truetype");
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
 
 .video-wrapper {
   position: relative;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .css-loader .loader {
@@ -119,7 +109,7 @@
   background: #212a35;
   margin: 0;
   min-height: calc(100vh - 44px);
-  padding: 60px 0;
+  padding: 20px 0;
   overflow: hidden;
   font-family: "Source Sans Pro", sans-serif;
 }
@@ -190,9 +180,8 @@
   border-color: #6c757d;
 }
 .btn-check {
-  position: absolute;
   clip: rect(0, 0, 0, 0);
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 .white-text h2 {
   font-weight: 800 !important;
@@ -202,13 +191,13 @@
 
 .webcam-img video {
   background: #898989;
-  width: 350px;
-  height: 320px;
+  width: 400px;
+  height: 375px;
 }
 .webcam-img img {
   background-color: #1b232c;
-  width: 350px;
-  height: 320px;
+  width: 400px;
+  height: 375px;
   border: none;
   outline: none;
 }
@@ -220,7 +209,7 @@
   float: left;
   width: 33.3333%;
 }
-.record-slider-block label {
+.record-slider-block span.btn {
   width: 100%;
   display: block;
   border-radius: 20px;
@@ -228,9 +217,17 @@
   border: 0px;
   color: #3fafd7;
   font-weight: 800;
+  padding: 10px;
 }
-.record-slider .record-slider-block:hover label {
+.record-slider .record-slider-block:hover span.btn, .record-slider #active span.btn {
   background-color: #3fafd7;
+  color: #fff;
+}
+
+#active .tooltip label {
+  display: block;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .record-slider {
@@ -240,20 +237,47 @@
   border-radius: 20px;
   padding: 2px 2px;
   position: relative;
+  max-width: 600px;
+  margin: 50px auto;
 }
-.record-slider-block:hover .tooltip {
+
+.tooltip {
   display: block;
   opacity: 1;
   transition: 0.5s ease;
   background-color: #92c731;
   color: #fff;
-  padding: 10px;
   width: 100%;
   border-radius: 20px;
   bottom: -55px;
   text-align: center;
   left: 0px;
 }
+
+.tooltip {
+  display: none;
+  opacity: 0;
+  transition: 0.5s ease;
+  color: #fff;
+  width: 100%;
+  border-radius: 20px;
+  text-align: center;
+  left: 0px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#active .tooltip {
+  display: block;
+  opacity: 1;
+  transition: 0.5s ease;
+  color: #fff;
+}
+
+#not-active #not-active-2,#active #not-active-2, #active #not-active-1 {
+  display: none;
+}
+
 
 .record-slider-block .tooltip::before {
   content: "";
@@ -295,15 +319,106 @@
   margin: 0 auto;
 }
 .home-container .webcam-container .webcam-btn {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 38%;
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: 0;
 }
+
+.user-home-clocksheet span {
+  position: absolute;
+  bottom: 40px;
+  font-size: 12px;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #ffffff;
+  font-weight: 800 !important;
+  background-color: #00000085;
+  padding: 0px 5px;
+}
+
+.user-home-clocksheet .in {
+  left: 10px;
+}
+
+.user-home-clocksheet .break {
+  left: 105px;
+}
+
+.user-home-clocksheet .endBreak {
+  left: 180px;
+}
+.user-home-clocksheet .out {
+  left: 280px;
+}
+
+.user-home-clocksheet .timesheet-type:last-of-type {
+  opacity: 1;
+  bottom: 355px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background-color: #0e971b;
+}
+.user-home-clocksheet .timesheet-type {
+  opacity: 0;
+}
+
+.user-home-clocksheet .timesheet-type.clock-endBreak {
+  font-size: 0;
+  background-color: #d35903;
+}
+.user-home-clocksheet .timesheet-type.clock-endBreak::before {
+  content: "Break End";
+  font-size: 16px;
+}
+
+.user-home-clocksheet .timesheet-type.clock-break {
+  font-size: 0;
+  background-color: #d35903;
+}
+.user-home-clocksheet .timesheet-type.clock-break::before {
+  content: "Break Start";
+  font-size: 16px;
+}
+.user-home-clocksheet .timesheet-type.clock-out {
+  background-color: #555454;
+}
+
+
+.user-detail-login h4 {
+  position: absolute;
+  color: #fff;
+  top: 5px;
+  left: 10px;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.user-detail-login h4.role {
+  top: 25px;
+
+}
+.big-screen {
+  margin: 80px auto 0;
+}
+
 /* Media queries ~ */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 993px) {
   .home-container .container {
     max-width: 90vw;
   }
+}
+
+@media only screen and (max-width: 992px) {
+
+  .css-loader .loader {
+    left: 20px;
+  }
+  .record-slider {
+    display: flex;
+    
+  }
+
 }
 @media screen and (max-width: 678px) {
   .login-container {

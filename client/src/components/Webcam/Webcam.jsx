@@ -4,8 +4,8 @@ import Webcam from "react-webcam";
 const WebcamComponent = () => <Webcam />;
 
 const videoConstraints = {
-  width: 220,
-  height: 200,
+  width: 400,
+  height: 375,
   facingMode: "user"
 };
 
@@ -24,10 +24,10 @@ export const WebcamCapture = () => {
         {image === "" ? (
           <Webcam
             audio={false}
-            height={300}
+            height={400}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
-            width={300}
+            width={375}
             videoConstraints={videoConstraints}
           />
         ) : (

@@ -59,6 +59,38 @@
   color: white;
 }
 
+
+.hg-theme-default {
+  background-color: #212a35;
+  width: 450px;
+  margin: 30px auto 0;
+}
+
+.hg-theme-default .hg-button {
+  background: #3a4756;
+  color: #fff;
+  font-size: 30px;
+}
+
+.hg-theme-default .hg-row .hg-button:not(:last-child) {
+  margin-right: 10px;
+}
+.hg-theme-default .hg-row .hg-button {
+  margin-bottom: 10px;
+}
+#todaysDate {
+  margin-bottom: 100px;
+}
+.hg-theme-default.hg-layout-numeric .hg-button {
+  height: 85px;
+  box-shadow: 0px 0px 15px #1e252e;
+  border: none;
+}
+
+
+
+
+
 .App-link {
   color: #61dafb;
 }
@@ -71,3 +103,5 @@
     transform: rotate(360deg);
   }
 }
+
+

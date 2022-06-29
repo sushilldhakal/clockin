@@ -3,6 +3,8 @@ import PinInput from "react-pin-input";
 import axios from "axios";
 import moment from "moment";
 import swal from "sweetalert";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
 
 import "./Pin.css";
 
@@ -25,8 +27,37 @@ class Pin extends Component {
 
   onChange = (value) => {
     this.setState({ value });
+
+    console.log(value);
   };
 
+  onKeyPress = (button) => {
+    if (button === "{clear}") this.handleClear();
+    //console.log("button changed", button);
+  };
+
+  handleClear = () => {
+    this.setState(
+      {
+        value: "",
+      },
+      () => {
+        this.keyboard.clearInput();
+      }
+    );
+  };
+
+  onChangeInput = (event) => {
+    let value = event.target.value;
+    this.setState(
+      {
+        value: value,
+      },
+      () => {
+        this.keyboard.setInput(value);
+      }
+    );
+  };
   onClear = () => {
     this.setState({
       value: "",
@@ -52,7 +83,7 @@ class Pin extends Component {
   };
 
   render() {
-    console.log(this.state.currentTime);
+    //console.log(this.state.currentTime);
     return (
       <div className="Pin home-container">
         <div className="text white-text">
@@ -65,6 +96,26 @@ class Pin extends Component {
           type="numeric"
           inputMode="number"
           onChange={this.onChange}
+          onComplete={this.onSubmitHandler}
+        />
+
+        <Keyboard
+          keyboardRef={(r) => (this.keyboard = r)}
+          layoutName={this.state.layoutName}
+          theme={
+            "hg-theme-default hg-theme-numeric hg-layout-numeric numeric-theme"
+          }
+          layout={{
+            default: ["1 2 3", "4 5 6", "7 8 9", "{clear} 0 {bksp}"],
+          }}
+          mergeDisplay
+          display={{
+            "{clear}": "Clear",
+            "{bksp}": "&#8592",
+          }}
+          maxLength={4}
+          onChange={(input) => this.onChange(input)}
+          onKeyPress={(button) => this.onKeyPress(button)}
           onComplete={this.onSubmitHandler}
         />
       </div>
