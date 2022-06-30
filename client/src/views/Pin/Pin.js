@@ -33,7 +33,20 @@ class Pin extends Component {
 
   onKeyPress = (button) => {
     if (button === "{clear}") this.handleClear();
-    //console.log("button changed", button);
+    if (this.pin.elements[2].state.value) {
+      this.pin.elements[3].state.value = button
+      setTimeout(this.onSubmitHandler, 1000)
+      return
+    }
+    if (this.pin.elements[1].state.value) {
+      this.pin.elements[2].state.value = button
+      return
+    }
+    if (this.pin.elements[0].state.value) {
+      this.pin.elements[1].state.value = button
+      return
+    }
+    this.pin.elements[0].state.value = button
   };
 
   handleClear = () => {
@@ -77,13 +90,13 @@ class Pin extends Component {
         this.props.history.push("/home");
       })
       .catch((err) => {
-        swal("Invalid PIN!", "Pin you enter didn't match. Try again", "error");
-        this.onClear();
+        swal("Invalid PIN!", "Pin you enter didn't match. Try again", "error").then(()=>{
+          window.location.reload()
+        });
       });
   };
 
   render() {
-    //console.log(this.state.currentTime);
     return (
       <div className="Pin home-container">
         <div className="text white-text">
