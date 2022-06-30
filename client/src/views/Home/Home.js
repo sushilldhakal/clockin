@@ -123,6 +123,16 @@ class Home extends Component {
                           </>
                         );
                       })}
+
+                      <span
+                        className={
+                          !this.state.timesheets
+                            ? "hide"
+                            : "timesheet-type clock-out"
+                        }
+                      >
+                        Not Clocked In
+                      </span>
                     </div>
                     <WebcamCapture id="webimage" />
                     {/* <div className="css-loader">
