@@ -114,6 +114,16 @@ const routes = [
       },
       {
         exact: true,
+        path: "/dashboard/setting/add-user",
+        component: lazy(() => import("./views/setting/add_user")),
+      },
+      {
+        exact: true,
+        path: "/dashboard/setting/update-user/:user_id",
+        component: lazy(() => import("./views/setting/update_user")),
+      },
+      {
+        exact: true,
         path: "/dashboard/flag",
         component: lazy(() => import("./views/Flag/Flag")),
       },

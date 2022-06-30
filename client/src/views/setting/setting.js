@@ -1,165 +1,62 @@
 import React, { useState, Fragment } from "react";
-import data from "./mock-data.json";
-import ReadOnlyRow from "./ReadOnlyRow";
-import EditableRow from "./EditableRow";
+import axios from "axios";
+import { API_SERVER } from "../../config/constant";
+import { Link } from "react-router-dom";
 
 const Setting = () => {
-  const [contacts, setContacts] = useState(data);
+  const [contacts, setContacts] = useState([]);
 
-  const [addFormData, setAddFormData] = useState({
-    email: "",
-    password: "",
-    location: "",
-  });
+  React.useEffect(() => {
+    axios
+      .get(API_SERVER + "users", {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        setContacts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  const [editFormData, setEditFormData] = useState({
-    email: "",
-    password: "",
-    location: "",
-  });
-
-  const [editContactId, setEditContactId] = useState(null);
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-  };
-
-  const handleEditFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...editFormData };
-    newFormData[fieldName] = fieldValue;
-
-    setEditFormData(newFormData);
-  };
-
-  //submit handler
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-
-    const newContact = {
-      email: addFormData.email,
-      password: addFormData.password,
-      location: addFormData.location,
-    };
-
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
-  };
-
-  const handleEditFormSubmit = (event) => {
-    event.preventDefault();
-
-    const editedContact = {
-      id: editContactId,
-      email: editFormData.email,
-      password: editFormData.password,
-      location: editFormData.location,
-    };
-
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-
-    setContacts(newContacts);
-    setEditContactId(null);
-  };
-
-  const handleEditClick = (event, contact) => {
-    event.preventDefault();
-
-    setEditContactId(contact.id);
-    const formValues = {
-      email: contact.email,
-      password: contact.password,
-      location: contact.location,
-    };
-    setEditFormData(formValues);
-  };
-
-  const handleCancelClick = () => {
-    setEditContactId(null);
-  };
-
-  const handleDeleteClick = (contactId) => {
-    const newContacts = [...contacts];
-    const index = contacts.findIndex((contact) => contact.id === contactId);
-    newContacts.splice(index, 1);
-    setContacts(newContacts);
-  };
+  const deleteUser = (id)=>{
+    if(!window.confirm('This action is not reversable. Are you sure?')) {
+      return
+    }
+    axios.delete(API_SERVER+ "user/"+id).then(res=>{
+      window.location.reload()
+    })
+  }
 
   return (
     <div className="setting">
       <div className="dashboard-body">
         <div className="app-container card">
           <div class="card-header">
-            <h5 class="card-title">Add Admin</h5>
+            <h5 class="card-title">Admin Directory</h5>
+            <Link to={"/dashboard/setting/add-user"} class="btn btn-primary float-right btn-sm">Add new</Link>
           </div>
 
           <div className="card-body col-sm-12">
-            <form class="add-table" onSubmit={handleAddFormSubmit}>
-              <input
-                type="text"
-                name="email"
-                required="required"
-                placeholder="Enter a emal..."
-                onChange={handleAddFormChange}
-              />
-              <input
-                type="password"
-                name="password"
-                required="required"
-                placeholder="Enter a password..."
-                onChange={handleAddFormChange}
-              />
-              <input
-                type="text"
-                name="location"
-                placeholder="Enter a location..."
-                onChange={handleAddFormChange}
-              />
-
-              <button type="submit">Add</button>
-            </form>
-            <form class="view-table" onSubmit={handleEditFormSubmit}>
-              <table>
-                <thead>
-                  <tr>
-                    <th width="90px">ID</th>
-                    <th width="281px">Email</th>
-                    <th width="281px">Password</th>
-                    <th width="281px">Location</th>
+            {contacts.length > 0 && <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th width="281px">Username</th>
+                  <th width="281px">Location</th>
+                  <th width="281px">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contacts.map((contact) => (
+                  <tr key={contact.username}>
+                    <td>{contact.username}</td>
+                    <td>{contact.location}</td>
+                    <td><Link class="btn btn-default btn-sm text-primary" to={"/dashboard/setting/update-user/" + contact._id}>Update</Link>
+                      <a class="btn btn-default btn-sm text-danger" href="#" onClick={()=>deleteUser(contact._id)}>Delete</a></td>
                   </tr>
-                </thead>
-                <tbody>
-                  {contacts.map((contact) => (
-                    <>
-                      {editContactId === contact.id ? (
-                        <EditableRow
-                          editFormData={editFormData}
-                          handleEditFormChange={handleEditFormChange}
-                          handleCancelClick={handleCancelClick}
-                        />
-                      ) : (
-                        <ReadOnlyRow
-                          contact={contact}
-                          handleEditClick={handleEditClick}
-                          handleDeleteClick={handleDeleteClick}
-                        />
-                      )}
-                    </>
-                  ))}
-                </tbody>
-              </table>
-            </form>
+                ))}
+              </tbody>
+            </table>}
           </div>
         </div>
       </div>
