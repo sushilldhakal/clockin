@@ -3,9 +3,8 @@ import React from "react";
 const ReadOnlyRow = ({ contact, handleEditClick, handleDeleteClick }) => {
   return (
     <tr>
-      <td width="90px">{contact.id}</td>
-      <td width="281px">{contact.email}</td>
-      <td width="281px">{contact.password}</td>
+      <td width="281px">{contact.username}</td>
+      <td width="281px">**********</td>
       <td width="281px">{contact.location}</td>
       <td>
         <button

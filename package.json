@@ -20,6 +20,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "mongodb": "^4.2.1",
+    "react-simple-keyboard": "^3.4.164",
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {

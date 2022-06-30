@@ -7,14 +7,13 @@ const EditableRow = ({
 }) => {
   return (
     <tr>
-      <td>editable</td>
       <td>
         <input
-          type="email"
+          type="username"
           required="required"
-          placeholder="Enter an email..."
-          name="email"
-          value={editFormData.email}
+          placeholder="Enter an username..."
+          name="username"
+          value={editFormData.username}
           onChange={handleEditFormChange}
         />
       </td>
@@ -24,7 +23,7 @@ const EditableRow = ({
           required="required"
           placeholder="Enter a password..."
           name="password"
-          value={editFormData.password}
+          value={''}
           onChange={handleEditFormChange}
         />
       </td>
