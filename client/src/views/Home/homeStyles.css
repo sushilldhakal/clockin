@@ -204,6 +204,10 @@
 .webcam-btn.capture {
   visibility: hidden;
 }
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+}
 
 .record-slider-block {
   float: left;

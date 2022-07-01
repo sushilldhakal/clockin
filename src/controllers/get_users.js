@@ -4,17 +4,23 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
 
-    const result = await db.collection("users").find({
-      username: {
-        $ne: 'admin'
+  const result = await db
+    .collection("users")
+    .find(
+      {
+        username: {
+          $ne: "admins",
+        },
+      },
+      {
+        projection: {
+          password: 0,
+        },
       }
-    },{
-      projection: {
-        password: 0
-      }
-    }).toArray();
+    )
+    .toArray();
 
-    await client.close();
+  await client.close();
 
-    return reply.send(result);
+  return reply.send(result);
 };

@@ -3,6 +3,7 @@ import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
 import swal from "sweetalert";
+import Tabs from "../../components/Tabs/Tabs";
 import moment, { relativeTimeThreshold } from "moment";
 
 import { API_SERVER } from "../../config/constant";
@@ -149,6 +150,40 @@ class Home extends Component {
                 </div>
                 <div className="col-lg-7 col-sm-12">
                   <div className="record-slider ">
+                    <Tabs>
+                      <div className="record-slider-block sucess" label="START">
+                        <div className="tooltip btn-outline-success left">
+                          <input
+                            type="radio"
+                            className="btn-check"
+                            name="options"
+                            id="option1"
+                            autoComplete="off"
+                            checked
+                            onChange={(e) => e.target.value}
+                            onClick={() => this.onClick("in")}
+                          />
+                          <label htmlFor="option1">Clock In</label>
+                        </div>
+                      </div>
+                      <div label="BREAK">
+                        After &apos;while, <em>Crocodile</em>!
+                      </div>
+                      <div label="FINISH">
+                        <div className="tooltip btn-outline-danger right">
+                          <label htmlFor="option3">Clock Out</label>
+                          <input
+                            type="radio"
+                            className="btn-check"
+                            name="options"
+                            id="option3"
+                            autoComplete="off"
+                            onChange={(e) => e.target.value}
+                            onClick={() => this.onClick("out")}
+                          />
+                        </div>
+                      </div>
+                    </Tabs>
                     <div
                       id={
                         this.state.timesheets.length == 0 || isActive
