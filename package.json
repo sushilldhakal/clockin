@@ -4,11 +4,11 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "client": "cd client && npm run start",
     "build": "cd client && npm install --only=dev && npm install && npm run build",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
-    "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\""
+    "heroku-postbuild": "cd client && npm install && npm install && npm run build",
+    "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\"",
   },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.16",
@@ -27,5 +27,9 @@
     "concurrently": "^6.4.0",
     "nodemon": "^2.0.15"
   },
+  "engines": {
+    "node": "14.18.1",
+    "npm": "6.14.15"
+  }
   "keywords": []
 }
