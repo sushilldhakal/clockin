@@ -3,7 +3,6 @@ import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
 import swal from "sweetalert";
-//import Tabs from "../../components/Tabs/Tabs";
 import moment, { relativeTimeThreshold } from "moment";
 
 import { Tabs, Tab } from "react-bootstrap";
