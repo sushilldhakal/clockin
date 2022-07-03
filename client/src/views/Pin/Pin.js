@@ -86,10 +86,20 @@ class Pin extends Component {
      */
     if (button === "{clear}") this.handleClear();
 
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") this.handleShift();
+    // if (this.pin.elements[2].state.value) {
+    //   this.pin.elements[3].state.value = button;
+    //   setTimeout(this.onSubmitHandler, 1000);
+    //   return;
+    // }
+    // if (this.pin.elements[1].state.value) {
+    //   this.pin.elements[2].state.value = button;
+    //   return;
+    // }
+    // if (this.pin.elements[0].state.value) {
+    //   this.pin.elements[1].state.value = button;
+    //   return;
+    // }
+    // this.pin.elements[0].state.value = button;
   };
 
   handleClear = () => {
@@ -103,7 +113,6 @@ class Pin extends Component {
     );
 
     this.pin.clear();
-    this.pin.values.clear();
   };
 
   handleShift = () => {
@@ -160,7 +169,6 @@ class Pin extends Component {
   };
 
   render() {
-    console.log(this.state.currentTime);
     return (
       <div className="Pin home-container">
         <div className="text white-text">

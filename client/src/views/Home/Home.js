@@ -3,8 +3,10 @@ import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
 import swal from "sweetalert";
-import Tabs from "../../components/Tabs/Tabs";
+//import Tabs from "../../components/Tabs/Tabs";
 import moment, { relativeTimeThreshold } from "moment";
+
+import { Tabs, Tab } from "react-bootstrap";
 
 import { API_SERVER } from "../../config/constant";
 
@@ -25,12 +27,9 @@ class Home extends Component {
     lng: "",
     user: { name: "" },
     timesheets: [],
-    isActive: false,
-  };
-
-  handleToggle = () => {
-    //document.getElementById("active").setAttribute("id", "not-active");
-    this.setState({ isActive: !this.state.isActive });
+    isActive: "",
+    tabLength: "",
+    birthday: false,
   };
 
   onClick = (e) => {
@@ -38,31 +37,31 @@ class Home extends Component {
 
     console.log(e);
 
-    // setTimeout(() => {
-    axios
-      .post(API_SERVER + "clock/" + e, {
-        lat: this.state.lat.toString(),
-        lng: this.state.lng.toString(),
-        pin: localStorage.getItem("pin"),
-        image: document.getElementById("screen-image").src,
-      })
-      .then((res) => {
-        //console.log(res);
-        // swal({
-        //   title: "Clock " + e,
-        //   text: "Your Clock " + e + " has been recorded",
-        //   icon: "success",
-        // });
-        // setTimeout(() => {
-        //   swal.close();
-        //   localStorage.clear();
-        //   this.props.history.push("/");
-        // }, 3000);
-      })
-      .catch((err) => {
-        swal("Error: Something went wrong.");
-      });
-    // }, 100);
+    setTimeout(() => {
+      axios
+        .post(API_SERVER + "clock/" + e, {
+          lat: this.state.lat.toString(),
+          lng: this.state.lng.toString(),
+          pin: localStorage.getItem("pin"),
+          image: document.getElementById("screen-image").src,
+        })
+        .then((res) => {
+          console.log(res);
+          swal({
+            title: "Clock " + e,
+            text: "Your Clock " + e + " has been recorded",
+            icon: "success",
+          });
+          setTimeout(() => {
+            swal.close();
+            localStorage.clear();
+            this.props.history.push("/");
+          }, 3000);
+        })
+        .catch((err) => {
+          swal("Error: Something went wrong.");
+        });
+    }, 100);
   };
 
   componentDidMount() {
@@ -73,28 +72,61 @@ class Home extends Component {
           timesheets: res.data.timesheets,
           user: res.data.user,
         });
+        console.log(res.data.user);
       });
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
+        tabLength: this.state.timesheets.length,
       });
     });
+
+    const length = "";
+
+    if (this.state.tabLength == 0) {
+      this.setState({
+        isActive: "start",
+      });
+    } else if (this.state.tabLength == 1 || this.state.tabLength == 2) {
+      this.setState({
+        isActive: "break",
+      });
+    } else {
+      this.setState({
+        isActive: "end",
+      });
+    }
+
+    console.log(this.state.user.dob);
 
     // setTimeout(() => {
     //   localStorage.removeItem("pin");
     //   this.props.history.push("/");
-    // }, 8000);
+    // }, 14000);
   }
 
   render() {
-    console.log(this.state.timesheets);
-    //console.log(this.state.timesheets.length);
     if (localStorage.getItem("pin") === null) {
       this.props.history.push("/");
     }
 
     const isActive = this.state.isActive;
+    const length = this.state.timesheets.length;
+
+    const Month = moment(this.state.user.dob).format("MM");
+    const Day = moment(this.state.user.dob).format("DD");
+    const todayMonth = moment(new Date()).format("MM");
+    const todayDay = moment(new Date()).format("DD");
+
+    setTimeout(() => {
+      if (
+        Number(todayMonth) === Number(Month) &&
+        Number(todayDay) === Number(Day)
+      ) {
+        this.state.birthday = true;
+      }
+    }, 1000);
 
     return (
       <div className="home-container">
@@ -109,6 +141,7 @@ class Home extends Component {
                       <h4 className="name">{this.state.user.name}</h4>
                       <h4 className="role">{this.state.user.role}</h4>
                     </div>
+
                     <div className="user-home-clocksheet">
                       {this.state.timesheets.map((timesheet, id) => {
                         return (
@@ -119,13 +152,19 @@ class Home extends Component {
                             <span
                               className={`timesheet-type clock-${timesheet.type}`}
                             >
-                              Clocked {timesheet.type}
+                              {timesheet.type == "in" ? "Clocked In" : null}
+                              {timesheet.type == "break" ? "On Break" : null}
+                              {timesheet.type == "endBreak"
+                                ? "Break End"
+                                : null}
+                              {timesheet.type == "out" ? "Clocked Out" : null}
+                              {/* Clocked {timesheet.type} */}
                             </span>
                           </>
                         );
                       })}
 
-                      <span
+                      {/* <span
                         className={
                           !this.state.timesheets
                             ? "hide"
@@ -133,7 +172,7 @@ class Home extends Component {
                         }
                       >
                         Not Clocked In
-                      </span>
+                      </span> */}
                     </div>
                     <WebcamCapture id="webimage" />
                     {/* <div className="css-loader">
@@ -150,9 +189,16 @@ class Home extends Component {
                 </div>
                 <div className="col-lg-7 col-sm-12">
                   <div className="record-slider ">
-                    <Tabs>
-                      <div className="record-slider-block sucess" label="START">
-                        <div className="tooltip btn-outline-success left">
+                    <Tabs defaultActiveKey={isActive}>
+                      {console.log("active tab", isActive)}
+                      <Tab
+                        eventKey="start"
+                        title="START"
+                        disable={
+                          this.state.timesheets.length > 0 ? "true" : "false"
+                        }
+                      >
+                        <div className="btn-outline-success left">
                           <input
                             type="radio"
                             className="btn-check"
@@ -165,12 +211,56 @@ class Home extends Component {
                           />
                           <label htmlFor="option1">Clock In</label>
                         </div>
-                      </div>
-                      <div label="BREAK">
-                        After &apos;while, <em>Crocodile</em>!
-                      </div>
-                      <div label="FINISH">
-                        <div className="tooltip btn-outline-danger right">
+                      </Tab>
+                      <Tab
+                        eventKey="break"
+                        title={
+                          this.state.timesheets.length == 2
+                            ? "END BREAK"
+                            : "BREAK"
+                        }
+                        disable={length > 2 ? "true" : "false"}
+                      >
+                        <div
+                          className={`btn-outline-warning middle ${
+                            this.state.timesheets.length == 1
+                              ? "not-active"
+                              : "tooltip"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            className="btn-check"
+                            name="option2"
+                            id="option2"
+                            autoComplete="off"
+                            onChange={(e) => e.target.value}
+                            onClick={() => this.onClick("break")}
+                          />
+                          <label htmlFor="option2">START BREAK</label>
+                        </div>
+
+                        <div
+                          className={`btn-outline-warning middle ${
+                            this.state.timesheets.length == 2
+                              ? "not-active"
+                              : "tooltip"
+                          }`}
+                        >
+                          <label htmlFor="option1d">END BREAK</label>
+                          <input
+                            type="radio"
+                            className="btn-check"
+                            name="option1d"
+                            id="option1d"
+                            autoComplete="off"
+                            onChange={(e) => e.target.value}
+                            onClick={() => this.onClick("endBreak")}
+                          />
+                        </div>
+                      </Tab>
+                      <Tab eventKey="end" title="FINISH">
+                        <div className="btn-outline-danger right">
                           <label htmlFor="option3">Clock Out</label>
                           <input
                             type="radio"
@@ -182,9 +272,10 @@ class Home extends Component {
                             onClick={() => this.onClick("out")}
                           />
                         </div>
-                      </div>
+                      </Tab>
                     </Tabs>
-                    <div
+
+                    {/* <div
                       id={
                         this.state.timesheets.length == 0 || isActive
                           ? "active"
@@ -221,11 +312,6 @@ class Home extends Component {
                       className="record-slider-block warning"
                     >
                       <span
-                        id={
-                          this.state.timesheets.length == 1
-                            ? "active"
-                            : "not-active-1"
-                        }
                         className="btn btn-secondary"
                         htmlFor={
                           this.state.timesheets.length == 2
@@ -309,6 +395,18 @@ class Home extends Component {
                           onClick={() => this.onClick("out")}
                         />
                       </div>
+                    </div> */}
+                  </div>
+                </div>
+                <div className="col-sm-12">
+                  <div
+                    className={
+                      this.state.birthday ? "fireworks" : "hide tooltip"
+                    }
+                  >
+                    <div className="pyro">
+                      <div className="before"></div>
+                      <div className="after"></div>
                     </div>
                   </div>
                 </div>
