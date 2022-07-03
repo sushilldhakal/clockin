@@ -348,6 +348,7 @@ ul.nav.nav-tabs li {
   position: relative;
   max-width: 600px;
   margin: 50px auto;
+  z-index: 99;;
 }
 
 .tooltip {
@@ -561,7 +562,11 @@ ul.nav.nav-tabs li {
 }
 
 
-
+.wish {
+  position: absolute;
+  right: 20%;
+  bottom: 0;
+}
 
 
 
@@ -571,7 +576,8 @@ ul.nav.nav-tabs li {
 .fireworks {
   margin: 0;
   padding: 0;
-  margin-top: -40vh;
+  margin-top: -60vh;
+  height: 60vh;
 }
  .pyro >
  .before, .pyro >

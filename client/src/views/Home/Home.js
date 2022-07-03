@@ -96,7 +96,11 @@ class Home extends Component {
         isActive: "end",
       });
     }
-
+    if (this.state.timesheets.length == 1) {
+      console.log("true");
+    } else {
+      console.log("false");
+    }
     console.log(this.state.user.dob);
 
     // setTimeout(() => {
@@ -193,8 +197,8 @@ class Home extends Component {
                       <Tab
                         eventKey="start"
                         title="START"
-                        disable={
-                          this.state.timesheets.length > 0 ? "true" : "false"
+                        disabled={
+                          this.state.timesheets.length > 0 ? true : false
                         }
                       >
                         <div className="btn-outline-success left">
@@ -218,7 +222,9 @@ class Home extends Component {
                             ? "END BREAK"
                             : "BREAK"
                         }
-                        disable={length > 2 ? "true" : "false"}
+                        disabled={
+                          this.state.timesheets.length > 2 ? true : false
+                        }
                       >
                         <div
                           className={`btn-outline-warning middle ${
@@ -258,7 +264,13 @@ class Home extends Component {
                           />
                         </div>
                       </Tab>
-                      <Tab eventKey="end" title="FINISH">
+                      <Tab
+                        eventKey="end"
+                        title="FINISH"
+                        disabled={
+                          this.state.timesheets.length > 4 ? true : false
+                        }
+                      >
                         <div className="btn-outline-danger right">
                           <label htmlFor="option3">Clock Out</label>
                           <input
@@ -403,6 +415,9 @@ class Home extends Component {
                       this.state.birthday ? "fireworks" : "hide tooltip"
                     }
                   >
+                    <div className="wish">
+                      Happy BirthDay {this.state.user.name}
+                    </div>
                     <div className="pyro">
                       <div className="before"></div>
                       <div className="after"></div>
