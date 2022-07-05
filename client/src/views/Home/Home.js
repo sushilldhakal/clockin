@@ -242,7 +242,7 @@ class Home extends Component {
                         eventKey="end"
                         title="FINISH"
                         disabled={
-                          this.state.timesheets.length > 4 ? true : false
+                          this.state.timesheets.length > 3 ? true : false
                         }
                       >
                         <div className="btn-outline-danger right">

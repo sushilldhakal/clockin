@@ -19,29 +19,6 @@ function doDate() {
 }
 setInterval(doDate, 1000);
 
-function addClass() {
-  const firstLi = document.querySelector(
-    ".pincode-input-container input:nth-of-type(1)"
-  );
-  firstLi.setAttribute("id", "input-1");
-
-  const secondLi = document.querySelector(
-    ".pincode-input-container input:nth-of-type(2)"
-  );
-  secondLi.setAttribute("id", "input-2");
-
-  const thirdLi = document.querySelector(
-    ".pincode-input-container input:nth-of-type(3)"
-  );
-  thirdLi.setAttribute("id", "input-3");
-
-  const fourthLi = document.querySelector(
-    ".pincode-input-container input:nth-of-type(4)"
-  );
-  fourthLi.setAttribute("id", "input-4");
-}
-setTimeout(addClass, 1000);
-
 class Pin extends Component {
   state = {
     input: "",
