@@ -14,7 +14,8 @@ function doDate() {
   var now = new Date();
   str = now.toDateString() + " " + now.toLocaleTimeString();
   var pinTime = moment(str).format("hh:mm:ss A");
-  document.getElementById("todaysDate").innerHTML = pinTime;
+  if (document.getElementById("todaysDate"))
+    document.getElementById("todaysDate").innerHTML = pinTime;
 }
 setInterval(doDate, 1000);
 
@@ -26,6 +27,7 @@ class Home extends Component {
     lng: "",
     user: { name: "" },
     timesheets: [],
+    timesheetLoaded: false,
     isActive: "",
     tabLength: "",
     birthday: false,
@@ -69,6 +71,7 @@ class Home extends Component {
       .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
       .then((res) => {
         this.setState({
+          timesheetLoaded: true,
           timesheets: res.data.timesheets,
           user: res.data.user,
         });
@@ -159,7 +162,10 @@ class Home extends Component {
                         eventKey="start"
                         title="START"
                         disabled={
-                          this.state.timesheets.length > 0 ? true : false
+                          !this.state.timesheetLoaded ||
+                          this.state.timesheets.length > 0
+                            ? true
+                            : false
                         }
                       >
                         <div className="btn-outline-success left">
@@ -184,7 +190,10 @@ class Home extends Component {
                             : "BREAK"
                         }
                         disabled={
-                          this.state.timesheets.length > 2 ? true : false
+                          !this.state.timesheetLoaded ||
+                          this.state.timesheets.length > 2
+                            ? true
+                            : false
                         }
                       >
                         <div
@@ -229,7 +238,10 @@ class Home extends Component {
                         eventKey="end"
                         title="FINISH"
                         disabled={
-                          this.state.timesheets.length > 3 ? true : false
+                          !this.state.timesheetLoaded ||
+                          this.state.timesheets.length > 3
+                            ? true
+                            : false
                         }
                       >
                         <div className="btn-outline-danger right">
