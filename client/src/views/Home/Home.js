@@ -29,7 +29,6 @@ class Home extends Component {
     timesheets: [],
     timesheetLoaded: false,
     isActive: "",
-    tabLength: "",
     birthday: false,
     className: "hide tooltip",
   };
@@ -74,15 +73,29 @@ class Home extends Component {
           timesheetLoaded: true,
           timesheets: res.data.timesheets,
           user: res.data.user,
+          birthday:
+            moment(res.data.user.dob).format("MM-DD") ===
+            moment(new Date()).format("MM-DD"),
         });
         navigator.geolocation.getCurrentPosition((position) => {
           this.setState({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-            tabLength: res.data.timesheets.length,
           });
         });
       });
+
+    const Month = moment(this.state.user.dob).format("MM");
+    const Day = moment(this.state.user.dob).format("DD");
+    const todayMonth = moment(new Date()).format("MM");
+    const todayDay = moment(new Date()).format("DD");
+
+    setTimeout(() => {
+      console.log("birthday", this.state.user.dob);
+      if (todayMonth === Month && todayDay === Day) {
+        this.setState({ className: "firework" });
+      }
+    }, 6000);
 
     // setTimeout(() => {
     //   localStorage.removeItem("pin");
@@ -95,26 +108,26 @@ class Home extends Component {
       this.props.history.push("/");
     }
 
-    let isActive = "end";
+    let isActive = "";
 
-    if (this.state.tabLength === 0) {
+    if (this.state.timesheets.length === 0) {
       isActive = "start";
     }
 
-    if ([1, 2].includes(this.state.tabLength)) {
+    if ([1, 2].includes(this.state.timesheets.length)) {
       isActive = "break";
     }
+    if (this.state.timesheets.length === 3) {
+      isActive = "end";
+    }
 
+    console.log("tab is active", isActive);
+
+    let isBirthday = "";
     const Month = moment(this.state.user.dob).format("MM");
     const Day = moment(this.state.user.dob).format("DD");
     const todayMonth = moment(new Date()).format("MM");
     const todayDay = moment(new Date()).format("DD");
-
-    const birthday = false;
-    console.log("birthday", this.state.user.dob);
-    if (todayMonth === Month && todayDay === Day) {
-      birthday = true;
-    }
 
     return (
       <div className="home-container">
@@ -259,17 +272,19 @@ class Home extends Component {
                     </Tabs>
                   </div>
                 </div>
-                <div className="col-sm-12">
-                  <div className={this.state.className}>
-                    <div className="wish">
-                      Happy BirthDay {this.state.user.name}
-                    </div>
-                    <div className="pyro">
-                      <div className="before"></div>
-                      <div className="after"></div>
+                {this.state.birthday && (
+                  <div className="col-sm-12">
+                    <div className="fireworks">
+                      <div className="wish">
+                        Happy BirthDay {this.state.user.name}
+                      </div>
+                      <div className="pyro">
+                        <div className="before"></div>
+                        <div className="after"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
