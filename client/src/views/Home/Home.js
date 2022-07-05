@@ -107,7 +107,7 @@ class Home extends Component {
       this.props.history.push("/");
     }
 
-    let isActive = 'end';
+    let isActive = '';
 
     if (this.state.tabLength === 0) {
       isActive = 'start';
@@ -115,6 +115,10 @@ class Home extends Component {
 
     if ([1, 2].includes(this.state.tabLength)) {
       isActive = 'break';
+    }
+
+    if (this.state.tabLength === 3) {
+      isActive = 'end'
     }
 
     return (
