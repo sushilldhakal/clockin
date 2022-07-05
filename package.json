@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "client": "cd client && npm run start",
     "build": "cd client && npm install --only=dev && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
@@ -27,5 +27,7 @@
     "concurrently": "^6.4.0",
     "nodemon": "^2.0.15"
   },
-  "keywords": []
+  "engines": {
+    "node": "14.18.1"
+  }
 }

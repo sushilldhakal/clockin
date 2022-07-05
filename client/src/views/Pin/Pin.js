@@ -50,56 +50,53 @@ class Pin extends Component {
   };
 
   onChange = (input) => {
+    console.log(input)
     this.setState({
       input: input,
     });
-    console.log("Input changed", input);
-
-    const msg = this.state.input;
-
-    console.log("change", this.state.input);
-
-    if (input.length == 1) {
-      document.getElementById("input-1").setAttribute("value", msg[0]);
-    }
-    if (input.length == 2) {
-      document.getElementById("input-2").setAttribute("value", msg[1]);
-    }
-    if (input.length == 3) {
-      document.getElementById("input-3").setAttribute("value", msg[2]);
-    }
-    if (input.length == 4) {
-      document.getElementById("input-4").setAttribute("value", msg[3]);
-    }
-
-    console.log("input length ", input.length);
-    if (input.length == 4) {
-      this.onSubmitHandler(input);
-    }
   };
 
   onKeyPress = (button) => {
     console.log("Button pressed", button);
 
-    /**
-     * Handle clear
-     */
-    if (button === "{clear}") this.handleClear();
+    if (button === "{clear}") {
+      this.handleClear()
+      return 
+    }
 
-    // if (this.pin.elements[2].state.value) {
-    //   this.pin.elements[3].state.value = button;
-    //   setTimeout(this.onSubmitHandler, 1000);
-    //   return;
-    // }
-    // if (this.pin.elements[1].state.value) {
-    //   this.pin.elements[2].state.value = button;
-    //   return;
-    // }
-    // if (this.pin.elements[0].state.value) {
-    //   this.pin.elements[1].state.value = button;
-    //   return;
-    // }
-    // this.pin.elements[0].state.value = button;
+    if (button === "{bksp}") {
+      if (this.pin.elements[3].state.value) {
+        this.pin.elements[3].state.value = '';
+        return;
+      }
+      if (this.pin.elements[2].state.value) {
+        this.pin.elements[2].state.value = '';
+        return;
+      }
+      if (this.pin.elements[1].state.value) {
+        this.pin.elements[1].state.value = '';
+        return;
+      }
+      if (this.pin.elements[0].state.value) {
+        this.pin.elements[0].state.value = '';
+        return;
+      }
+    }
+
+    if (this.pin.elements[2].state.value) {
+      this.pin.elements[3].state.value = button;
+      setTimeout(this.onSubmitHandler, 10);
+      return;
+    }
+    if (this.pin.elements[1].state.value) {
+      this.pin.elements[2].state.value = button;
+      return;
+    }
+    if (this.pin.elements[0].state.value) {
+      this.pin.elements[1].state.value = button;
+      return;
+    }
+    this.pin.elements[0].state.value = button;
   };
 
   handleClear = () => {
@@ -139,12 +136,9 @@ class Pin extends Component {
     this.setState({
       input: "",
     });
-    //this.pin.clear();
-    //this.pin.values.clear();
   };
 
   onSubmitHandler = (e) => {
-    //e.preventDefault();
     this.pin.values = e;
     axios
       .post(process.env.REACT_APP_BASE_URL + "auth/login", {
@@ -182,26 +176,9 @@ class Pin extends Component {
           inputMode="number"
           pattern="\d*"
           value={this.state.input}
-          //onChange={(e) => this.onChangeInput(e)}
-          onComplete={this.onSubmitHandler}
+          onChange={this.onChange.bind(this)}
+          onComplete={this.onSubmitHandler.bind(this)}
         />
-
-        {/* <div className="lines-input">
-          <span className="line-1">&#124;</span>
-          <span className="line-2">&#124;</span>
-          <span className="line-3">&#124;</span>
-
-          <input
-            id="pin-input-area"
-            focus
-            ref={(p) => (this.pin = p)}
-            type="number"
-            value={this.state.input}
-            maxlength="4"
-            onComplete={this.onSubmitHandler}
-            onChange={(e) => this.onChangeInput(e)}
-          />
-        </div> */}
         <Keyboard
           keyboardRef={(r) => (this.keyboard = r)}
           layoutName={this.state.layoutName}
