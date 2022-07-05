@@ -78,7 +78,7 @@ class Home extends Component {
             lng: position.coords.longitude,
             tabLength: res.data.timesheets.length,
           });
-        })
+        });
       });
 
     const Month = moment(this.state.user.dob).format("MM");
@@ -104,14 +104,14 @@ class Home extends Component {
       this.props.history.push("/");
     }
 
-    let isActive = 'end';
+    let isActive = "end";
 
     if (this.state.tabLength === 0) {
-      isActive = 'start';
+      isActive = "start";
     }
 
     if ([1, 2].includes(this.state.tabLength)) {
-      isActive = 'break';
+      isActive = "break";
     }
 
     return (
@@ -188,10 +188,11 @@ class Home extends Component {
                         }
                       >
                         <div
-                          className={`btn-outline-warning middle ${this.state.timesheets.length == 1
-                            ? "not-active"
-                            : "tooltip"
-                            }`}
+                          className={`btn-outline-warning middle ${
+                            this.state.timesheets.length == 1
+                              ? "not-active"
+                              : "tooltip"
+                          }`}
                         >
                           <input
                             type="radio"
@@ -206,10 +207,11 @@ class Home extends Component {
                         </div>
 
                         <div
-                          className={`btn-outline-warning middle ${this.state.timesheets.length == 2
-                            ? "not-active"
-                            : "tooltip"
-                            }`}
+                          className={`btn-outline-warning middle ${
+                            this.state.timesheets.length == 2
+                              ? "not-active"
+                              : "tooltip"
+                          }`}
                         >
                           <label htmlFor="option1d">END BREAK</label>
                           <input
