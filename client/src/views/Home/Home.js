@@ -101,13 +101,9 @@ class Home extends Component {
 
     if (this.state.timesheets.length === 0) {
       isActive = 'start';
-    }
-
-    if ([1, 2].includes(this.state.timesheets.length)) {
+    } else if ([1, 2].includes(this.state.timesheets.length)) {
       isActive = 'break';
-    }
-
-    if (this.state.timesheets.length === 3) {
+    } else if (this.state.timesheets.length === 3) {
       isActive = 'end'
     }
 
@@ -151,7 +147,7 @@ class Home extends Component {
                 </div>
                 <div className="col-lg-7 col-sm-12">
                   <div className="record-slider ">
-                    <Tabs defaultActiveKey={isActive}>
+                    {this.state.timesheetLoaded && <Tabs defaultActiveKey={this.state.timesheetLoaded ? isActive : undefined}>
                       <Tab
                         eventKey="start"
                         title="START"
@@ -240,7 +236,7 @@ class Home extends Component {
                           />
                         </div>
                       </Tab>
-                    </Tabs>
+                    </Tabs>}
                   </div>
                 </div>
                 {this.state.birthday && <div className="col-sm-12">
