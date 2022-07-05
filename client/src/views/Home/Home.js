@@ -29,7 +29,6 @@ class Home extends Component {
     timesheets: [],
     timesheetLoaded: false,
     isActive: "",
-    tabLength: "",
     birthday: false,
     className: "hide tooltip",
   };
@@ -74,7 +73,6 @@ class Home extends Component {
           timesheetLoaded: true,
           timesheets: res.data.timesheets,
           user: res.data.user,
-          tabLength: res.data.timesheets.length,
           birthday: moment(res.data.user.dob).format("MM-DD") === moment(new Date()).format("MM-DD")
         });
 
@@ -99,19 +97,17 @@ class Home extends Component {
       this.props.history.push("/");
     }
 
-    console.log(this.state)
-
     let isActive = '';
 
-    if (this.state.tabLength === 0) {
+    if (this.state.timesheets.length === 0) {
       isActive = 'start';
     }
 
-    if ([1, 2].includes(this.state.tabLength)) {
+    if ([1, 2].includes(this.state.timesheets.length)) {
       isActive = 'break';
     }
 
-    if (this.state.tabLength === 3) {
+    if (this.state.timesheets.length === 3) {
       isActive = 'end'
     }
 
