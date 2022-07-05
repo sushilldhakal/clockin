@@ -36,8 +36,6 @@ class Home extends Component {
   onClick = (e) => {
     document.getElementById("webcam-btn").click();
 
-    console.log(e);
-
     setTimeout(() => {
       axios
         .post(API_SERVER + "clock/" + e, {
@@ -47,7 +45,6 @@ class Home extends Component {
           image: document.getElementById("screen-image").src,
         })
         .then((res) => {
-          console.log(res);
           swal({
             title: "Clock " + e,
             text: "Your Clock " + e + " has been recorded",
@@ -100,16 +97,12 @@ class Home extends Component {
 
     if (this.state.timesheets.length === 0) {
       isActive = "start";
-    }
-
-    if ([1, 2].includes(this.state.timesheets.length)) {
+    } else if ([1, 2].includes(this.state.timesheets.length)) {
       isActive = "break";
-    }
-
-    if (this.state.timesheets.length === 3) {
+    } else if (this.state.timesheets.length === 3) {
       isActive = "end";
     }
-
+    console.log(this.state.timesheets.length, isActive);
     return (
       <div className="home-container">
         <div className="container-fluid">
@@ -150,118 +143,144 @@ class Home extends Component {
                 </div>
                 <div className="col-lg-7 col-sm-12">
                   <div className="record-slider ">
-                    <Tabs defaultActiveKey={isActive}>
-                      <Tab
-                        eventKey="start"
-                        title="START"
-                        disabled={
-                          !this.state.timesheetLoaded ||
-                          this.state.timesheets.length > 0
-                            ? true
-                            : false
+                    {this.state.timesheetLoaded && (
+                      <Tabs
+                        defaultActiveKey={
+                          this.state.timesheetLoaded ? isActive : undefined
                         }
                       >
-                        <div className="btn-outline-success left">
-                          <input
-                            type="radio"
-                            className="btn-check"
-                            name="options"
-                            id="option1"
-                            autoComplete="off"
-                            checked
-                            onChange={(e) => e.target.value}
-                            onClick={() => this.onClick("in")}
-                          />
-                          <label htmlFor="option1">Clock In</label>
-                        </div>
-                      </Tab>
-                      <Tab
-                        eventKey="break"
-                        title={
-                          this.state.timesheets.length == 2
-                            ? "END BREAK"
-                            : "BREAK"
-                        }
-                        disabled={
-                          !this.state.timesheetLoaded ||
-                          this.state.timesheets.length > 2
-                            ? true
-                            : false
-                        }
-                      >
-                        <div
-                          className={`btn-outline-warning middle ${
-                            this.state.timesheets.length == 1
-                              ? "not-active"
-                              : "tooltip"
-                          }`}
+                        <Tab
+                          eventKey="start"
+                          title="START"
+                          disabled={
+                            !this.state.timesheetLoaded ||
+                            this.state.timesheets.length > 0
+                              ? true
+                              : false
+                          }
                         >
-                          <input
-                            type="radio"
-                            className="btn-check"
-                            name="option2"
-                            id="option2"
-                            autoComplete="off"
-                            onChange={(e) => e.target.value}
-                            onClick={() => this.onClick("break")}
-                          />
-                          <label htmlFor="option2">START BREAK</label>
-                        </div>
-
-                        <div
-                          className={`btn-outline-warning middle ${
+                          <div className="btn-outline-success left">
+                            <input
+                              type="radio"
+                              className="btn-check"
+                              name="options"
+                              id="option1"
+                              autoComplete="off"
+                              checked
+                              onChange={(e) => e.target.value}
+                              onClick={() => this.onClick("in")}
+                            />
+                            <label htmlFor="option1">Clock In</label>
+                          </div>
+                        </Tab>
+                        <Tab
+                          eventKey="break"
+                          title={
                             this.state.timesheets.length == 2
-                              ? "not-active"
-                              : "tooltip"
-                          }`}
+                              ? "END BREAK"
+                              : "BREAK"
+                          }
+                          disabled={
+                            !this.state.timesheetLoaded ||
+                            this.state.timesheets.length > 2
+                              ? true
+                              : false
+                          }
                         >
-                          <label htmlFor="option1d">END BREAK</label>
-                          <input
-                            type="radio"
-                            className="btn-check"
-                            name="option1d"
-                            id="option1d"
-                            autoComplete="off"
-                            onChange={(e) => e.target.value}
-                            onClick={() => this.onClick("endBreak")}
-                          />
-                        </div>
-                      </Tab>
-                      <Tab
-                        eventKey="end"
-                        title="FINISH"
-                        disabled={
-                          !this.state.timesheetLoaded ||
-                          this.state.timesheets.length > 3
-                            ? true
-                            : false
-                        }
-                      >
-                        <div className="btn-outline-danger right">
-                          <label htmlFor="option3">Clock Out</label>
-                          <input
-                            type="radio"
-                            className="btn-check"
-                            name="options"
-                            id="option3"
-                            autoComplete="off"
-                            onChange={(e) => e.target.value}
-                            onClick={() => this.onClick("out")}
-                          />
-                        </div>
-                      </Tab>
-                    </Tabs>
+                          <div
+                            className={`btn-outline-warning middle ${
+                              this.state.timesheets.length == 1
+                                ? "not-active"
+                                : "tooltip"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              className="btn-check"
+                              name="option2"
+                              id="option2"
+                              autoComplete="off"
+                              onChange={(e) => e.target.value}
+                              onClick={() => this.onClick("break")}
+                            />
+                            <label htmlFor="option2">START BREAK</label>
+                          </div>
+
+                          <div
+                            className={`btn-outline-warning middle ${
+                              this.state.timesheets.length == 2
+                                ? "not-active"
+                                : "tooltip"
+                            }`}
+                          >
+                            <label htmlFor="option1d">END BREAK</label>
+                            <input
+                              type="radio"
+                              className="btn-check"
+                              name="option1d"
+                              id="option1d"
+                              autoComplete="off"
+                              onChange={(e) => e.target.value}
+                              onClick={() => this.onClick("endBreak")}
+                            />
+                          </div>
+                        </Tab>
+                        <Tab
+                          eventKey="end"
+                          title="FINISH"
+                          disabled={
+                            !this.state.timesheetLoaded ||
+                            this.state.timesheets.length > 3
+                              ? true
+                              : false
+                          }
+                        >
+                          <div className="btn-outline-danger right">
+                            <label htmlFor="option3">Clock Out</label>
+                            <input
+                              type="radio"
+                              className="btn-check"
+                              name="options"
+                              id="option3"
+                              autoComplete="off"
+                              onChange={(e) => e.target.value}
+                              onClick={() => this.onClick("out")}
+                            />
+                          </div>
+                        </Tab>
+                      </Tabs>
+                    )}
                   </div>
                 </div>
+
                 {this.state.birthday && (
                   <div className="col-sm-12">
+                    <div className="annimation-rib">
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                      <div className="annimation-rib-piece"></div>
+                    </div>
                     <div className="fireworks">
                       <div className="wish">
-                        Happy BirthDay {this.state.user.name}
+                        <center>
+                          <h2>Happy BirthDay {this.state.user.name}</h2>
+                        </center>
                       </div>
                       <div className="pyro">
                         <div className="before"></div>
                         <div className="after"></div>
+                        <div className="before1"></div>
+                        <div className="after1"></div>
                       </div>
                     </div>
                   </div>
