@@ -126,7 +126,6 @@ class Home extends Component {
     }
 
     const isActive = this.state.isActive;
-    const length = this.state.timesheets.length;
 
     return (
       <div className="home-container">

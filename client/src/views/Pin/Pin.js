@@ -50,7 +50,6 @@ class Pin extends Component {
   };
 
   onChange = (input) => {
-    console.log(input)
     this.setState({
       input: input,
     });
@@ -60,25 +59,25 @@ class Pin extends Component {
     console.log("Button pressed", button);
 
     if (button === "{clear}") {
-      this.handleClear()
-      return 
+      this.handleClear();
+      return;
     }
 
     if (button === "{bksp}") {
       if (this.pin.elements[3].state.value) {
-        this.pin.elements[3].state.value = '';
+        this.pin.elements[3].state.value = "";
         return;
       }
       if (this.pin.elements[2].state.value) {
-        this.pin.elements[2].state.value = '';
+        this.pin.elements[2].state.value = "";
         return;
       }
       if (this.pin.elements[1].state.value) {
-        this.pin.elements[1].state.value = '';
+        this.pin.elements[1].state.value = "";
         return;
       }
       if (this.pin.elements[0].state.value) {
-        this.pin.elements[0].state.value = '';
+        this.pin.elements[0].state.value = "";
         return;
       }
     }
@@ -145,10 +144,7 @@ class Pin extends Component {
         pin: this.state.input,
       })
       .then((res) => {
-        console.log(this.pin);
-        console.log(this.pin.values);
-        window.localStorage.setItem("pin", this.pin.values);
-        console.log(window.localStorage);
+        window.localStorage.setItem("pin", this.state.input);
         this.props.history.push("/home");
       })
       .catch((err) => {
