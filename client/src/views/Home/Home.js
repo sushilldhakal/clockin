@@ -74,27 +74,19 @@ class Home extends Component {
           timesheetLoaded: true,
           timesheets: res.data.timesheets,
           user: res.data.user,
+          tabLength: res.data.timesheets.length,
+          birthday: moment(res.data.user.dob).format("MM-DD") === moment(new Date()).format("MM-DD")
         });
+
+
         navigator.geolocation.getCurrentPosition((position) => {
           this.setState({
             lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            tabLength: res.data.timesheets.length,
+            lng: position.coords.longitude
           });
         })
       });
 
-    const Month = moment(this.state.user.dob).format("MM");
-    const Day = moment(this.state.user.dob).format("DD");
-    const todayMonth = moment(new Date()).format("MM");
-    const todayDay = moment(new Date()).format("DD");
-
-    setTimeout(() => {
-      console.log("birthday", this.state.user.dob);
-      if (todayMonth === Month && todayDay === Day) {
-        this.setState({ className: "firework" });
-      }
-    }, 6000);
 
     // setTimeout(() => {
     //   localStorage.removeItem("pin");
@@ -106,6 +98,8 @@ class Home extends Component {
     if (localStorage.getItem("pin") === null) {
       this.props.history.push("/");
     }
+
+    console.log(this.state)
 
     let isActive = '';
 
@@ -253,8 +247,8 @@ class Home extends Component {
                     </Tabs>
                   </div>
                 </div>
-                <div className="col-sm-12">
-                  <div className={this.state.className}>
+                {this.state.birthday && <div className="col-sm-12">
+                  <div className="fireworks">
                     <div className="wish">
                       Happy BirthDay {this.state.user.name}
                     </div>
@@ -263,7 +257,7 @@ class Home extends Component {
                       <div className="after"></div>
                     </div>
                   </div>
-                </div>
+                </div>}
               </div>
             </div>
           </div>
