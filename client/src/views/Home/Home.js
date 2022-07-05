@@ -3,7 +3,7 @@ import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
 import swal from "sweetalert";
-import moment, { relativeTimeThreshold } from "moment";
+import moment from "moment";
 
 import { Tabs, Tab } from "react-bootstrap";
 
@@ -72,35 +72,14 @@ class Home extends Component {
           timesheets: res.data.timesheets,
           user: res.data.user,
         });
-        console.log(res.data.user);
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            tabLength: res.data.timesheets.length,
+          });
+        })
       });
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-        tabLength: this.state.timesheets.length,
-      });
-    });
-    const length = "";
-    if (this.state.tabLength == 0) {
-      this.setState({
-        isActive: "start",
-      });
-    } else if (this.state.tabLength == 1 || this.state.tabLength == 2) {
-      this.setState({
-        isActive: "break",
-      });
-    } else {
-      this.setState({
-        isActive: "end",
-      });
-    }
-    if (this.state.timesheets.length == 1) {
-      console.log("true");
-    } else {
-      console.log("false");
-    }
-    console.log("date of birth", this.state.user.dob);
 
     const Month = moment(this.state.user.dob).format("MM");
     const Day = moment(this.state.user.dob).format("DD");
@@ -125,7 +104,15 @@ class Home extends Component {
       this.props.history.push("/");
     }
 
-    const isActive = this.state.isActive;
+    let isActive = 'end';
+
+    if (this.state.tabLength === 0) {
+      isActive = 'start';
+    }
+
+    if ([1, 2].includes(this.state.tabLength)) {
+      isActive = 'break';
+    }
 
     return (
       <div className="home-container">
@@ -201,11 +188,10 @@ class Home extends Component {
                         }
                       >
                         <div
-                          className={`btn-outline-warning middle ${
-                            this.state.timesheets.length == 1
-                              ? "not-active"
-                              : "tooltip"
-                          }`}
+                          className={`btn-outline-warning middle ${this.state.timesheets.length == 1
+                            ? "not-active"
+                            : "tooltip"
+                            }`}
                         >
                           <input
                             type="radio"
@@ -220,11 +206,10 @@ class Home extends Component {
                         </div>
 
                         <div
-                          className={`btn-outline-warning middle ${
-                            this.state.timesheets.length == 2
-                              ? "not-active"
-                              : "tooltip"
-                          }`}
+                          className={`btn-outline-warning middle ${this.state.timesheets.length == 2
+                            ? "not-active"
+                            : "tooltip"
+                            }`}
                         >
                           <label htmlFor="option1d">END BREAK</label>
                           <input
