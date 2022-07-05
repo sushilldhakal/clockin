@@ -84,18 +84,6 @@ class Home extends Component {
         });
       });
 
-    const Month = moment(this.state.user.dob).format("MM");
-    const Day = moment(this.state.user.dob).format("DD");
-    const todayMonth = moment(new Date()).format("MM");
-    const todayDay = moment(new Date()).format("DD");
-
-    setTimeout(() => {
-      console.log("birthday", this.state.user.dob);
-      if (todayMonth === Month && todayDay === Day) {
-        this.setState({ className: "firework" });
-      }
-    }, 6000);
-
     // setTimeout(() => {
     //   localStorage.removeItem("pin");
     //   this.props.history.push("/");
@@ -115,6 +103,17 @@ class Home extends Component {
 
     if ([1, 2].includes(this.state.tabLength)) {
       isActive = "break";
+    }
+
+    const Month = moment(this.state.user.dob).format("MM");
+    const Day = moment(this.state.user.dob).format("DD");
+    const todayMonth = moment(new Date()).format("MM");
+    const todayDay = moment(new Date()).format("DD");
+
+    const birthday = false;
+    console.log("birthday", this.state.user.dob);
+    if (todayMonth === Month && todayDay === Day) {
+      birthday = true;
     }
 
     return (
