@@ -7,16 +7,21 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
+import moment from "moment";
 import { API_SERVER } from "../../config/constant";
 
-const ImageLocation = () => {
+const DashDefault = () => {
   //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
+
   const [loading, setLoading] = React.useState(false);
+
   React.useEffect(() => {
     setLoading(true);
     axios
-      .get(API_SERVER + "flag")
+      .get(API_SERVER + "flag", {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         setTimesheets(res.data.timesheets);
         setLoading(false);
@@ -25,85 +30,145 @@ const ImageLocation = () => {
         console.log(err);
       });
   }, []);
+  const paginationComponentOptions = {
+    selectAllRowsItem: true,
+  };
 
-  var staffNoLocation = timesheets.filter(function (hero) {
-    return hero.where == null && hero.image == null;
-  });
   const columns = [
     {
-      name: "Date",
-      selector: (row) => row["date"],
-      sortable: true,
+      id: "1",
+      name: "Staff Image",
+      selector: "image",
+      sortable: false,
+      cell: (d) => (
+        <div className="image-popover">
+          {!d.image ? (
+            <span className="pl-1">No Image</span>
+          ) : (
+            <span>
+              <img
+                src={d.image}
+                className="img-circle rounded-circle"
+                alt="user-image"
+              />
+              <img
+                src={d.image}
+                className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
+                onClick={() => window.open(d.image, "_blank")}
+              />
+            </span>
+          )}
+        </div>
+      ),
     },
     {
-      name: "Time",
-      selector: (row) => row["time"],
-      sortable: true,
-      cell: (d) => <span>{d.time}</span>,
-    },
-    {
-      name: "Type",
-      selector: (row) => row["type"],
-      sortable: true,
-    },
-    {
+      id: "2",
       name: "Name",
-      selector: (row) => row["userDetail"],
+      selector: "userDetail",
       sortable: true,
       cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
+      id: "3",
+      name: "Date",
+      selector: "date",
+      sortable: true,
+    },
+    {
+      id: "4",
+      name: "Time",
+      selector: "time",
+      sortable: true,
+      cell: (d) => <span>{d.time}</span>,
+    },
+    {
+      id: "5",
+      name: "Type",
+      selector: "type",
+      sortable: true,
+    },
+
+    {
+      id: "6",
       name: "Role",
-      selector: (row) => row["role"],
+      selector: "role",
       sortable: true,
     },
     {
+      id: "7",
       name: "Employe",
-      selector: (row) => row["hire"],
+      selector: "hire",
       sortable: true,
     },
     {
+      id: "8",
       name: "Location",
-      selector: (row) => row["site"],
+      selector: "site",
       sortable: true,
-      cell: (d) => <span>{d.site}</span>,
+      cell: (d) => (
+        <span>
+          {d.where == "," ? (
+            <span className="pl-1">{d.site}</span>
+          ) : (
+            <a
+              href={`https://maps.google.com/places/` + d.where}
+              target="_blank"
+            >
+              {d.site}
+            </a>
+          )}
+        </span>
+      ),
     },
   ];
 
+  const result = timesheets.filter((o) =>
+    Object.values(o).some((v) => v !== null)
+  );
+  console.log(result);
+
   const tableData = {
     columns,
-    data: staffNoLocation,
+    data: result,
   };
+
   return (
     <React.Fragment>
-      <Card className="Recent-Users">
-        <Card.Header>
-          <Card.Title as="h5">Staff without location and Image</Card.Title>
-        </Card.Header>
-        <Card.Body className="px-0 py-2">
-          <DataTableExtensions
-            print={false}
-            exportHeaders={true}
-            export={false}
-            filterPlaceholder="Search"
-            {...tableData}
-          >
-            <DataTable
-              columns={columns}
-              data={staffNoLocation}
-              progressPending={loading}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={true}
-              pagination
-              highlightOnHover
-              sortIcon={<SortIcon />}
-            />
-          </DataTableExtensions>
-        </Card.Body>
-      </Card>
+      <Row>
+        <Col md={12} xl={12}>
+          <Card className="Recent-Users">
+            <Card.Header>
+              <Card.Title as="h5">Recent ClockIn Staff</Card.Title>
+            </Card.Header>
+            <Card.Body className="px-0 py-2">
+              <DataTableExtensions
+                print={false}
+                exportHeaders={true}
+                export={false}
+                filterPlaceholder="Search"
+                {...tableData}
+              >
+                <DataTable
+                  columns={columns}
+                  data={timesheets}
+                  noHeader
+                  progressPending={loading}
+                  defaultSortFieldId="4"
+                  defaultSortAsc={false}
+                  pagination
+                  paginationPerPage="30"
+                  highlightOnHover
+                  paginationComponentOptions={paginationComponentOptions}
+                  sortIcon={<SortIcon />}
+                />
+              </DataTableExtensions>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </React.Fragment>
   );
 };
 
-export default ImageLocation;
+export default DashDefault;

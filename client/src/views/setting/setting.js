@@ -3,6 +3,8 @@ import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 import { Link } from "react-router-dom";
 
+import "./setting.css";
+
 const Setting = () => {
   const [contacts, setContacts] = useState([]);
 
@@ -32,7 +34,7 @@ const Setting = () => {
     <div className="setting">
       <div className="dashboard-body">
         <div className="row">
-          <div className="app-container card  col-sm-8">
+          <div className="app-container card  col-sm-12">
             <div class="card-header">
               <h5 class="card-title">Admin Directory</h5>
               <Link
@@ -78,59 +80,6 @@ const Setting = () => {
                   </tbody>
                 </table>
               )}
-            </div>
-          </div>
-          <div className="app-container card push-right col-sm-3">
-            <div class="card-header">
-              <h5 class="card-title">Bulk SMS</h5>
-            </div>
-
-            <div className="card-body">
-              <form>
-                <div className="fform-group">
-                  <label className="form-label">ACCOUNT SID</label>
-                  <input
-                    placeholder="YOUR_ACCOUNT_SID"
-                    className="form-control"
-                    type="text"
-                  />
-                </div>
-                <div className="fform-group">
-                  <label className="form-label">AUTH TOKEN</label>
-                  <input
-                    placeholder="YOUR_AUTH_TOKEN"
-                    className="form-control"
-                    type="text"
-                  />
-                </div>
-                <div className="fform-group">
-                  <label className="form-label">PHONE NUMBER</label>
-                  <input
-                    placeholder="YOUR_PHONE_NUMBER"
-                    className="form-control"
-                    type="text"
-                  />
-                </div>
-                <div className="fform-group">
-                  <label className="form-label">Select Day to send sms</label>
-                  <select>
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                  </select>
-                  <input
-                    id="appt-time"
-                    type="time"
-                    name="appt-time"
-                    value="13:30"
-                  ></input>
-                </div>
-                <button className="btn btn-small btn-primary">Save</button>
-              </form>
             </div>
           </div>
         </div>
