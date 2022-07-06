@@ -226,25 +226,13 @@ class Timesheet extends Component {
         name: "Total break",
         selector: (row) => row["btotal"],
         sortable: true,
-        cell: (row) => (
-          <span>
-            {row.endBreak == "a few seconds"
-              ? ""
-              : moment.duration(row.btotal, "hours").humanize()}
-          </span>
-        ),
+        cell: (row) => <span>{!row.btotal ? "00" : row.btotal + " hrs"}</span>,
       },
       {
         name: "Total",
         selector: (row) => row["total"],
         sortable: true,
-        cell: (row) => (
-          <span>
-            {row.endBreak == "a few seconds"
-              ? ""
-              : moment.duration(row.total, "hours").humanize()}
-          </span>
-        ),
+        cell: (row) => <span>{!row.total ? "00" : row.total + " hrs"}</span>,
       },
     ];
     const getTimesheet = this.state.timesheets.map((e) => {
