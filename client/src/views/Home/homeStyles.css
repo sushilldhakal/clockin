@@ -193,6 +193,8 @@
   background: #898989;
   width: 400px;
   height: 375px;
+  -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 .webcam-img img {
   background-color: #1b232c;
@@ -204,7 +206,10 @@
 .webcam-btn.capture {
   visibility: hidden;
 }
-
+.user-detail-login h4 {
+  z-index: 99;
+  text-shadow: 3px 3px 3px #000;
+}
 ul.nav.nav-tabs {
   border: none;
   background-color: #171717;
@@ -444,6 +449,8 @@ ul.nav.nav-tabs li {
   font-weight: 800 !important;
   background-color: #00000085;
   padding: 0px 5px;
+  z-index: 1;
+  border-radius: 5px;
 }
 
 .user-home-clocksheet .in {
@@ -452,13 +459,19 @@ ul.nav.nav-tabs li {
 
 .user-home-clocksheet .break {
   left: 105px;
+  background-color: #ff9503;
 }
 
 .user-home-clocksheet .endBreak {
   left: 180px;
+  background-color: #ff9503;
 }
 .user-home-clocksheet .out {
   left: 280px;
+  background-color: #6c757d;
+}
+.user-home-clocksheet .in {
+  background-color: #0b971a;
 }
 
 .user-home-clocksheet .timesheet-type:last-of-type {

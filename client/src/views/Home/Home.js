@@ -31,7 +31,16 @@ class Home extends Component {
     isActive: "",
     birthday: false,
     className: "hide tooltip",
+    status: false,
+    class: "",
   };
+
+  onTimeclick() {
+    this.setState({
+      status: !this.state.status,
+      class: !this.state.status ? "checked" : "",
+    });
+  }
 
   onClick = (e) => {
     document.getElementById("webcam-btn").click();
@@ -45,11 +54,15 @@ class Home extends Component {
           image: document.getElementById("screen-image").src,
         })
         .then((res) => {
-          swal({
-            title: "Clock " + e,
-            text: "Your Clock " + e + " has been recorded",
-            icon: "success",
+          this.setState({
+            status: !this.state.status,
+            class: !this.state.status ? "checked" : "",
           });
+          // swal({
+          //   title: "Clock " + e,
+          //   text: "Your Clock " + e + " has been recorded",
+          //   icon: "success",
+          // });
           setTimeout(() => {
             swal.close();
             localStorage.clear();
@@ -159,7 +172,7 @@ class Home extends Component {
                               : false
                           }
                         >
-                          <div className="btn-outline-success left">
+                          <div className="tooltip-btn btn-outline-success left">
                             <input
                               type="radio"
                               className="btn-check"
@@ -188,8 +201,9 @@ class Home extends Component {
                           }
                         >
                           <div
-                            className={`btn-outline-warning middle ${
-                              this.state.timesheets.length == 1
+                            className={`tooltip-btn btn-outline-warning middle ${
+                              this.state.timesheets.length == 1 ||
+                              this.state.timesheets.length == 0
                                 ? "not-active"
                                 : "tooltip"
                             }`}
@@ -207,7 +221,7 @@ class Home extends Component {
                           </div>
 
                           <div
-                            className={`btn-outline-warning middle ${
+                            className={`tooltip-btn btn-outline-warning middle ${
                               this.state.timesheets.length == 2
                                 ? "not-active"
                                 : "tooltip"
@@ -235,7 +249,12 @@ class Home extends Component {
                               : false
                           }
                         >
-                          <div className="btn-outline-danger right">
+                          <div
+                            className={
+                              `awesome-btn tooltip-btn btn-outline-danger right ` +
+                              this.state.class
+                            }
+                          >
                             <label htmlFor="option3">Clock Out</label>
                             <input
                               type="radio"
