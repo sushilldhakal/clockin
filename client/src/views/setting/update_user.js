@@ -100,7 +100,7 @@ const Setting = (props) => {
                       }
                       value={contact.location}
                     >
-                      <option calue="">Select Location</option>
+                      <option value="">Select Location</option>
                       {locations.map((location) => (
                         <option value={location.name}>{location.name}</option>
                       ))}

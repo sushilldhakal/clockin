@@ -47,7 +47,11 @@ class Timesheet extends Component {
         }),
       });
     });
-    axios.get(API_SERVER + "category/employer").then((res) => {
+    axios.get(API_SERVER + "category/employer",{
+      headers: {
+        api_key: window.localStorage.getItem('token')
+      }
+    }).then((res) => {
       this.setState({
         categoryEmployer: res.data,
       });

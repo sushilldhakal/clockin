@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Card, Col, Form, Button } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 import { API_SERVER } from "../../config/constant";
 import swal from "sweetalert";
 import FileBase64 from "react-file-base64";
@@ -40,7 +40,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
             button: "OK",
           });
           onUpdate();
-        }).catch(res=>{
+        }).catch(res => {
           swal({
             title: "Could not update",
             text: res.response.data.message,
