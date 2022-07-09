@@ -65,7 +65,7 @@ export default ({ type }) => {
   useEffect(reload, []);
 
   return (
-    <div className="catageory-body-page">
+    <div className="category-body-page">
       <div className="dashboard-body">
         <div>
           <Card className="Recent-Users mt-5">
