@@ -16,6 +16,7 @@
     "dotenv": "^10.0.0",
     "fastify": "^3.24.1",
     "fastify-cors": "^6.0.2",
+    "fastify-static": "^4.7.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",

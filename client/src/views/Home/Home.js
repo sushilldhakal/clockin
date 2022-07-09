@@ -58,11 +58,11 @@ class Home extends Component {
             status: !this.state.status,
             class: !this.state.status ? "checked" : "",
           });
-          // swal({
-          //   title: "Clock " + e,
-          //   text: "Your Clock " + e + " has been recorded",
-          //   icon: "success",
-          // });
+          swal({
+            title: "Clock " + e,
+            text: "Your Clock " + e + " has been recorded",
+            icon: "success",
+          });
           setTimeout(() => {
             swal.close();
             localStorage.clear();
