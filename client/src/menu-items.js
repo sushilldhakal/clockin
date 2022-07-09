@@ -21,10 +21,10 @@ let children = [
     icon: "feather icon-clock",
   },
   {
-    id: "catageory",
-    title: "Add/Edit Catageory",
+    id: "category",
+    title: "Add/Edit category",
     type: "item",
-    url: "/dashboard/catageory",
+    url: "/dashboard/category",
     icon: "feather icon-box",
   },
   {
@@ -44,10 +44,15 @@ let children = [
 ];
 if (Boolean(localStorage.getItem("location"))) {
   children = children.filter((item) =>
-    ["Dashboard", "Timesheet", "Add/Edit Catageory"].includes(item.title)
+    ["Dashboard", "Timesheet", "Add/Edit category"].includes(item.title)
   );
 }
 
+if(localStorage.getItem('user_id') === 'payable'){
+  children = children.filter(item=>{
+    return  !["flag",'setting','category'].includes(item.id)
+  })
+}
 let menuItems = {
   items: [
     {

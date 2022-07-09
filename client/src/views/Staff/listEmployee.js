@@ -40,7 +40,11 @@ class ListEmployee extends Component {
   }
 
   retrieveData() {
-    axios.get(API_SERVER + "employees").then((res) => {
+    axios.get(API_SERVER + "employees", {
+      headers: {
+        api_key: localStorage.getItem('token')
+      }
+    }).then((res) => {
       this.setState({ data: res.data });
     });
   }

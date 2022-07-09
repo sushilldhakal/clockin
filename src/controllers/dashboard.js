@@ -21,6 +21,13 @@ module.exports = async (request, reply) => {
     filter.site = user.location;
   }
 
+  const token = jwt.decode(request.headers.token)
+  if (token && token.id === 'payable') {
+    filter.hire = {
+      $ne: 'Employees'
+    }
+  }
+
   const users = await db.collection("employees").find(filter).toArray();
 
   const timesheets = await collection

@@ -104,8 +104,8 @@ const routes = [
       },
       {
         exact: true,
-        path: "/dashboard/catageory",
-        component: lazy(() => import("./views/Catageory/Catageory")),
+        path: "/dashboard/category",
+        component: lazy(() => import("./views/category/category")),
       },
       {
         exact: true,

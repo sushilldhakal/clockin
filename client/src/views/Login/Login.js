@@ -36,7 +36,7 @@ export default class Login extends React.Component {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user_id", res.data.id);
+        localStorage.setItem("user_id", this.state.username);
         if (Boolean(res.data.location))
           localStorage.setItem("location", res.data.location);
         setTimeout(()=>{

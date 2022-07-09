@@ -11,10 +11,10 @@ module.exports = async (request, reply) => {
     type: request.params.category_type
   }).toArray();
 
-  if (token.id !== 'payable') {
+  if (token && token.id === 'payable' && request.params.category_type === 'employer' ) {
     result = result.filter(r => {
       // return r.name === 'Employee';
-      return r.name !== 'Employee'
+      return r.name !== 'Employee' && r.name !== 'Employees'
     })
   }
 
