@@ -116,6 +116,7 @@ class Home extends Component {
       isActive = "end";
     }
     console.log(this.state.timesheets.length, isActive);
+    console.log(this.state.timesheets);
     return (
       <div className="home-container">
         <div className="container-fluid">
@@ -133,7 +134,7 @@ class Home extends Component {
                     <div className="user-home-clocksheet">
                       {this.state.timesheets.map((timesheet, id) => {
                         return (
-                          <>
+                          <div key={id}>
                             <span key={id} className={timesheet.type}>
                               {moment(timesheet.time).format("LT")}
                             </span>
@@ -147,7 +148,7 @@ class Home extends Component {
                                 : null}
                               {timesheet.type == "out" ? "Clocked Out" : null}
                             </span>
-                          </>
+                          </div>
                         );
                       })}
                     </div>
