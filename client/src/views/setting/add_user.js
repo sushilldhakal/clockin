@@ -17,7 +17,7 @@ const Setting = (props) => {
   }, []);
 
   const addUser = () => {
-    if (contact.username && contact.location && contact.password) {
+    if (contact.username && contact.password) {
       setSubmission(true);
       axios
         .post(API_SERVER + "user", contact)
@@ -30,7 +30,7 @@ const Setting = (props) => {
         });
       return;
     }
-    alert("All fields are mandatory");
+    alert("Username and Password are mandatory");
     return;
   };
   return (
@@ -41,7 +41,7 @@ const Setting = (props) => {
             <h5 class="card-title">Add admin</h5>
             <Link
               to={"/dashboard/setting"}
-              class="btn btn-primary float-right btn-sm"
+              class="btn btn-secondary float-right btn-sm"
             >
               Users List
             </Link>

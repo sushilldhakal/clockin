@@ -38,7 +38,7 @@ const DashDefault = () => {
     {
       id: "1",
       name: "Staff Image",
-      selector: "image",
+      selector: (row) => row.image,
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
@@ -65,46 +65,46 @@ const DashDefault = () => {
     {
       id: "2",
       name: "Name",
-      selector: "userDetail",
+      selector: (row) => row.userDetail,
       sortable: true,
       cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
       id: "3",
       name: "Date",
-      selector: "date",
+      selector: (row) => row.date,
       sortable: true,
     },
     {
       id: "4",
       name: "Time",
-      selector: "time",
+      selector: (row) => row.time,
       sortable: true,
       cell: (d) => <span>{d.time}</span>,
     },
     {
       id: "5",
       name: "Type",
-      selector: "type",
+      selector: (row) => row.type,
       sortable: true,
     },
 
     {
       id: "6",
       name: "Role",
-      selector: "role",
+      selector: (row) => row.role,
       sortable: true,
     },
     {
       id: "7",
       name: "Employe",
-      selector: "hire",
+      selector: (row) => row.hire,
       sortable: true,
     },
     {
       id: "8",
       name: "Location",
-      selector: "site",
+      selector: (row) => row.site,
       sortable: true,
       cell: (d) => (
         <span>
@@ -112,7 +112,7 @@ const DashDefault = () => {
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
-              href={`https://maps.google.com/places/` + d.where}
+              href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
             >
               {d.site}

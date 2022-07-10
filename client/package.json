@@ -43,6 +43,7 @@
     "react-simple-keyboard": "^3.4.163",
     "react-webcam": "^5.2.4",
     "react-week-picker": "^1.1.4",
+    "reactive-button": "^1.3.12",
     "redux-form": "^8.3.7",
     "redux-persist": "^6.0.0",
     "sass": "^1.45.0",

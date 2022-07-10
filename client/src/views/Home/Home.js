@@ -95,10 +95,10 @@ class Home extends Component {
         });
       });
 
-    // setTimeout(() => {
-    //   localStorage.removeItem("pin");
-    //   this.props.history.push("/");
-    // }, 14000);
+    setTimeout(() => {
+      localStorage.removeItem("pin");
+      this.props.history.push("/");
+    }, 14000);
   }
 
   render() {
@@ -124,7 +124,7 @@ class Home extends Component {
             <h2 id="todaysDate"> </h2>
             <div className="big-screen">
               <div className="row">
-                <div className="col-lg-5 col-sm-12">
+                <div className="col-lg-6 col-sm-12">
                   <div className="video-wrapper">
                     <div className="user-detail-login">
                       <h4 className="name">{this.state.user.name}</h4>
@@ -135,7 +135,10 @@ class Home extends Component {
                       {this.state.timesheets.map((timesheet, id) => {
                         return (
                           <div key={id}>
-                            <span key={id} className={timesheet.type}>
+                            <span
+                              key={id}
+                              className={`timesheet-type-time ${timesheet.type}`}
+                            >
                               {moment(timesheet.time).format("LT")}
                             </span>
                             <span
@@ -155,7 +158,7 @@ class Home extends Component {
                     <WebcamCapture id="webimage" />
                   </div>
                 </div>
-                <div className="col-lg-7 col-sm-12">
+                <div className="col-lg-6 col-sm-12">
                   <div className="record-slider ">
                     {this.state.timesheetLoaded && (
                       <Tabs
@@ -293,7 +296,10 @@ class Home extends Component {
                     <div className="fireworks">
                       <div className="wish">
                         <center>
-                          <h2>Happy BirthDay {this.state.user.name}</h2>
+                          <h2>
+                            Hope all your birthday wishes come true. Happy
+                            Birthday {this.state.user.name}
+                          </h2>
                         </center>
                       </div>
                       <div className="pyro">

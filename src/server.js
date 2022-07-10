@@ -1,4 +1,3 @@
-const path = require("path");
 const add_category = require("./controllers/add_category");
 const add_employee = require("./controllers/add_employee");
 const admin_login = require("./controllers/admin_login");
@@ -46,19 +45,6 @@ fastify.put("/api/category/:category_type/:category_id", update_category);
 fastify.delete("/api/user/:user_id", delete_user);
 fastify.delete("/api/category/:category_type/:category_id", delete_category);
 fastify.delete("/api/employees/:employee_id", delete_employee);
-
-const DistPath = path.join(__dirname, "..", "client", "build");
-fastify.register(require("fastify-static"), {
-  root: DistPath,
-});
-
-fastify.get("/", async (request, reply) => {
-  try {
-    reply.sendFile("index.html");
-  } catch (e) {
-    console.log(e);
-  }
-});
 
 const start = async () => {
   try {

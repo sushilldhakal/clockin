@@ -3,7 +3,7 @@
 
 .video-wrapper {
   position: relative;
-  max-width: 400px;
+  max-width: 535px;
   margin: 0 auto;
 }
 
@@ -191,19 +191,18 @@
 
 .webcam-img video {
   background: #898989;
-  width: 400px;
-  height: 375px;
-  -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+  width: 535px;
+  height: 500px;
+  transform: scaleX(-1);
 }
 .webcam-img img {
   background-color: #1b232c;
   border: none;
   outline: none;
-  height: 375px;
+  height: 500px;
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
-  width: 400px;
+  width: 535px;
 }
 .webcam-btn.capture {
   visibility: hidden;
@@ -370,6 +369,9 @@ ul.nav.nav-tabs li {
   text-align: center;
   left: 0px;
 }
+#todaysDate {
+  margin-bottom: 20px;
+}
 
 .tooltip {
   display: none;
@@ -383,7 +385,7 @@ ul.nav.nav-tabs li {
   font-size: 16px;
   font-weight: 700;
 }
-.tooltip-btn .label {
+.tooltip-btn label {
   display: block;
 }
 #active .tooltip {
@@ -462,16 +464,16 @@ ul.nav.nav-tabs li {
 }
 
 .user-home-clocksheet .break {
-  left: 105px;
+  left: 35%;
   background-color: #ff9503;
 }
 
 .user-home-clocksheet .endBreak {
-  left: 180px;
+  left: 60%;
   background-color: #ff9503;
 }
 .user-home-clocksheet .out {
-  left: 280px;
+  right: 10px;
   background-color: #6c757d;
 }
 .user-home-clocksheet .in {
@@ -480,7 +482,7 @@ ul.nav.nav-tabs li {
 
 .user-home-clocksheet .timesheet-type:last-of-type {
   opacity: 1;
-  bottom: 355px;
+  bottom: 485px;
   right: 10px;
   padding: 5px 10px;
   border-radius: 7px;
@@ -509,8 +511,12 @@ ul.nav.nav-tabs li {
 }
 .user-home-clocksheet .timesheet-type.clock-out {
   background-color: #555454;
+  font-size: 0;
 }
-
+.user-home-clocksheet .timesheet-type.clock-out::before{
+  content: "Clocked Out";
+  font-size: 16px;
+}
 
 .user-detail-login h4 {
   position: absolute;
@@ -526,7 +532,7 @@ ul.nav.nav-tabs li {
 
 }
 .big-screen {
-  margin: 80px auto 0;
+  margin: 30px auto 0;
 }
 
 /* Media queries ~ */
@@ -580,10 +586,15 @@ ul.nav.nav-tabs li {
 
 .wish {
   position: absolute;
-  right: 20%;
-  bottom: 0;
+  bottom: -215px;
 }
-
+@media screen and (min-width:992px){
+  .wish {
+    right: 0;
+    bottom: 0;
+    width: 50%;
+}
+}
 
 
 @-webkit-keyframes makeitrain {

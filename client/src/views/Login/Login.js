@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 
 import { API_SERVER } from "../../config/constant";
 import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 
 import swal from "sweetalert";
-import { login } from "../../utils";
+import ReactiveButton from "reactive-button";
 
 import { Button, TextField, Link } from "@material-ui/core";
 const axios = require("axios");
@@ -20,14 +19,19 @@ export default class Login extends React.Component {
       username: "",
       password: "",
       submit: null,
+      value: "idle",
     };
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   login = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     const pwd = bcrypt.hashSync(this.state.password, salt);
+
+    this.setState({
+      value: "loading",
+    });
 
     axios
       .post(API_SERVER + "auth/admin/login", {
@@ -35,16 +39,22 @@ export default class Login extends React.Component {
         password: this.state.password,
       })
       .then((res) => {
+        this.setState({
+          value: "success",
+        });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", this.state.username);
         if (Boolean(res.data.location))
           localStorage.setItem("location", res.data.location);
-        setTimeout(()=>{
-          window.location.href = '/dashboard'
-        }, 1000)
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1000);
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {
+          this.setState({
+            value: "error",
+          });
           swal({
             text: err.response.data.message,
             icon: "error",
@@ -90,7 +100,7 @@ export default class Login extends React.Component {
                   <br />
                   <br />
                   <TextField
-                    id="standard-basic"
+                    id="standard-basic1"
                     type="password"
                     autoComplete="off"
                     name="password"
@@ -103,7 +113,7 @@ export default class Login extends React.Component {
                   />
                   <br />
                   <br />
-                  <Button
+                  {/* <Button
                     className="button_style"
                     variant="contained"
                     color="primary"
@@ -115,7 +125,12 @@ export default class Login extends React.Component {
                     onClick={this.login.bind(this)}
                   >
                     Login
-                  </Button>
+                  </Button> */}
+                  <ReactiveButton
+                    buttonState={this.state.value}
+                    onClick={this.login.bind(this)}
+                    idleText={"Login"}
+                  />
                 </Card.Body>
               </Card>
             </form>

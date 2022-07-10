@@ -40,13 +40,14 @@ export default ({ user, role, location, employer, onUpdate }) => {
             button: "OK",
           });
           onUpdate();
-        }).catch(res => {
+        })
+        .catch((res) => {
           swal({
             title: "Could not update",
             text: res.response.data.message,
             icon: "error",
-            button: "OK"
-          })
+            button: "OK",
+          });
         });
     }
   };
