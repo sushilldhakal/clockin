@@ -10,8 +10,6 @@
 
 # production
 /build
-/client/build
-/client/.env
 /client/src/config/constant.js
 # misc
 .DS_Store
