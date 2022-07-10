@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-
 import { Form, Col, Card, Row } from "react-bootstrap";
-
 import { API_SERVER } from "../../config/constant";
 import FileBase64 from "react-file-base64";
 import swal from "sweetalert";
+import "./Staff";
 
 const defaultEmployee = {
   name: "",

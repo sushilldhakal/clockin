@@ -535,6 +535,12 @@ ul.nav.nav-tabs li {
   margin: 30px auto 0;
 }
 
+.reactive-btn .content {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
 /* Media queries ~ */
 @media screen and (max-width: 993px) {
   .home-container .container {

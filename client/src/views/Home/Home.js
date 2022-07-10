@@ -5,6 +5,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import moment from "moment";
 
+import ReactiveButton from "reactive-button";
+
 import { Tabs, Tab } from "react-bootstrap";
 
 import { API_SERVER } from "../../config/constant";
@@ -31,19 +33,16 @@ class Home extends Component {
     isActive: "",
     birthday: false,
     className: "hide tooltip",
-    status: false,
     class: "",
+    value: "idle",
   };
-
-  onTimeclick() {
-    this.setState({
-      status: !this.state.status,
-      class: !this.state.status ? "checked" : "",
-    });
-  }
 
   onClick = (e) => {
     document.getElementById("webcam-btn").click();
+
+    this.setState({
+      value: "loading",
+    });
 
     setTimeout(() => {
       axios
@@ -55,22 +54,18 @@ class Home extends Component {
         })
         .then((res) => {
           this.setState({
-            status: !this.state.status,
-            class: !this.state.status ? "checked" : "",
-          });
-          swal({
-            title: "Clock " + e,
-            text: "Your Clock " + e + " has been recorded",
-            icon: "success",
+            value: "success",
           });
           setTimeout(() => {
-            swal.close();
             localStorage.clear();
             this.props.history.push("/");
-          }, 3000);
+          }, 1000);
         })
         .catch((err) => {
           swal("Error: Something went wrong.");
+          this.setState({
+            value: "error",
+          });
         });
     }, 100);
   };
@@ -175,9 +170,10 @@ class Home extends Component {
                               ? true
                               : false
                           }
+                          tabClassName="animated fadeIn"
                         >
                           <div className="tooltip-btn btn-outline-success left">
-                            <input
+                            {/* <input
                               type="radio"
                               className="btn-check"
                               name="options"
@@ -186,8 +182,20 @@ class Home extends Component {
                               checked
                               onChange={(e) => e.target.value}
                               onClick={() => this.onClick("in")}
+                            /> */}
+                            <ReactiveButton
+                              buttonState={this.state.value}
+                              onClick={() => this.onClick("in")}
+                              idleText={"CLOCK IN"}
+                              rounded={true}
+                              size={"large"}
+                              block={true}
+                              height="60px"
+                              style={{
+                                backgroundColor: "#1a8754",
+                              }}
                             />
-                            <label htmlFor="option1">Clock In</label>
+                            {/* <label htmlFor="option1">Clock In</label> */}
                           </div>
                         </Tab>
                         <Tab
@@ -197,6 +205,7 @@ class Home extends Component {
                               ? "END BREAK"
                               : "BREAK"
                           }
+                          tabClassName="animated fadeIn"
                           disabled={
                             !this.state.timesheetLoaded ||
                             this.state.timesheets.length > 2
@@ -212,7 +221,7 @@ class Home extends Component {
                                 : "tooltip"
                             }`}
                           >
-                            <input
+                            {/* <input
                               type="radio"
                               className="btn-check"
                               name="option2"
@@ -220,8 +229,20 @@ class Home extends Component {
                               autoComplete="off"
                               onChange={(e) => e.target.value}
                               onClick={() => this.onClick("break")}
+                            /> */}
+                            <ReactiveButton
+                              buttonState={this.state.value}
+                              onClick={() => this.onClick("break")}
+                              idleText={"START BREAK"}
+                              rounded={true}
+                              size={"large"}
+                              block={true}
+                              height="60px"
+                              style={{
+                                backgroundColor: "#ff9503",
+                              }}
                             />
-                            <label htmlFor="option2">START BREAK</label>
+                            {/* <label htmlFor="option2">START BREAK</label> */}
                           </div>
 
                           <div
@@ -231,8 +252,8 @@ class Home extends Component {
                                 : "tooltip"
                             }`}
                           >
-                            <label htmlFor="option1d">END BREAK</label>
-                            <input
+                            {/* <label htmlFor="option1d">END BREAK</label> */}
+                            {/* <input
                               type="radio"
                               className="btn-check"
                               name="option1d"
@@ -240,6 +261,18 @@ class Home extends Component {
                               autoComplete="off"
                               onChange={(e) => e.target.value}
                               onClick={() => this.onClick("endBreak")}
+                            /> */}
+                            <ReactiveButton
+                              buttonState={this.state.value}
+                              onClick={() => this.onClick("endBreak")}
+                              idleText={"END BREAK"}
+                              rounded={true}
+                              size={"large"}
+                              block={true}
+                              height="60px"
+                              style={{
+                                backgroundColor: "#ff9503",
+                              }}
                             />
                           </div>
                         </Tab>
@@ -252,6 +285,7 @@ class Home extends Component {
                               ? true
                               : false
                           }
+                          tabClassName="animated fadeIn"
                         >
                           <div
                             className={
@@ -259,8 +293,8 @@ class Home extends Component {
                               this.state.class
                             }
                           >
-                            <label htmlFor="option3">Clock Out</label>
-                            <input
+                            {/* <label htmlFor="option3">Clock Out</label> */}
+                            {/* <input
                               type="radio"
                               className="btn-check"
                               name="options"
@@ -268,6 +302,18 @@ class Home extends Component {
                               autoComplete="off"
                               onChange={(e) => e.target.value}
                               onClick={() => this.onClick("out")}
+                            /> */}
+                            <ReactiveButton
+                              buttonState={this.state.value}
+                              onClick={() => this.onClick("out")}
+                              idleText={"CLOCK OUT"}
+                              rounded={true}
+                              size={"large"}
+                              block={true}
+                              height="60px"
+                              style={{
+                                backgroundColor: "#eb5c59",
+                              }}
                             />
                           </div>
                         </Tab>
