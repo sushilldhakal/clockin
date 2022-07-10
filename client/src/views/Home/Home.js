@@ -19,7 +19,10 @@ function doDate() {
   if (document.getElementById("todaysDate"))
     document.getElementById("todaysDate").innerHTML = pinTime;
 }
+
 setInterval(doDate, 1000);
+
+let timeKeeper;
 
 class Home extends Component {
   state = {
@@ -59,6 +62,7 @@ class Home extends Component {
           setTimeout(() => {
             localStorage.clear();
             this.props.history.push("/");
+            timeKeeper && clearTimeout(timeKeeper)
           }, 1000);
         })
         .catch((err) => {
@@ -90,7 +94,7 @@ class Home extends Component {
         });
       });
 
-    setTimeout(() => {
+    timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
     }, 14000);
@@ -166,7 +170,7 @@ class Home extends Component {
                           title="START"
                           disabled={
                             !this.state.timesheetLoaded ||
-                            this.state.timesheets.length > 0
+                              this.state.timesheets.length > 0
                               ? true
                               : false
                           }
@@ -208,18 +212,17 @@ class Home extends Component {
                           tabClassName="animated fadeIn"
                           disabled={
                             !this.state.timesheetLoaded ||
-                            this.state.timesheets.length > 2
+                              this.state.timesheets.length > 2
                               ? true
                               : false
                           }
                         >
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${
-                              this.state.timesheets.length == 1 ||
+                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 1 ||
                               this.state.timesheets.length == 0
-                                ? "not-active"
-                                : "tooltip"
-                            }`}
+                              ? "not-active"
+                              : "tooltip"
+                              }`}
                           >
                             {/* <input
                               type="radio"
@@ -246,11 +249,10 @@ class Home extends Component {
                           </div>
 
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${
-                              this.state.timesheets.length == 2
-                                ? "not-active"
-                                : "tooltip"
-                            }`}
+                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 2
+                              ? "not-active"
+                              : "tooltip"
+                              }`}
                           >
                             {/* <label htmlFor="option1d">END BREAK</label> */}
                             {/* <input
@@ -281,7 +283,7 @@ class Home extends Component {
                           title="FINISH"
                           disabled={
                             !this.state.timesheetLoaded ||
-                            this.state.timesheets.length > 3
+                              this.state.timesheets.length > 3
                               ? true
                               : false
                           }
