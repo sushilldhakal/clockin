@@ -1,11 +1,19 @@
 const connect = require("../config/connect");
 const { ObjectId } = require("bson");
 const moment = require("moment");
+const jwt = require('jsonwebtoken')
 
 module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   let filter = {};
+
+  const token = jwt.decode(request.headers.api_key)
+  if (token && token.id === 'payable') {
+    filter.hire= {
+      $ne: 'Employees'
+    }
+  }
 
   if (request.query.user_id) {
     filter._id = ObjectId(request.query.user_id);

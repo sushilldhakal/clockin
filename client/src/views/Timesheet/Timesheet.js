@@ -92,7 +92,11 @@ class Timesheet extends Component {
     }
     this.setState({ loading: true });
     axios
-      .get(API_SERVER + "timesheets", { params: obj })
+      .get(API_SERVER + "timesheets", { params: obj,  headers: {
+        api_key: window.localStorage.getItem('token')
+      } }, {
+       
+      })
       .then((res) => {
         this.setState({
           loading: false,
