@@ -19,7 +19,10 @@ function doDate() {
   if (document.getElementById("todaysDate"))
     document.getElementById("todaysDate").innerHTML = pinTime;
 }
+
 setInterval(doDate, 1000);
+
+let timeKeeper;
 
 class Home extends Component {
   state = {
@@ -59,6 +62,7 @@ class Home extends Component {
           setTimeout(() => {
             localStorage.clear();
             this.props.history.push("/");
+            timeKeeper && clearTimeout(timeKeeper);
           }, 1000);
         })
         .catch((err) => {
@@ -90,7 +94,7 @@ class Home extends Component {
         });
       });
 
-    setTimeout(() => {
+    timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
     }, 14000);
