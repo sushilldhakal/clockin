@@ -19,10 +19,15 @@ const ExpandableComponent = ({ data }) => {
           <th></th>
           <th>
             <div className="image-popover">
-              <img src={data.imagein} className="img-circle rounded-circle" />
+              <img
+                src={data.imagein}
+                className="img-circle rounded-circle"
+                alt="user-image"
+              />
               <img
                 src={data.imagein}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
               />
             </div>
           </th>
@@ -31,10 +36,12 @@ const ExpandableComponent = ({ data }) => {
               <img
                 src={data.imagebreak}
                 className="img-circle rounded-circle"
+                alt="user-image"
               />
               <img
                 src={data.imagebreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
               />
             </div>
           </th>
@@ -43,19 +50,26 @@ const ExpandableComponent = ({ data }) => {
               <img
                 src={data.imageendBreak}
                 className="img-circle rounded-circle"
+                alt="user-image"
               />
               <img
                 src={data.imageendBreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
               />
             </div>
           </th>
           <th>
             <div className="image-popover">
-              <img src={data.imageout} className="img-circle rounded-circle" />
+              <img
+                src={data.imageout}
+                className="img-circle rounded-circle"
+                alt="user-image"
+              />
               <img
                 src={data.imageout}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-image"
               />
             </div>
           </th>
