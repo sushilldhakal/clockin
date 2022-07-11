@@ -50,12 +50,12 @@ const NoImageLocation = () => {
               <img
                 src={d.image}
                 className="img-circle rounded-circle"
-                alt="user-image"
+                alt="user-main"
               />
               <img
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
-                alt="user-image"
+                alt="user-main"
                 onClick={() => window.open(d.image, "_blank")}
               />
             </span>

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 
 import NavLeft from "./NavLeft";
 import NavRight from "./NavRight";
@@ -34,7 +33,7 @@ const NavBar = () => {
     <React.Fragment>
       <div className="m-header">
         <a
-          href="javascript: void(0)"
+          href="https://aramexclockin.com"
           className={toggleClass.join(" ")}
           id="mobile-collapse"
           onClick={navToggleHandler}

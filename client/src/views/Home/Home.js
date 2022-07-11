@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import "./homeStyles.css";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
@@ -62,7 +62,7 @@ class Home extends Component {
           setTimeout(() => {
             localStorage.clear();
             this.props.history.push("/");
-            timeKeeper && clearTimeout(timeKeeper)
+            timeKeeper && clearTimeout(timeKeeper);
           }, 1000);
         })
         .catch((err) => {
@@ -97,7 +97,7 @@ class Home extends Component {
     timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
-    }, 14000);
+    }, 10000);
   }
 
   render() {
@@ -143,12 +143,12 @@ class Home extends Component {
                             <span
                               className={`timesheet-type clock-${timesheet.type}`}
                             >
-                              {timesheet.type == "in" ? "Clocked In" : null}
-                              {timesheet.type == "break" ? "On Break" : null}
-                              {timesheet.type == "endBreak"
+                              {timesheet.type === "in" ? "Clocked In" : null}
+                              {timesheet.type === "break" ? "On Break" : null}
+                              {timesheet.type === "endBreak"
                                 ? "Break End"
                                 : null}
-                              {timesheet.type == "out" ? "Clocked Out" : null}
+                              {timesheet.type === "out" ? "Clocked Out" : null}
                             </span>
                           </div>
                         );
@@ -170,7 +170,7 @@ class Home extends Component {
                           title="START"
                           disabled={
                             !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 0
+                            this.state.timesheets.length > 0
                               ? true
                               : false
                           }
@@ -205,24 +205,25 @@ class Home extends Component {
                         <Tab
                           eventKey="break"
                           title={
-                            this.state.timesheets.length == 2
+                            this.state.timesheets.length === 2
                               ? "END BREAK"
                               : "BREAK"
                           }
                           tabClassName="animated fadeIn"
                           disabled={
                             !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 2
+                            this.state.timesheets.length > 2
                               ? true
                               : false
                           }
                         >
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 1 ||
-                              this.state.timesheets.length == 0
-                              ? "not-active"
-                              : "tooltip"
-                              }`}
+                            className={`tooltip-btn btn-outline-warning middle ${
+                              this.state.timesheets.length === 1 ||
+                              this.state.timesheets.length === 0
+                                ? "not-active"
+                                : "tooltip"
+                            }`}
                           >
                             {/* <input
                               type="radio"
@@ -249,10 +250,11 @@ class Home extends Component {
                           </div>
 
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 2
-                              ? "not-active"
-                              : "tooltip"
-                              }`}
+                            className={`tooltip-btn btn-outline-warning middle ${
+                              this.state.timesheets.length === 2
+                                ? "not-active"
+                                : "tooltip"
+                            }`}
                           >
                             {/* <label htmlFor="option1d">END BREAK</label> */}
                             {/* <input
@@ -283,7 +285,7 @@ class Home extends Component {
                           title="FINISH"
                           disabled={
                             !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 3
+                            this.state.timesheets.length > 3
                               ? true
                               : false
                           }

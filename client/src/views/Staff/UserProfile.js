@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card, Col, Form, Button, Accordion, Row } from "react-bootstrap";
-import DataTable, { ExpanderComponentProps } from "react-data-table-component";
+import { Card, Col, Button } from "react-bootstrap";
+import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
@@ -9,7 +9,7 @@ import swal from "sweetalert";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
 
-import moment, { relativeTimeThreshold } from "moment";
+import moment from "moment";
 
 const ExpandableComponent = ({ data }) => {
   return (
@@ -19,10 +19,15 @@ const ExpandableComponent = ({ data }) => {
           <th></th>
           <th>
             <div className="image-popover">
-              <img src={data.imagein} className="img-circle rounded-circle" />
+              <img
+                src={data.imagein}
+                className="img-circle rounded-circle"
+                alt="user-main"
+              />
               <img
                 src={data.imagein}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -31,10 +36,12 @@ const ExpandableComponent = ({ data }) => {
               <img
                 src={data.imagebreak}
                 className="img-circle rounded-circle"
+                alt="user-main"
               />
               <img
                 src={data.imagebreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -43,19 +50,26 @@ const ExpandableComponent = ({ data }) => {
               <img
                 src={data.imageendBreak}
                 className="img-circle rounded-circle"
+                alt="user-main"
               />
               <img
                 src={data.imageendBreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
           <th>
             <div className="image-popover">
-              <img src={data.imageout} className="img-circle rounded-circle" />
+              <img
+                src={data.imageout}
+                className="img-circle rounded-circle"
+                alt="user-main"
+              />
               <img
                 src={data.imageout}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -69,6 +83,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.wherein}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -81,6 +96,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.wherebreak}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -93,6 +109,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.whereendBreak}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -105,6 +122,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.whereout}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -262,7 +280,6 @@ class UserProfile extends Component {
   render() {
     const timesheets = this.state.timesheets;
     const userDetails = this.state.user;
-    const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
 
     const columns = [
@@ -579,6 +596,7 @@ class UserProfile extends Component {
                   <img
                     src={userDetails.img}
                     className="img img-responsive img-custom"
+                    alt="user-main"
                   />
                 ) : (
                   <span></span>

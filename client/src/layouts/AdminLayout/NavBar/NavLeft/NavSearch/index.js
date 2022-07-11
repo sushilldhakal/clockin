@@ -3,27 +3,27 @@ import React, { useState } from "react";
 const NavSearch = (props) => {
   const { windowWidth } = props;
   const [isOpen, setIsOpen] = useState(windowWidth < 600);
-  const [searchString, setSearchString] = useState(
-    windowWidth < 600 ? "100px" : ""
-  );
+  // const [searchString, setSearchString] = useState(
+  //   windowWidth < 600 ? "100px" : ""
+  // );
 
-  const searchOnHandler = () => {
-    if (windowWidth < 600) {
-      document.querySelector("#navbar-right").classList.add("d-none");
-    }
-    setIsOpen(true);
-    setSearchString("100px");
-  };
+  // const searchOnHandler = () => {
+  //   if (windowWidth < 600) {
+  //     document.querySelector("#navbar-right").classList.add("d-none");
+  //   }
+  //   setIsOpen(true);
+  //   setSearchString("100px");
+  // };
 
-  const searchOffHandler = () => {
-    setIsOpen(false);
-    setSearchString(0);
-    setTimeout(() => {
-      if (windowWidth < 600) {
-        document.querySelector("#navbar-right").classList.remove("d-none");
-      }
-    }, 500);
-  };
+  // const searchOffHandler = () => {
+  //   setIsOpen(false);
+  //   setSearchString(0);
+  //   setTimeout(() => {
+  //     if (windowWidth < 600) {
+  //       document.querySelector("#navbar-right").classList.remove("d-none");
+  //     }
+  //   }, 500);
+  // };
 
   let searchClass = ["main-search"];
   if (isOpen) {

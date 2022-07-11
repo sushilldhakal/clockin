@@ -10,8 +10,14 @@ module.exports = async (request, reply) => {
   const timesheets = await collection
     .find({
       pin: { $in: users.map((e) => e.pin) },
-      lat: null,
-      lng: null,
+      $or: [
+        {
+          lat: null,
+        },
+        {
+          lat: "",
+        },
+      ],
     })
     .map(({ type, date, time, pin, image, where }) => {
       let user = users.filter((user) => user.pin === pin)[0];
