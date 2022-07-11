@@ -29,7 +29,7 @@ export const WebcamCapture = () => {
             videoConstraints={videoConstraints}
           />
         ) : (
-          <img id="screen-image" src={image} alt="user-image"/>
+          <img id="screen-image" src={image} alt="user-main"/>
         )}
       </div>
       <div>

@@ -97,7 +97,7 @@ class Home extends Component {
     timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
-    }, 14000);
+    }, 10000);
   }
 
   render() {

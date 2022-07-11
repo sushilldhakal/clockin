@@ -258,7 +258,7 @@ export const AddEmployee = (props) => {
 
                 <Form.Group as={Col}>
                   <Form.Label>Staff Image</Form.Label>
-                  <img src={employee.img} alt="user-image" />
+                  <img src={employee.img} alt="user-main" />
                   <div>
                     <FileBase64
                       type="file"

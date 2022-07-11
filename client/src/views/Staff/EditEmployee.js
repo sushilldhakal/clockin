@@ -202,7 +202,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
               <img
                 className="img img-responsive img-fixed"
                 src={employee.img}
-                alt="user-image"
+                alt="user-main"
               />
               <div>
                 <FileBase64
