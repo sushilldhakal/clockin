@@ -19,7 +19,7 @@ module.exports = async (request, reply) => {
         },
       ],
     })
-    .map(({ type, date, time, pin, image, where }) => {
+    .map(({ type, date, time, pin, where }) => {
       let user = users.filter((user) => user.pin === pin)[0];
       if (time) {
         time = moment(time).format("h:mm a");
@@ -36,11 +36,10 @@ module.exports = async (request, reply) => {
           role,
           hire,
           site,
-          image,
           where,
         };
       }
-      return { type, date, time, pin, image, where };
+      return { type, date, time, pin, where };
     })
     .toArray();
 

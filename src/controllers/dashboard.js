@@ -21,11 +21,11 @@ module.exports = async (request, reply) => {
     filter.site = user.location;
   }
 
-  const token = jwt.decode(request.headers.token)
-  if (token && token.id === 'payable') {
+  const token = jwt.decode(request.headers.token);
+  if (token && token.id === "payable") {
     filter.hire = {
-      $ne: 'Employees'
-    }
+      $ne: "Employees",
+    };
   }
 
   const users = await db.collection("employees").find(filter).toArray();
@@ -40,7 +40,7 @@ module.exports = async (request, reply) => {
       let user = users.filter((user) => user.pin === pin)[0];
 
       if (time) {
-        time = moment(time).format("h:mm a");
+        time = moment(time).format("HH:mm:ss");
       }
       if (user) {
         let { name, role, hire, site, _id } = user;

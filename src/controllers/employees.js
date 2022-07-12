@@ -10,7 +10,7 @@ module.exports = async (request, reply) => {
   let employees = await collection.find({}).toArray();
   if (token && token.id === "payable") {
     employees = employees.filter((r) => {
-      return r.hire !== "Employees";
+      return r.hire !== "Employee" && r.hire !== "Employees";
     });
   }
   await client.close();

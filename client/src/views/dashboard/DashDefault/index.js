@@ -73,13 +73,20 @@ const DashDefault = () => {
       name: "Date",
       selector: (row) => row.date,
       sortable: true,
+      cell: (d) => moment.utc(d.date).format("MM/DD/YYYY"),
     },
     {
       id: "4",
       name: "Time",
       selector: (row) => row.time,
       sortable: true,
-      cell: (d) => <span>{d.time}</span>,
+      cell: (d) => (
+        <span>
+          {" "}
+          <i className="far fa-clock"></i>
+          {moment(d.time, "hh:mm a").format("LT")}
+        </span>
+      ),
     },
     {
       id: "5",
@@ -150,7 +157,7 @@ const DashDefault = () => {
               >
                 <DataTable
                   columns={columns}
-                  data={timesheets}
+                  data={result}
                   noHeader
                   progressPending={loading}
                   defaultSortFieldId="4"
