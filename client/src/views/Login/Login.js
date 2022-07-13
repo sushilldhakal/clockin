@@ -8,6 +8,8 @@ import swal from "sweetalert";
 import ReactiveButton from "reactive-button";
 
 import { Button, TextField, Link } from "@material-ui/core";
+import "../../index.scss";
+
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync(10);

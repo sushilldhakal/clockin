@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
 
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body{
+  margin:0;
+}
+
 .video-wrapper {
   position: relative;
   max-width: 535px;
@@ -226,11 +242,15 @@ ul.nav.nav-tabs li button {
   text-align: center;
   background-color: #212a35;
   box-shadow: 0px 0px 3px #212a35;
+  display: block;
+    padding: 0.5rem 1rem;
+    line-height: 30px;
 }
 ul.nav.nav-tabs li button.active {
   background-color: #3fafd7;
   color: #fff;
   border: none;
+  
 }
 ul.nav.nav-tabs li {
   width: 33.333%;
@@ -285,7 +305,7 @@ ul.nav.nav-tabs li {
   border-right: 14px solid #fff0;
   border-left: 14px solid #fff0;
   left: 85px;
-  top: 48px;
+  top: 64px;
 }
 
 .btn-outline-warning.middle {
@@ -311,7 +331,7 @@ ul.nav.nav-tabs li {
   border-right: 14px solid #fff0;
   border-left: 14px solid #fff0;
   left: 50%;
-  top: 48px;
+  top: 64px;
 }
 .btn-outline-danger.right {
   width: 100%;
@@ -336,7 +356,7 @@ ul.nav.nav-tabs li {
   border-right: 14px solid #fff0;
   border-left: 14px solid #fff0;
   right: 85px;
-  top: 48px;
+  top: 64px;
 }
 
 

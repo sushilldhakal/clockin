@@ -42,7 +42,7 @@ class Pin extends Component {
 
     if (button === "{bksp}") {
       if (this.pin.elements[3].state.value) {
-        this.pin.elements[3].state.value = "";
+        //this.pin.elements[3].state.value = "";
         return;
       }
       if (this.pin.elements[2].state.value) {
