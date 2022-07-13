@@ -24,7 +24,7 @@ const delete_user = require("./controllers/delete_user");
 
 const fastify = require("fastify")({ logger: true });
 
-fastify.register(require("fastify-cors"));
+fastify.register(require("@fastify/cors"));
 
 fastify.get("/api/category/:category_type", get_category);
 fastify.get("/api/dashboard", dashboard);
