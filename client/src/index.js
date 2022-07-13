@@ -5,7 +5,7 @@ import { ConfigProvider } from "./contexts/ConfigContext";
 import { PersistGate } from "redux-persist/integration/react";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import "./index.scss";
+// import "./index.scss";
 import "bootstrap/dist/css/bootstrap.css";
 
 import App from "./App";
