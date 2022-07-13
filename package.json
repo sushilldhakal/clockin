@@ -11,11 +11,12 @@
     "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\""
   },
   "dependencies": {
+    "@fastify/cors": "7.0.0",
+    "@fastify/static": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "bcrypt": "^5.0.1",
-    "dotenv": "^10.0.0",
+  "dotenv": "^10.0.0",
     "fastify": "^3.24.1",
-    "fastify-cors": "^6.0.2",
     "fastify-static": "^4.7.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
