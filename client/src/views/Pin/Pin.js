@@ -15,7 +15,8 @@ function doDate() {
   str = now.toDateString() + " " + now.toLocaleTimeString();
 
   var pinTime = moment(str).format("hh:mm:ss A");
-  document.getElementById("todaysDate").innerHTML = pinTime;
+  if (Boolean(document.getElementById("todaysDate")))
+    document.getElementById("todaysDate").textContent = pinTime;
 }
 setInterval(doDate, 1000);
 
@@ -24,6 +25,7 @@ class Pin extends Component {
     input: "",
     currentTime: moment().format("LT"),
     layoutName: "default",
+    logging: false
   };
 
   onChange = (input) => {
@@ -33,8 +35,9 @@ class Pin extends Component {
   };
 
   onKeyPress = (button) => {
-    console.log("Button pressed", button);
-
+    if (this.state.logging) {
+      return
+    }
     if (button === "{clear}") {
       this.handleClear();
       return;
@@ -42,7 +45,7 @@ class Pin extends Component {
 
     if (button === "{bksp}") {
       if (this.pin.elements[3].state.value) {
-        //this.pin.elements[3].state.value = "";
+        // this.pin.elements[3].state.value = "";
         return;
       }
       if (this.pin.elements[2].state.value) {
@@ -57,6 +60,7 @@ class Pin extends Component {
         this.pin.elements[0].state.value = "";
         return;
       }
+      return
     }
 
     if (this.pin.elements[2].state.value) {
@@ -115,7 +119,6 @@ class Pin extends Component {
   };
 
   onSubmitHandler = (e) => {
-    this.pin.values = e;
     axios
       .post(process.env.REACT_APP_BASE_URL + "auth/login", {
         pin: this.state.input,
@@ -136,6 +139,7 @@ class Pin extends Component {
   };
 
   render() {
+
     return (
       <div className="Pin home-container">
         <div className="text white-text">
@@ -167,9 +171,9 @@ class Pin extends Component {
             "{bksp}": "&#8592",
           }}
           maxLength={4}
-          onChange={(input) => this.onChange(input)}
-          onKeyPress={(button) => this.onKeyPress(button)}
-          onComplete={this.onSubmitHandler}
+          onChange={this.onChange.bind(this)}
+          onKeyPress={this.onKeyPress.bind(this)}
+          onComplete={this.onSubmitHandler.bind(this)}
         />
       </div>
     );
