@@ -114,12 +114,13 @@ const DashDefault = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>

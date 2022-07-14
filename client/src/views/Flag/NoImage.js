@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
@@ -69,12 +69,13 @@ const NoImage = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>

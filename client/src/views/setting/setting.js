@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 import { Link } from "react-router-dom";
@@ -69,7 +69,7 @@ const Setting = () => {
                           </Link>
                           <a
                             class="btn btn-default btn-sm text-danger"
-                            href="#"
+                            href="!#"
                             onClick={() => deleteUser(contact._id)}
                           >
                             Delete

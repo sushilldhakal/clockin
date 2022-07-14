@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import NoLocation from "./NoLocation";
 import NoImageLocation from "./NoImageLocation";
 import NoImage from "./NoImage";

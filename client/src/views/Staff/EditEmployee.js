@@ -219,7 +219,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
           </div>
           <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridDob">
-              <a className="btn btn-primary" href="#" onClick={updateEmployee}>
+              <a className="btn btn-primary" href="!#" onClick={updateEmployee}>
                 Save Employee Details
               </a>
             </Form.Group>

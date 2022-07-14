@@ -7,11 +7,9 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
-import moment from "moment";
 import { API_SERVER } from "../../config/constant";
 
 const NoImageLocation = () => {
-  //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
 
   const [loading, setLoading] = React.useState(false);
@@ -30,10 +28,6 @@ const NoImageLocation = () => {
         console.log(err);
       });
   }, []);
-
-  // var staffNoImageLocation = timesheets.filter(function (hero) {
-  //   return (hero.image == null && hero.where == ",") || hero.where == null;
-  // });
 
   const columns = [
     {
@@ -109,12 +103,13 @@ const NoImageLocation = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>
@@ -123,11 +118,6 @@ const NoImageLocation = () => {
       ),
     },
   ];
-
-  // const result = timesheets.filter((o) =>
-  //   Object.values(o).some((v) => v !== null)
-  // );
-  // console.log(result);
 
   const tableData = {
     columns,

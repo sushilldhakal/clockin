@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import NavLeft from "./NavLeft";
-import NavRight from "./NavRight";
+//import NavLeft from "./NavLeft";
+// import NavRight from "./NavRight";
 
 import { ConfigContext } from "../../../contexts/ConfigContext";
 import * as actionType from "../../../store/actions";
@@ -45,8 +45,8 @@ const NavBar = () => {
         </a>
       </div>
       <div className={collapseClass.join(" ")}>
-        <NavLeft />
-        <NavRight />
+        {/* <NavLeft /> */}
+        {/* <NavRight /> */}
       </div>
     </React.Fragment>
   );

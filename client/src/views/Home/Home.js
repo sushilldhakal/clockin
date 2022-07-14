@@ -12,34 +12,50 @@ import { API_SERVER } from "../../config/constant";
 import "./homeStyles.css";
 import "./bootstrap.css";
 
-function doDate() {
-  var str = "";
-  var now = new Date();
-  str = now.toDateString() + " " + now.toLocaleTimeString();
-  var pinTime = moment(str).format("hh:mm:ss A");
-  if (document.getElementById("todaysDate"))
-    document.getElementById("todaysDate").innerHTML = pinTime;
-}
-
-setInterval(doDate, 1000);
-
 let timeKeeper;
 
 class Home extends Component {
   state = {
-    currentTime: moment().format("LT"),
-    name: "",
     lat: "",
     lng: "",
     user: { name: "" },
     timesheets: [],
     timesheetLoaded: false,
-    isActive: "",
     birthday: false,
-    className: "hide tooltip",
-    class: "",
     value: "idle",
+    date: new Date(),
   };
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000);
+    axios
+      .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
+      .then((res) => {
+        this.setState({
+          timesheetLoaded: true,
+          timesheets: res.data.timesheets,
+          user: res.data.user,
+          birthday:
+            moment(res.data.user.dob).format("MM-DD") ===
+            moment(new Date()).format("MM-DD"),
+        });
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        });
+      });
+
+    // timeKeeper = setTimeout(() => {
+    //   localStorage.removeItem("pin");
+    //   this.props.history.push("/");
+    // }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
   onClick = (e) => {
     document.getElementById("webcam-btn").click();
@@ -75,31 +91,11 @@ class Home extends Component {
     }, 100);
   };
 
-  componentDidMount() {
-    axios
-      .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
-      .then((res) => {
-        this.setState({
-          timesheetLoaded: true,
-          timesheets: res.data.timesheets,
-          user: res.data.user,
-          birthday:
-            moment(res.data.user.dob).format("MM-DD") ===
-            moment(new Date()).format("MM-DD"),
-        });
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.setState({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        });
-      });
-
-    // timeKeeper = setTimeout(() => {
-    //   localStorage.removeItem("pin");
-    //   this.props.history.push("/");
-    // }, 10000);
-  }
+  tick = () => {
+    this.setState({
+      date: new Date(),
+    });
+  };
 
   render() {
     if (localStorage.getItem("pin") === null) {
@@ -121,7 +117,7 @@ class Home extends Component {
       breakStart = false,
       endBreak = false,
       out = false;
-    this.state.timesheets.map((timesheet, id) => {
+    this.state.timesheets.map((timesheet) => {
       if (timesheet.type === "in") {
         start = true;
       }
@@ -136,13 +132,14 @@ class Home extends Component {
       }
     });
 
-    console.log(this.state.user.dob);
-    console.log(this.state.birthday);
     return (
       <div className="home-container">
         <div className="container-fluid">
           <div className="text white-text">
-            <h2 id="todaysDate"> </h2>
+            <h2 id="todaysDate">
+              {" "}
+              {moment(this.state.date).format("hh:mm:ss A")}
+            </h2>
             <div className="big-screen">
               <div className="row">
                 <div className="col-lg-6 col-sm-12">
@@ -206,7 +203,6 @@ class Home extends Component {
                                 backgroundColor: "#1a8754",
                               }}
                             />
-                            {/* <label htmlFor="option1">Clock In</label> */}
                           </div>
                         </Tab>
                         <Tab
@@ -232,9 +228,7 @@ class Home extends Component {
                                 backgroundColor: "#ff9503",
                               }}
                             />
-                            {/* <label htmlFor="option2">START BREAK</label> */}
                           </div>
-
                           <div
                             className={`tooltip-btn btn-outline-warning middle ${
                               !endBreak && breakStart ? "not-active" : "tooltip"
