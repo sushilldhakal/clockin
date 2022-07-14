@@ -13,7 +13,5 @@ export const isLogin = () => {
     return true;
   }
 
-  console.log(TOKEN_KEY);
-
   return false;
 };

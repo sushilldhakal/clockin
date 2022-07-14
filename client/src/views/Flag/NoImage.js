@@ -90,8 +90,6 @@ const NoImage = () => {
     data: timesheets,
   };
 
-  console.log(timesheets);
-
   return (
     <React.Fragment>
       <Card className="Recent-Users">

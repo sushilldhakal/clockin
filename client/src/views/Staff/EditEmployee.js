@@ -11,8 +11,13 @@ export default ({ user, role, location, employer, onUpdate }) => {
     let files = e;
     let userImage = files.base64;
     setUser({ ...employee, img: userImage });
-    console.log(userImage);
   };
+
+  // const edit = false;
+
+  // const toggle = () => {
+  //   edit = true;
+  // };
 
   const updateEmployee = () => {
     if (
@@ -28,7 +33,6 @@ export default ({ user, role, location, employer, onUpdate }) => {
         icon: "error",
         button: "Go Back",
       });
-      console.log(employee);
     } else {
       axios
         .post(API_SERVER + "employee/update/" + employee._id, employee)
@@ -72,6 +76,13 @@ export default ({ user, role, location, employer, onUpdate }) => {
 
             <Form.Group as={Col} controlId="formGridPin" id="custom-pinGroup">
               <Form.Label>PIN</Form.Label>
+              {/* <a
+                href="#!"
+                className="btn btn-hover btn-default btn-rounded btn-small btn-custom"
+                onClick={toggle}
+              >
+                Edit Pin
+              </a> */}
               <input
                 id="formGridPin"
                 type="number"
@@ -82,6 +93,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
                 placeholder="Pin"
                 maxLength="4"
                 minLength="4"
+                disabled
               />
             </Form.Group>
           </div>
@@ -219,7 +231,7 @@ export default ({ user, role, location, employer, onUpdate }) => {
           </div>
           <div className="form-row mb-4">
             <Form.Group as={Col} controlId="formGridDob">
-              <a className="btn btn-primary" href="!#" onClick={updateEmployee}>
+              <a className="btn btn-primary" href="#!" onClick={updateEmployee}>
                 Save Employee Details
               </a>
             </Form.Group>

@@ -39,7 +39,6 @@ export const AddEmployee = (props) => {
   const getFiles = (e) => {
     let files = e;
     let userImage = files.base64;
-    console.log(userImage);
     setEmployeeDetails({ img: userImage });
   };
 
@@ -117,7 +116,7 @@ export const AddEmployee = (props) => {
                 >
                   <Form.Label>PIN</Form.Label>
                   <a
-                    href="!#"
+                    href="#!"
                     className="btn btn-hover btn-default btn-rounded btn-small btn-custom"
                     onClick={gerarNumero}
                   >
@@ -269,7 +268,7 @@ export const AddEmployee = (props) => {
                 <Form.Group as={Col} controlId="formGridDob">
                   <a
                     className="btn btn-success"
-                    href="!#"
+                    href="#!"
                     onClick={() => add(employee)}
                   >
                     Add Employee

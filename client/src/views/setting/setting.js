@@ -69,7 +69,7 @@ const Setting = () => {
                           </Link>
                           <a
                             class="btn btn-default btn-sm text-danger"
-                            href="!#"
+                            href="#!"
                             onClick={() => deleteUser(contact._id)}
                           >
                             Delete

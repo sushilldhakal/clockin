@@ -73,7 +73,13 @@ const DashDefault = () => {
       name: "Date",
       selector: (row) => row.date,
       sortable: true,
-      cell: (d) => moment.utc(d.date).format("MM/DD/YYYY"),
+      cell: (d) => (
+        <span>
+          {" "}
+          <i className="far fa-calender"></i>
+          {d.date}
+        </span>
+      ),
     },
     {
       id: "4",
@@ -133,8 +139,6 @@ const DashDefault = () => {
   const result = timesheets.filter((o) =>
     Object.values(o).some((v) => v !== null)
   );
-  console.log(result);
-
   const tableData = {
     columns,
     data: result,
