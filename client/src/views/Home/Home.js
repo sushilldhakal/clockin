@@ -27,7 +27,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
+    this.timerID = setInterval(() => this.tick(), 60000);
     axios
       .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
       .then((res) => {
@@ -50,7 +50,7 @@ class Home extends Component {
     timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
-    }, 10000);
+    }, 12000);
   }
 
   componentWillUnmount() {
@@ -138,7 +138,7 @@ class Home extends Component {
           <div className="text white-text">
             <h2 id="todaysDate">
               {" "}
-              {moment(this.state.date).format("hh:mm:ss A")}
+              {moment(this.state.date).format("hh:mm A")}
             </h2>
             <div className="big-screen">
               <div className="row">

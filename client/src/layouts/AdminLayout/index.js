@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef } from "react";
 
 import Navigation from "./Navigation";
-// import NavBar from './NavBar';
-// import Breadcrumb from './Breadcrumb';
+import NavBar from "./NavBar";
+import Breadcrumb from "./Breadcrumb";
 
 import useWindowSize from "../../hooks/useWindowSize";
 import useOutsideClick from "../../hooks/useOutsideClick";
@@ -45,12 +45,12 @@ const AdminLayout = ({ children }) => {
 
   let mainContainer = (
     <React.Fragment>
-      {/* <NavBar /> */}
+      <NavBar />
       <div className="pcoded-main-container">
         <div className={mainClass.join(" ")}>
           <div className="pcoded-content">
             <div className="pcoded-inner-content">
-              {/* <Breadcrumb /> */}
+              <Breadcrumb />
               {children}
             </div>
           </div>

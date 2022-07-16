@@ -16,7 +16,7 @@ class Pin extends Component {
   };
 
   componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
+    this.timerID = setInterval(() => this.tick(), 60000);
   }
 
   componentWillUnmount() {
@@ -128,7 +128,8 @@ class Pin extends Component {
           "Pin you enter didn't match. Try again",
           "error"
         ).then((value) => {
-          window.location.reload();
+          this.handleClear();
+          //window.location.reload();
         });
       });
   };
@@ -143,9 +144,7 @@ class Pin extends Component {
     return (
       <div className="Pin home-container">
         <div className="text white-text">
-          <h2 id="todaysDate">
-            {moment(this.state.date).format("hh:mm:ss A")}
-          </h2>
+          <h2 id="todaysDate">{moment(this.state.date).format("hh:mm A")}</h2>
         </div>
         <PinInput
           length={4}
