@@ -7,7 +7,6 @@ export default ({ type }) => {
   let [value, setValue] = useState("");
   let [values, setValues] = useState([]);
   let [edit, setEdit] = useState("");
-  let [remove, setRemove] = useState("");
 
   const reload = () => {
     setValue("");

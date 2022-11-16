@@ -62,7 +62,9 @@ margin:0;
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+input[value]:not([value=""]) {
+  background-color: #2584ab !important;
+}
 
 .hg-theme-default {
   background-color: #212a35;

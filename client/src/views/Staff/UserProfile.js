@@ -283,22 +283,12 @@ class UserProfile extends Component {
     const userId = userDetails[Object.keys(userDetails)[0]];
     const date = null;
 
-    const caseInsensitiveSort = (rowA, rowB) => {
-      const a = rowA;
-      const b = rowB;
-      console.log("thisis a date", a, b);
-      // date.sort((a, b) => a - b);
-
-      return date;
-    };
-
     const columns = [
       {
         name: "Date",
         selector: (row) => row.date,
         sortable: true,
         id: "Date",
-        sortFunction: caseInsensitiveSort,
         cell: (row, index) => (
           <div>
             <i className="far fa-calendar-alt"></i>
@@ -559,8 +549,6 @@ class UserProfile extends Component {
     const paginationComponentOptions = {
       selectAllRowsItem: true,
     };
-
-    console.log(this.state.timesheets);
 
     return (
       <div>

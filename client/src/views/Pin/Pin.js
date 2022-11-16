@@ -7,26 +7,21 @@ import swal from "sweetalert";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import "./Pin.css";
-
-function doDate() {
-  var str = "";
-  var now = new Date();
-
-  str = now.toDateString() + " " + now.toLocaleTimeString();
-
-  var pinTime = moment(str).format("hh:mm:ss A");
-  if (Boolean(document.getElementById("todaysDate")))
-    document.getElementById("todaysDate").textContent = pinTime;
-}
-setInterval(doDate, 1000);
-
 class Pin extends Component {
   state = {
     input: "",
-    currentTime: moment().format("LT"),
     layoutName: "default",
-    logging: false
+    logging: false,
+    date: new Date(),
   };
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 60000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
   onChange = (input) => {
     this.setState({
@@ -36,7 +31,7 @@ class Pin extends Component {
 
   onKeyPress = (button) => {
     if (this.state.logging) {
-      return
+      return;
     }
     if (button === "{clear}") {
       this.handleClear();
@@ -45,7 +40,7 @@ class Pin extends Component {
 
     if (button === "{bksp}") {
       if (this.pin.elements[3].state.value) {
-        // this.pin.elements[3].state.value = "";
+        button.preventDefault();
         return;
       }
       if (this.pin.elements[2].state.value) {
@@ -60,7 +55,7 @@ class Pin extends Component {
         this.pin.elements[0].state.value = "";
         return;
       }
-      return
+      return;
     }
 
     if (this.pin.elements[2].state.value) {
@@ -133,17 +128,23 @@ class Pin extends Component {
           "Pin you enter didn't match. Try again",
           "error"
         ).then((value) => {
-          window.location.reload();
+          this.handleClear();
+          //window.location.reload();
         });
       });
   };
 
-  render() {
+  tick = () => {
+    this.setState({
+      date: new Date(),
+    });
+  };
 
+  render() {
     return (
       <div className="Pin home-container">
         <div className="text white-text">
-          <h2 id="todaysDate"> </h2>
+          <h2 id="todaysDate">{moment(this.state.date).format("hh:mm A")}</h2>
         </div>
         <PinInput
           length={4}

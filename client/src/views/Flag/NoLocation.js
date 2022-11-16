@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import DataTable from "react-data-table-component";
@@ -10,7 +10,6 @@ import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 
 const NoLocation = () => {
-  //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
@@ -26,9 +25,6 @@ const NoLocation = () => {
       });
   }, []);
 
-  // var staffNoLocation = timesheets.filter(function (hero) {
-  //   return hero.where == "," || hero.where == null;
-  // });
   const columns = [
     {
       name: "Date",
@@ -68,12 +64,13 @@ const NoLocation = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>
