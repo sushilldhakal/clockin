@@ -42,7 +42,7 @@ module.exports = (request, reply) => {
         }
       });
     })
-    .catch((err) => {
+    .catch(() => {
       reply.status(500).send({
         message: "error",
       });
