@@ -2,14 +2,13 @@ const connect = require("../config/connect");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 
-/** Minimal fields for UI only; no email, phone, dob, etc. */
+/** Minimal fields for UI only; no PIN, email, phone, dob, etc. */
 function toSafeUser(user) {
   if (!user) return null;
   return {
     _id: user._id,
     name: user.name,
     role: user.role,
-    pin: user.pin,
     site: user.site,
   };
 }
