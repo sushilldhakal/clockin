@@ -82,9 +82,7 @@ class Home extends Component {
           timesheetLoaded: true,
           timesheets: res.data.timesheets,
           user: res.data.user,
-          birthday:
-            moment(res.data.user.dob).format("MM-DD") ===
-            moment(new Date()).format("MM-DD"),
+          birthday: res.data.user.birthday === true,
         });
         navigator.geolocation.getCurrentPosition((position) => {
           this.setState({

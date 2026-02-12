@@ -1,35 +1,39 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
-import moment from "moment";
 import { API_SERVER } from "../../config/constant";
+import Pagination from "../../components/Pagination/Pagination";
+import LazyImage from "../../components/LazyImage/LazyImage";
 
 const NoImageLocation = () => {
-  //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
-
   const [loading, setLoading] = React.useState(false);
+  const [pagination, setPagination] = React.useState(null);
+  const [page, setPage] = React.useState(1);
+  const [limit, setLimit] = React.useState(20);
 
   React.useEffect(() => {
     setLoading(true);
     axios
       .get(API_SERVER + "flag/imagelocation", {
         headers: { token: localStorage.getItem("token") },
+        params: { page, limit },
       })
       .then((res) => {
-        setTimesheets(res.data.timesheets);
+        setTimesheets(res.data.timesheets || []);
+        setPagination(res.data.pagination || null);
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
-  }, []);
+  }, [page, limit]);
 
   // var staffNoImageLocation = timesheets.filter(function (hero) {
   //   return (hero.image == null && hero.where == ",") || hero.where == null;
@@ -39,7 +43,7 @@ const NoImageLocation = () => {
     {
       id: "1",
       name: "Staff Image",
-      selector: "image",
+      selector: (row) => row.image,
       sortable: false,
       cell: (d) => (
         <div className="image-popover">
@@ -47,12 +51,12 @@ const NoImageLocation = () => {
             <span className="pl-1">No Image</span>
           ) : (
             <span>
-              <img
+              <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle"
                 alt="user-image"
               />
-              <img
+              <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
                 alt="user-image"
@@ -66,46 +70,46 @@ const NoImageLocation = () => {
     {
       id: "2",
       name: "Name",
-      selector: "userDetail",
+      selector: (row) => row.userDetail,
       sortable: true,
       cell: (d) => <Link to={"/dashboard/each-staff/" + d._id}>{d.name}</Link>,
     },
     {
       id: "3",
       name: "Date",
-      selector: "date",
+      selector: (row) => row.date,
       sortable: true,
     },
     {
       id: "4",
       name: "Time",
-      selector: "time",
+      selector: (row) => row.time,
       sortable: true,
       cell: (d) => <span>{d.time}</span>,
     },
     {
       id: "5",
       name: "Type",
-      selector: "type",
+      selector: (row) => row.type,
       sortable: true,
     },
 
     {
       id: "6",
       name: "Role",
-      selector: "role",
+      selector: (row) => row.role,
       sortable: true,
     },
     {
       id: "7",
       name: "Employe",
-      selector: "hire",
+      selector: (row) => row.hire,
       sortable: true,
     },
     {
       id: "8",
       name: "Location",
-      selector: "site",
+      selector: (row) => row.site,
       sortable: true,
       cell: (d) => (
         <span>
@@ -143,13 +147,17 @@ const NoImageLocation = () => {
               <Card.Title as="h5">Staff with no image and location</Card.Title>
             </Card.Header>
             <Card.Body className="px-0 py-2">
-              <DataTableExtensions
-                print={false}
-                exportHeaders={true}
-                export={false}
-                filterPlaceholder="Search"
-                {...tableData}
-              >
+              {pagination && (
+                <Pagination
+                  pagination={pagination}
+                  onPageChange={setPage}
+                  onLimitChange={(l) => {
+                    setLimit(l);
+                    setPage(1);
+                  }}
+                />
+              )}
+              <DataTableExtensions print={false} exportHeaders={true} export={false} filterPlaceholder="Search" {...tableData}>
                 <DataTable
                   columns={columns}
                   data={timesheets}
@@ -157,8 +165,7 @@ const NoImageLocation = () => {
                   progressPending={loading}
                   defaultSortFieldId="4"
                   defaultSortAsc={false}
-                  pagination
-                  paginationPerPage="30"
+                  pagination={false}
                   highlightOnHover
                   sortIcon={<SortIcon />}
                 />

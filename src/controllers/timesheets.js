@@ -1,6 +1,7 @@
 const connect = require("../config/connect");
 const { ObjectId } = require("bson");
 const moment = require("moment");
+const { getPagination, paginatedResponse } = require("../utils/pagination");
 
 module.exports = async (request, reply) => {
   const client = await connect();
@@ -8,7 +9,7 @@ module.exports = async (request, reply) => {
   let filter = {};
 
   if (request.query.user_id) {
-    filter._id = ObjectId(request.query.user_id);
+    filter._id = new ObjectId(request.query.user_id);
   }
 
   if (request.query.location) {
@@ -128,12 +129,17 @@ module.exports = async (request, reply) => {
       return true;
     });
 
+  const { page, limit, skip } = getPagination(request.query);
+  const total = times.length;
+  const data = times.slice(skip, skip + limit);
+
   await client.close();
 
   reply.send({
-    timesheets: times,
+    ...paginatedResponse(data, total, page, limit),
+    timesheets: data,
     user,
-    user_id: request.params.staff_id,
+    user_id: request.query.user_id,
     message: "Timesheets fetched successfully",
   });
 };

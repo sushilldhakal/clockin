@@ -51,7 +51,7 @@ module.exports = async (request, reply) => {
   const { user_id, date } = request.body;
 
   const user = await users.findOne({
-    _id: ObjectId(user_id),
+    _id: new ObjectId(user_id),
   });
 
   const timesheet = db.collection("timesheets");

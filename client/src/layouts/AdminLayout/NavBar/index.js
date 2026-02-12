@@ -33,17 +33,18 @@ const NavBar = () => {
   let navBar = (
     <React.Fragment>
       <div className="m-header">
-        <a
-          href="javascript: void(0)"
+        <button
+          type="button"
           className={toggleClass.join(" ")}
           id="mobile-collapse"
           onClick={navToggleHandler}
+          aria-label="Toggle menu"
         >
           <span />
-        </a>
-        <a to="#" className="b-brand">
+        </button>
+        <Link to="/dashboard" className="b-brand">
           <span className="b-title">4th Dimension Transport</span>
-        </a>
+        </Link>
       </div>
       <div className={collapseClass.join(" ")}>
         <NavLeft />

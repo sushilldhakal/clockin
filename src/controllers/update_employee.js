@@ -8,14 +8,14 @@ module.exports = async (request, reply) => {
   const collection = db.collection("employees");
 
   const user = await collection.findOne({
-    _id: ObjectId(request.params.employee_id),
+    _id: new ObjectId(request.params.employee_id),
   });
 
   if(request.body.pin !== user.pin) {
     const alreadyExists = await db.collection("employees").findOne({
       pin: request.body.pin,
       _id: {
-        $ne: ObjectId(request.params.employee_id)
+        $ne: new ObjectId(request.params.employee_id)
       } 
     })
     if(alreadyExists) {
@@ -43,7 +43,7 @@ module.exports = async (request, reply) => {
   await db
     .collection("employees")
     .updateOne(
-      { _id: ObjectId(request.params.employee_id) },
+      { _id: new ObjectId(request.params.employee_id) },
       { $set: { ...employee } }
     );
 

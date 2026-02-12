@@ -23,17 +23,20 @@ export const renderRoutes = (routes = []) => (
             key={i}
             path={route.path}
             exact={route.exact}
-            render={(props) => (
-              <Guard>
-                <Layout>
-                  {route.routes ? (
-                    renderRoutes(route.routes)
-                  ) : (
-                    <Component {...props} />
-                  )}
-                </Layout>
-              </Guard>
-            )}
+            render={(props) => {
+              const guardProps = Guard === Fragment ? {} : { ...route, routeProps: props };
+              return (
+                <Guard {...guardProps}>
+                  <Layout>
+                    {route.routes ? (
+                      renderRoutes(route.routes)
+                    ) : (
+                      <Component {...props} />
+                    )}
+                  </Layout>
+                </Guard>
+              );
+            }}
           />
         );
       })}

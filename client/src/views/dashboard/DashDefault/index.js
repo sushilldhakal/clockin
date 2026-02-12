@@ -6,32 +6,38 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
 import axios from "axios";
-import moment from "moment";
 import { API_SERVER } from "../../../config/constant";
+import Pagination from "../../../components/Pagination/Pagination";
+import LazyImage from "../../../components/LazyImage/LazyImage";
 
 const DashDefault = () => {
-  //fetch timesheets
   const [timesheets, setTimesheets] = React.useState([]);
-
   const [loading, setLoading] = React.useState(false);
+  const [pagination, setPagination] = React.useState(null);
+  const [page, setPage] = React.useState(1);
+  const [limit, setLimit] = React.useState(20);
 
-  React.useEffect(() => {
+  const fetchDashboard = (p = page, l = limit) => {
     setLoading(true);
     axios
       .get(API_SERVER + "dashboard", {
         headers: { token: localStorage.getItem("token") },
+        params: { page: p, limit: l },
       })
       .then((res) => {
-        setTimesheets(res.data.timesheets);
+        setTimesheets(res.data.timesheets || []);
+        setPagination(res.data.pagination || null);
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
-  }, []);
-  const paginationComponentOptions = {
-    selectAllRowsItem: true,
   };
+
+  React.useEffect(() => {
+    fetchDashboard(page, limit);
+  }, [page, limit]);
 
   const columns = [
     {
@@ -45,12 +51,12 @@ const DashDefault = () => {
             <span className="pl-1">No Image</span>
           ) : (
             <span>
-              <img
+              <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle"
                 alt="user-image"
               />
-              <img
+              <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
                 alt="user-image"
@@ -125,7 +131,6 @@ const DashDefault = () => {
   const result = timesheets.filter((o) =>
     Object.values(o).some((v) => v !== null)
   );
-  console.log(result);
 
   const tableData = {
     columns,
@@ -141,6 +146,16 @@ const DashDefault = () => {
               <Card.Title as="h5">Recent ClockIn Staff</Card.Title>
             </Card.Header>
             <Card.Body className="px-0 py-2">
+              {pagination && (
+                <Pagination
+                  pagination={pagination}
+                  onPageChange={setPage}
+                  onLimitChange={(l) => {
+                    setLimit(l);
+                    setPage(1);
+                  }}
+                />
+              )}
               <DataTableExtensions
                 print={false}
                 exportHeaders={true}
@@ -155,10 +170,8 @@ const DashDefault = () => {
                   progressPending={loading}
                   defaultSortFieldId="4"
                   defaultSortAsc={false}
-                  pagination
-                  paginationPerPage="30"
+                  pagination={false}
                   highlightOnHover
-                  paginationComponentOptions={paginationComponentOptions}
                   sortIcon={<SortIcon />}
                 />
               </DataTableExtensions>

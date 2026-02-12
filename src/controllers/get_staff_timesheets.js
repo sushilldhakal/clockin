@@ -1,6 +1,7 @@
 const connect = require("../config/connect");
 const { ObjectId } = require("bson");
 const moment = require("moment");
+const { getPagination, paginatedResponse } = require("../utils/pagination");
 
 module.exports = async (request, reply) => {
   const client = await connect();
@@ -8,8 +9,12 @@ module.exports = async (request, reply) => {
 
   const user = await db
     .collection("employees")
-    .find(ObjectId(request.params.staff_id))
+    .find({ _id: new ObjectId(request.params.staff_id) })
     .toArray();
+  if (!user || user.length === 0) {
+    await client.close();
+    return reply.status(404).send({ status: "error", message: "User not found" });
+  }
   let timesheets = await db
     .collection("timesheets")
     .find({
@@ -34,28 +39,39 @@ module.exports = async (request, reply) => {
     // moment add time difference in hours
   });
 
-  times = Object.values(times).map((t) => {
-    if (t.break && t.endBreak)
-      t.btotal = moment
-        .duration(
-          moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
-        )
-        .asHours()
-        .toFixed(2);
+  times = Object.values(times)
+    .map((t) => {
+      if (t.break && t.endBreak)
+        t.btotal = moment
+          .duration(
+            moment(t.endBreak, "HH:mm:ss").diff(moment(t.break, "HH:mm:ss"))
+          )
+          .asHours()
+          .toFixed(2);
 
-    if (t.in && t.out)
-      t.total = moment
-        .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
-        .asHours()
-        .toFixed(2);
+      if (t.in && t.out)
+        t.total = moment
+          .duration(moment(t.out, "HH:mm:ss").diff(moment(t.in, "HH:mm:ss")))
+          .asHours()
+          .toFixed(2);
 
-    return t;
-  });
+      return t;
+    })
+    .sort((a, b) => {
+      const dA = moment(a.date, "DD-MM-YYYY");
+      const dB = moment(b.date, "DD-MM-YYYY");
+      return dB.valueOf() - dA.valueOf();
+    });
+
+  const { page, limit, skip } = getPagination(request.query);
+  const total = times.length;
+  const data = times.slice(skip, skip + limit);
 
   await client.close();
 
   reply.send({
-    timesheets: times,
+    ...paginatedResponse(data, total, page, limit),
+    timesheets: data,
     user,
     user_id: request.params.staff_id,
     message: "Timesheets fetched successfully 1",

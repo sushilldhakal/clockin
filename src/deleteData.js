@@ -1,12 +1,10 @@
+require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
 const { MongoClient } = require("mongodb");
 const moment = require("moment");
-const uri = `mongodb+srv://clock-in:vwvaR5YVffwzyrZo@testtravel.xcy06.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = process.env.mongoURI;
 
 async function deleteData() {
-  const mongo = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  const mongo = new MongoClient(uri);
 
   try {
     await mongo.connect();

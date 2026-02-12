@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 const NavRight = () => {
 
   const handleLogout = () => {
-    localStorage.clear()
-    setTimeout(window.location.reload, 1000)
+    localStorage.clear();
+    setTimeout(() => window.location.reload(), 500);
   };
 
   return (

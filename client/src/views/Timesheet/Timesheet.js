@@ -10,6 +10,7 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 import "react-data-table-component-extensions/dist/index.css";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import DataTableExtensions from "react-data-table-component-extensions";
+import Pagination from "../../components/Pagination/Pagination";
 
 const today = new Date();
 const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
@@ -34,12 +35,16 @@ class Timesheet extends Component {
     endDate: getSunday,
     loading: false,
     displayTotal: "",
+    pagination: null,
+    page: 1,
+    limit: 20,
   };
 
   componentDidMount() {
-    axios.get(API_SERVER + "employees").then((res) => {
+    axios.get(API_SERVER + "employees", { params: { page: 1, limit: 500 } }).then((res) => {
+      const list = res.data.data || res.data || [];
       this.setState({
-        users: res.data.filter((e) => {
+        users: list.filter((e) => {
           if (localStorage.getItem("location") != null) {
             return e.site === localStorage.getItem("location");
           }
@@ -90,21 +95,25 @@ class Timesheet extends Component {
     if (localStorage.getItem("location")) {
       obj.location = localStorage.getItem("location");
     }
+    obj.page = this.state.page;
+    obj.limit = this.state.limit;
     this.setState({ loading: true });
     axios
       .get(API_SERVER + "timesheets", { params: obj })
       .then((res) => {
+        const list = res.data.timesheets || [];
+        const userList = res.data.user || [];
         this.setState({
           loading: false,
-          timesheets: res.data.timesheets.map((timesheet) => {
-            return {
-              ...timesheet,
-              user: res.data.user.find((user) => user.pin === timesheet.pin),
-            };
-          }),
+          timesheets: list.map((timesheet) => ({
+            ...timesheet,
+            user: userList.find((u) => u.pin === timesheet.pin),
+          })),
+          pagination: res.data.pagination || null,
         });
       })
       .catch((err) => {
+        this.setState({ loading: false });
         console.log(err);
       });
   };
@@ -268,6 +277,17 @@ class Timesheet extends Component {
                 <Card.Title as="h5">Timesheets</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
+                {this.state.pagination && (
+                  <Pagination
+                    pagination={this.state.pagination}
+                    onPageChange={(p) => {
+                      this.setState({ page: p }, () => this.reloadTimesheet());
+                    }}
+                    onLimitChange={(l) => {
+                      this.setState({ limit: l, page: 1 }, () => this.reloadTimesheet());
+                    }}
+                  />
+                )}
                 <Row className="container">
                   <Col md={3} sm={6}>
                     <Form.Group as={Col} controlId="formGridHire">

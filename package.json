@@ -4,31 +4,31 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "nodemon src/server.js",
     "client": "cd client && npm run start",
     "build": "cd client && npm install --only=dev && npm install && npm run build",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
-    "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\""
+    "dev": "concurrently \"nodemon src/server.js\" \"cd client && npm start\"",
+    "serve": "serve -s client/build -l 3000"
   },
   "dependencies": {
-    "@fortawesome/react-fontawesome": "^0.1.16",
-    "bcrypt": "^5.0.1",
-    "dotenv": "^10.0.0",
-    "fastify": "^3.24.1",
-    "fastify-cors": "^6.0.2",
-    "fastify-static": "^4.7.0",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.34",
-    "mongodb": "^4.2.1",
+    "@fastify/cors": "^10.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
+    "mongodb": "^6.12.0",
     "react-simple-keyboard": "^3.4.164",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "concurrently": "^6.4.0",
-    "nodemon": "^2.0.15"
+    "concurrently": "^9.0.1",
+    "nodemon": "^3.1.7"
   },
   "engines": {
-    "node": "14.18.1"
+    "node": ">=22.0.0"
   }
 }

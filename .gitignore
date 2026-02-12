@@ -10,7 +10,18 @@
 
 # production
 /build
+/client/build
 /client/src/config/constant.js
+
+# secrets and env (never commit)
+.env
+.env.*
+!.env.example
+client/.env
+client/.env.*
+*.save
+src/config/keys.js.save
+
 # misc
 .DS_Store
 .env.local

@@ -3,19 +3,15 @@ import PinInput from "react-pin-input";
 import axios from "axios";
 import moment from "moment";
 import swal from "sweetalert";
+import { API_SERVER } from "../../config/constant";
 
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import "./Pin.css";
 
 function doDate() {
-  var str = "";
-  var now = new Date();
-
-  str = now.toDateString() + " " + now.toLocaleTimeString();
-
-  var pinTime = moment(str).format("hh:mm:ss A");
-  document.getElementById("todaysDate").innerHTML = pinTime;
+  const el = document.getElementById("todaysDate");
+  if (el) el.innerHTML = moment().format("hh:mm:ss A");
 }
 setInterval(doDate, 1000);
 
@@ -43,36 +39,52 @@ class Pin extends Component {
     if (button === "{bksp}") {
       if (this.pin.elements[3].state.value) {
         this.pin.elements[3].state.value = "";
+        this.syncPinState();
         return;
       }
       if (this.pin.elements[2].state.value) {
         this.pin.elements[2].state.value = "";
+        this.syncPinState();
         return;
       }
       if (this.pin.elements[1].state.value) {
         this.pin.elements[1].state.value = "";
+        this.syncPinState();
         return;
       }
       if (this.pin.elements[0].state.value) {
         this.pin.elements[0].state.value = "";
+        this.syncPinState();
         return;
       }
     }
 
     if (this.pin.elements[2].state.value) {
       this.pin.elements[3].state.value = button;
+      this.syncPinState();
       setTimeout(this.onSubmitHandler, 10);
       return;
     }
     if (this.pin.elements[1].state.value) {
       this.pin.elements[2].state.value = button;
+      this.syncPinState();
       return;
     }
     if (this.pin.elements[0].state.value) {
       this.pin.elements[1].state.value = button;
+      this.syncPinState();
       return;
     }
     this.pin.elements[0].state.value = button;
+    this.syncPinState();
+  };
+
+  syncPinState = () => {
+    if (!this.pin || !this.pin.elements) return;
+    const value = Array.from(this.pin.elements)
+      .map((el) => (el.state && el.state.value) || "")
+      .join("");
+    this.setState({ input: value });
   };
 
   handleClear = () => {
@@ -114,22 +126,36 @@ class Pin extends Component {
     });
   };
 
+  getCurrentPin = () => {
+    if (!this.pin || !this.pin.elements || this.pin.elements.length !== 4) {
+      return this.state.input;
+    }
+    const fromInputs = Array.from(this.pin.elements)
+      .map((el) => (el.state && el.state.value) || "")
+      .join("");
+    return fromInputs.length === 4 ? fromInputs : this.state.input;
+  };
+
   onSubmitHandler = (e) => {
-    this.pin.values = e;
+    if (this.pin) this.pin.values = e;
+    const pinToSend = this.getCurrentPin();
     axios
-      .post(process.env.REACT_APP_BASE_URL + "auth/login", {
-        pin: this.state.input,
+      .post(API_SERVER + "auth/login", {
+        pin: pinToSend,
       })
       .then((res) => {
-        window.localStorage.setItem("pin", this.state.input);
+        if (res.data.token) {
+          window.localStorage.setItem("token", res.data.token);
+        }
+        window.localStorage.setItem("pin", pinToSend);
         this.props.history.push("/home");
       })
       .catch((err) => {
-        swal(
-          "Invalid PIN!",
-          "Pin you enter didn't match. Try again",
-          "error"
-        ).then((value) => {
+        const msg =
+          err.response?.status === 429
+            ? err.response?.data?.message || "Too many attempts. Try again later."
+            : "Pin you enter didn't match. Try again";
+        swal("Invalid PIN!", msg, "error").then((value) => {
           window.location.reload();
         });
       });

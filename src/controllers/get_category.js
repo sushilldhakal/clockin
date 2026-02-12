@@ -1,17 +1,15 @@
 const connect = require("../config/connect");
-const jwt = require('jsonwebtoken');
 
 module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
-
-  const token = jwt.decode(request.headers.api_key)
+  const user = request.user; // set by auth middleware (verified JWT)
 
   let result = await db.collection("categories").find({
     type: request.params.category_type
   }).toArray();
 
-  if (token && token.id === 'payable' && request.params.category_type === 'employer' ) {
+  if (user && user.id === "payable" && request.params.category_type === "employer") {
     result = result.filter(r => {
       // return r.name === 'Employee';
       return r.name !== 'Employee' && r.name !== 'Employees'

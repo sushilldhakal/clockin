@@ -9,12 +9,12 @@ module.exports = async (request, reply) => {
 
   const category = await db
     .collection("categories")
-    .findOne({ _id: ObjectId(id) });
+    .findOne({ _id: new ObjectId(id) });
 
   if (category) {
     const remove = await db
       .collection("categories")
-      .deleteOne({ _id: ObjectId(id) });
+      .deleteOne({ _id: new ObjectId(id) });
 
     await client.close();
 

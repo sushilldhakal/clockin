@@ -8,7 +8,7 @@ module.exports = async (request, reply) => {
 
     await db
         .collection("users")
-        .deleteOne({ _id: ObjectId(request.params.user_id) })
+        .deleteOne({ _id: new ObjectId(request.params.user_id) })
 
     await client.close();
 

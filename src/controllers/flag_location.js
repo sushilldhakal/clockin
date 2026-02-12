@@ -1,5 +1,8 @@
 const connect = require("../config/connect");
 const moment = require("moment");
+const { getPagination, paginatedResponse } = require("../utils/pagination");
+
+const DAYS_LIMIT = 60;
 
 module.exports = async (request, reply) => {
   const client = await connect();
@@ -7,40 +10,40 @@ module.exports = async (request, reply) => {
   const collection = db.collection("timesheets");
   const users = await db.collection("employees").find({}).toArray();
 
-  const timesheets = await collection
+  const filterCutoff = moment().subtract(DAYS_LIMIT, "days").startOf("day");
+
+  const allTimesheets = await collection
     .find({
       pin: { $in: users.map((e) => e.pin) },
       lat: null,
       lng: null,
     })
-    .map(({ type, date, time, pin, image, where }) => {
-      let user = users.filter((user) => user.pin === pin)[0];
-      if (time) {
-        time = moment(time).format("h:mm a");
-      }
-      if (user) {
-        let { name, role, hire, site, _id } = user;
-        return {
-          _id,
-          type,
-          date,
-          time,
-          name,
-          pin,
-          role,
-          hire,
-          site,
-          image,
-          where,
-        };
-      }
-      return { type, date, time, pin, image, where };
-    })
     .toArray();
 
-  client.close();
+  const allWithinRange = allTimesheets.filter((ts) => {
+    const docMoment = ts.time ? moment(ts.time) : moment(ts.date, "DD-MM-YYYY");
+    return docMoment.isValid() && docMoment.isSameOrAfter(filterCutoff);
+  });
+
+  let timesheets = allWithinRange.map((ts) => {
+    const user = users.find((u) => u.pin === ts.pin);
+    const time = ts.time ? moment(ts.time).format("h:mm a") : ts.time;
+    if (user) {
+      const { name, role, hire, site, _id } = user;
+      return { _id, type: ts.type, date: ts.date, time, name, pin: ts.pin, role, hire, site, image: ts.image, where: ts.where };
+    }
+    return { type: ts.type, date: ts.date, time, pin: ts.pin, image: ts.image, where: ts.where };
+  });
+
+  const { page, limit, skip } = getPagination(request.query);
+  const total = timesheets.length;
+  const data = timesheets.slice(skip, skip + limit);
+
+  await client.close();
+
   reply.send({
-    timesheets,
+    ...paginatedResponse(data, total, page, limit),
+    timesheets: data,
     message: "Timesheets fetched successfully 1",
   });
 };

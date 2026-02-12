@@ -6,7 +6,13 @@ import reducers from './reducers';
 
 const store = configureStore({
     reducer: reducers,
-    devTools: true
+    devTools: true,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+            },
+        }),
 });
 
 export const useSelector = useReduxSelector;

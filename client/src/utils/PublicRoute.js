@@ -2,15 +2,16 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isLogin } from "./index";
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+const PublicRoute = ({ path, exact, component: Component, restricted, routeProps }) => {
   return (
     <Route
-      {...rest}
-      render={(props) =>
+      path={path}
+      exact={exact}
+      render={() =>
         isLogin() && restricted ? (
           <Redirect to="/dashboard" />
         ) : (
-          <Component {...props} />
+          <Component {...routeProps} />
         )
       }
     />

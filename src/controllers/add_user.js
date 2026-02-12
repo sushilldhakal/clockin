@@ -16,7 +16,8 @@ module.exports = async (request, reply) => {
         .insertOne({
             username: request.body.username,
             location: request.body.location,
-            password: bcrypt.hashSync(request.body.password, 10)
+            password: bcrypt.hashSync(request.body.password, 10),
+            role: "user",
         });
 
     await client.close();

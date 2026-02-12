@@ -8,6 +8,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import { API_SERVER } from "../../config/constant";
 import EditEmployee from "./EditEmployee";
+import Pagination from "../../components/Pagination/Pagination";
+import LazyImage from "../../components/LazyImage/LazyImage";
 
 import moment, { relativeTimeThreshold } from "moment";
 
@@ -19,8 +21,8 @@ const ExpandableComponent = ({ data }) => {
           <th></th>
           <th>
             <div className="image-popover">
-              <img src={data.imagein} className="img-circle rounded-circle" />
-              <img
+              <LazyImage src={data.imagein} className="img-circle rounded-circle" />
+              <LazyImage
                 src={data.imagein}
                 className="img-circle rounded-circle show-on-popover"
               />
@@ -28,11 +30,11 @@ const ExpandableComponent = ({ data }) => {
           </th>
           <th>
             <div className="image-popover">
-              <img
+              <LazyImage
                 src={data.imagebreak}
                 className="img-circle rounded-circle"
               />
-              <img
+              <LazyImage
                 src={data.imagebreak}
                 className="img-circle rounded-circle show-on-popover"
               />
@@ -40,11 +42,11 @@ const ExpandableComponent = ({ data }) => {
           </th>
           <th>
             <div className="image-popover">
-              <img
+              <LazyImage
                 src={data.imageendBreak}
                 className="img-circle rounded-circle"
               />
-              <img
+              <LazyImage
                 src={data.imageendBreak}
                 className="img-circle rounded-circle show-on-popover"
               />
@@ -52,8 +54,8 @@ const ExpandableComponent = ({ data }) => {
           </th>
           <th>
             <div className="image-popover">
-              <img src={data.imageout} className="img-circle rounded-circle" />
-              <img
+              <LazyImage src={data.imageout} className="img-circle rounded-circle" />
+              <LazyImage
                 src={data.imageout}
                 className="img-circle rounded-circle show-on-popover"
               />
@@ -139,22 +141,29 @@ class UserProfile extends Component {
     is_action_menu_active: false,
     edited: false,
     loading: true,
+    pagination: null,
   };
 
-  componentDidMount() {
+  fetchTimesheets = (page = 1, limit = 20) => {
     axios
-      .get(API_SERVER + "timesheets/" + this.props.match.params.staff_id)
+      .get(API_SERVER + "timesheets/" + this.props.match.params.staff_id, {
+        params: { page, limit },
+      })
       .then((res) => {
         this.setState({
-          timesheets: res.data.timesheets,
-          user: res.data.user[0],
+          timesheets: res.data.timesheets || [],
+          user: (res.data.user && res.data.user[0]) || this.state.user,
           loading: false,
+          pagination: res.data.pagination || null,
         });
       })
       .catch((err) => {
+        this.setState({ loading: false });
         console.log(err);
       });
+  };
 
+  componentDidMount() {
     this.retrieveRole = this.retrieveRole.bind(this);
     this.retrieveLocation = this.retrieveLocation.bind(this);
     this.retrieveEmployer = this.retrieveEmployer.bind(this);
@@ -162,8 +171,7 @@ class UserProfile extends Component {
     this.retrieveRole();
     this.retrieveLocation();
     this.retrieveEmployer();
-
-    this.setState({ loading: true });
+    this.fetchTimesheets(1, 20);
   }
 
   retrieveRole() {
@@ -271,6 +279,11 @@ class UserProfile extends Component {
         selector: (row) => row.date,
         sortable: true,
         id: "Date",
+        sortFunction: (rowA, rowB) => {
+          const dA = moment(rowA.date, "DD-MM-YYYY").valueOf();
+          const dB = moment(rowB.date, "DD-MM-YYYY").valueOf();
+          return dA - dB;
+        },
         cell: (row, index) => (
           <div>
             <i className="far fa-calendar-alt"></i>
@@ -528,9 +541,6 @@ class UserProfile extends Component {
       columns,
       data: timesheets,
     };
-    const paginationComponentOptions = {
-      selectAllRowsItem: true,
-    };
 
     return (
       <div>
@@ -576,7 +586,7 @@ class UserProfile extends Component {
               </div>
               <div className="col-sm-4">
                 {userDetails.img ? (
-                  <img
+                  <LazyImage
                     src={userDetails.img}
                     className="img img-responsive img-custom"
                   />
@@ -586,6 +596,13 @@ class UserProfile extends Component {
               </div>
             </div>
             <div className="single-user-table">
+              {this.state.pagination && (
+                <Pagination
+                  pagination={this.state.pagination}
+                  onPageChange={(p) => this.fetchTimesheets(p, 20)}
+                  onLimitChange={(l) => this.fetchTimesheets(1, l)}
+                />
+              )}
               <DataTableExtensions
                 print={true}
                 exportHeaders={true}
@@ -598,14 +615,12 @@ class UserProfile extends Component {
                   data={timesheets}
                   progressPending={this.state.loading}
                   noHeader
-                  defaultSortField="id"
-                  defaultSortAsc={true}
-                  pagination
+                  defaultSortField="Date"
+                  defaultSortAsc={false}
+                  pagination={false}
                   highlightOnHover
                   sortIcon={<SortIcon />}
                   expandableRows
-                  paginationPerPage="30"
-                  paginationComponentOptions={paginationComponentOptions}
                   expandableRowsComponent={ExpandableComponent}
                 />
               </DataTableExtensions>

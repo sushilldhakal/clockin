@@ -1,4 +1,4 @@
-const TOKEN_KEY = "jwt";
+const TOKEN_KEY = "token";
 
 export const login = () => {
   localStorage.setItem(TOKEN_KEY, "TestLogin");
@@ -9,11 +9,5 @@ export const logout = () => {
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem(TOKEN_KEY)) {
-    return true;
-  }
-
-  console.log(TOKEN_KEY);
-
-  return false;
+  return !!localStorage.getItem(TOKEN_KEY);
 };

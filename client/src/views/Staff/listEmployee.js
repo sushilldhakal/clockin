@@ -5,6 +5,7 @@ import uuidv1 from "uuid";
 import { API_SERVER } from "../../config/constant";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
+import Pagination from "../../components/Pagination/Pagination";
 
 class ListEmployee extends Component {
   state = {
@@ -26,6 +27,9 @@ class ListEmployee extends Component {
     categoryLocation: [],
     categoryEmployer: [],
     edit: false,
+    pagination: null,
+    page: 1,
+    limit: 20,
   };
 
   componentDidMount() {
@@ -39,13 +43,15 @@ class ListEmployee extends Component {
     this.retrieveEmployer();
   }
 
-  retrieveData() {
+  retrieveData(page = this.state.page, limit = this.state.limit) {
     axios.get(API_SERVER + "employees", {
-      headers: {
-        api_key: localStorage.getItem('token')
-      }
+      headers: { api_key: localStorage.getItem("token") },
+      params: { page, limit },
     }).then((res) => {
-      this.setState({ data: res.data });
+      this.setState({
+        data: res.data.data || res.data || [],
+        pagination: res.data.pagination || null,
+      });
     });
   }
 
@@ -93,6 +99,19 @@ class ListEmployee extends Component {
                 <Card.Title as="h5">{this.state.title}</Card.Title>
               </Card.Header>
               <Card.Body className="px-0 py-2">
+                {this.state.pagination && (
+                  <Pagination
+                    pagination={this.state.pagination}
+                    onPageChange={(p) => {
+                      this.setState({ page: p });
+                      this.retrieveData(p, this.state.limit);
+                    }}
+                    onLimitChange={(l) => {
+                      this.setState({ limit: l, page: 1 });
+                      this.retrieveData(1, l);
+                    }}
+                  />
+                )}
                 <div
                   className={
                     !this.state.show

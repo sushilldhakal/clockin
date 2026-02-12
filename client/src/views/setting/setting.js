@@ -1,25 +1,32 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 import { Link } from "react-router-dom";
-
+import Pagination from "../../components/Pagination/Pagination";
 import "./setting.css";
 
 const Setting = () => {
   const [contacts, setContacts] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(20);
 
-  React.useEffect(() => {
+  const fetchUsers = (p = page, l = limit) => {
     axios
       .get(API_SERVER + "users", {
         headers: { token: localStorage.getItem("token") },
+        params: { page: p, limit: l },
       })
       .then((res) => {
-        setContacts(res.data);
+        setContacts(res.data.data || res.data || []);
+        setPagination(res.data.pagination || null);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+      .catch((err) => console.log(err));
+  };
+
+  React.useEffect(() => {
+    fetchUsers(page, limit);
+  }, [page, limit]);
 
   const deleteUser = (id) => {
     if (!window.confirm("This action is not reversable. Are you sure?")) {
@@ -46,6 +53,16 @@ const Setting = () => {
             </div>
 
             <div className="card-body">
+              {pagination && (
+                <Pagination
+                  pagination={pagination}
+                  onPageChange={setPage}
+                  onLimitChange={(l) => {
+                    setLimit(l);
+                    setPage(1);
+                  }}
+                />
+              )}
               {contacts.length > 0 && (
                 <table class="table table-striped">
                   <thead>

@@ -7,7 +7,7 @@ module.exports = async (request, reply) => {
     const db = client.db("clock-in-users");
 
     if(await db.collection('users').findOne({username: request.body.username, _id: {
-        $ne: ObjectId(request.params.user_id)
+        $ne: new ObjectId(request.params.user_id)
     }})) {
         return reply.status(500).send({
             message: "Username already exists"
@@ -16,7 +16,7 @@ module.exports = async (request, reply) => {
 
     await db
         .collection("users")
-        .updateOne({ _id: ObjectId(request.params.user_id) }, {
+        .updateOne({ _id: new ObjectId(request.params.user_id) }, {
             $set: {
                 username: request.body.username,
                 location: request.body.location,

@@ -7,7 +7,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/react-fontawesome": "0.1.4",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@material-ui/core": "4.4.2",
     "@material-ui/icons": "4.4.1",
     "@material-ui/styles": "4.4.1",
@@ -24,7 +24,7 @@
     "history": "5.1.0",
     "lodash": "^4.17.21",
     "match-sorter": "^4.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.30.1",
     "namor": "^1.1.2",
     "react": "^17.0.2",
     "react-bootstrap": "2.0.0-beta.6",
@@ -39,19 +39,19 @@
     "react-pin-input": "1.0.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "5.0.1",
     "react-simple-keyboard": "^3.4.163",
     "react-webcam": "^5.2.4",
     "react-week-picker": "^1.1.4",
     "reactive-button": "^1.3.12",
     "redux-form": "^8.3.7",
     "redux-persist": "^6.0.0",
-    "sass": "^1.45.0",
+    "sass": "^1.69.0",
     "semantic-ui-react": "0.87.2",
     "styled-components": "^4.3.2",
     "sweetalert": "^2.1.2",
     "uuid": "3.3.2",
-    "web-vitals": "^1.1.2",
+    "web-vitals": "^3.5.0",
     "yup": "^0.32.9"
   },
   "scripts": {
@@ -59,25 +59,18 @@
     "start": "react-scripts --max_old_space_size=4096 start",
     "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve -s build -l 3000"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+  },
+  "engines": {
+    "node": ">=22.0.0"
   },
   "keywords": [],
   "description": ""

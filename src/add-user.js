@@ -1,3 +1,4 @@
+require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
 const connect = require("./config/connect");
 const bcrypt = require("bcrypt");
 connect()
@@ -9,6 +10,7 @@ connect()
         username: "portmelbourne",
         password: bcrypt.hashSync("portmelbourne@123", 10),
         location: "Port Melbourne",
+        role: "user",
       });
 
     client
@@ -18,6 +20,7 @@ connect()
         username: "dandenong",
         password: bcrypt.hashSync("dandenong@123", 10),
         location: "Dandenong",
+        role: "user",
       });
     client
       .db("clock-in-users")
@@ -26,6 +29,7 @@ connect()
         username: "tullamarine",
         password: bcrypt.hashSync("tullamarine@123", 10),
         location: "Tullamarine",
+        role: "user",
       });
 
     client
@@ -34,6 +38,7 @@ connect()
       .insertOne({
         username: "admin",
         password: bcrypt.hashSync("admin@123", 10),
+        role: "admin",
       });
     //client.close();
   })

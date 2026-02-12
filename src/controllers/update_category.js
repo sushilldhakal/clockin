@@ -20,7 +20,7 @@ module.exports = async (request, reply) => {
 
   const category = await db
     .collection("categories")
-    .findOne({ _id: ObjectId(id) });
+    .findOne({ _id: new ObjectId(id) });
 
   const keys = {
     employer: "hire",
@@ -31,7 +31,7 @@ module.exports = async (request, reply) => {
   if (category) {
     let update = await db
       .collection("categories")
-      .updateOne({ _id: ObjectId(id) }, { $set: { name: value } });
+      .updateOne({ _id: new ObjectId(id) }, { $set: { name: value } });
 
     update = await db
       .collection("employees")
