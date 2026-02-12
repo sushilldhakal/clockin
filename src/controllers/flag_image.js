@@ -15,7 +15,14 @@ module.exports = async (request, reply) => {
   const allTimesheets = await collection
     .find({
       pin: { $in: users.map((e) => e.pin) },
-      image: null,
+      $or: [
+        {
+          image: null,
+        },
+        {
+          image: "",
+        },
+      ],
     })
     .toArray();
 

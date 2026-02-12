@@ -22,7 +22,6 @@ const getSunday = moment()
   .add(6, "days")
   .format("YYYY-MM-DD");
 
-const displayTotal = 0;
 class Timesheet extends Component {
   state = {
     users: [],
@@ -52,15 +51,17 @@ class Timesheet extends Component {
         }),
       });
     });
-    axios.get(API_SERVER + "category/employer",{
-      headers: {
-        api_key: window.localStorage.getItem('token')
-      }
-    }).then((res) => {
-      this.setState({
-        categoryEmployer: res.data,
+    axios
+      .get(API_SERVER + "category/employer", {
+        headers: {
+          api_key: window.localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.setState({
+          categoryEmployer: res.data,
+        });
       });
-    });
 
     this.reloadTimesheet = this.reloadTimesheet.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -99,7 +100,16 @@ class Timesheet extends Component {
     obj.limit = this.state.limit;
     this.setState({ loading: true });
     axios
-      .get(API_SERVER + "timesheets", { params: obj })
+      .get(
+        API_SERVER + "timesheets",
+        {
+          params: obj,
+          headers: {
+            api_key: window.localStorage.getItem("token"),
+          },
+        },
+        {}
+      )
       .then((res) => {
         const list = res.data.timesheets || [];
         const userList = res.data.user || [];

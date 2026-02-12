@@ -301,12 +301,12 @@ form.add-employee-form .col-sm-3 {
 .show-employee-form .btn-check:focus + .btn-primary,
 .show-employee-form .btn-primary:focus {
   position: absolute;
-  right: -57px;
-  top: 75px;
+  right: -35px;
+  top: 28px;
   z-index: 9;
-  color: #fff0;
-  background: #c7c7c700;
-  border: #eee0;
+  color: rgba(255, 255, 255, 0);
+  background: rgba(199, 199, 199, 0);
+  border: rgba(238, 238, 238, 0);
   outline: none !important;
   box-shadow: none;
 }

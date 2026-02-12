@@ -1,3 +1,7 @@
+
+body{
+margin:0;
+}
 .App {
   text-align: center;
 }
@@ -58,7 +62,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+input[value]:not([value=""]) {
+  background-color: #2584ab !important;
+}
 
 .hg-theme-default {
   background-color: #212a35;
@@ -111,5 +117,21 @@
 }
 .hg-theme-default.hg-layout-numeric .hg-button {
   height: 140px;
+}
+}
+
+@media screen and (max-width:768px){
+  .pincode-input-container {
+    margin: 10px 0 30px;
+}
+.hg-theme-default.hg-layout-numeric .hg-button {
+  height: 70px;
+  width: 120px;
+  flex-grow: 0;
+}
+.pincode-input-container input {
+  width: 70px !important;
+  height: 70px !important;
+  margin: 25px 5px !important;
 }
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Form, Col, Card, Row } from "react-bootstrap";
+import { Form, Col, Card } from "react-bootstrap";
 import { API_SERVER } from "../../config/constant";
 import FileBase64 from "react-file-base64";
 import swal from "sweetalert";
@@ -19,8 +19,6 @@ const defaultEmployee = {
   comment: "",
 };
 
-const val = Math.floor(1000 + Math.random() * 9000);
-
 export const AddEmployee = (props) => {
   function setEmployeeDetails(obj) {
     setEmployee({
@@ -30,7 +28,6 @@ export const AddEmployee = (props) => {
   }
   const [numeroAleatorio, setNumeroAleatorio] = useState();
   const [employee, setEmployee] = useState(defaultEmployee);
-  const [img, setImg] = useState(defaultEmployee);
   const object = props;
 
   const gerarNumero = () => {
@@ -42,7 +39,6 @@ export const AddEmployee = (props) => {
   const getFiles = (e) => {
     let files = e;
     let userImage = files.base64;
-    console.log(userImage);
     setEmployeeDetails({ img: userImage });
   };
 
@@ -120,7 +116,7 @@ export const AddEmployee = (props) => {
                 >
                   <Form.Label>PIN</Form.Label>
                   <a
-                    href="#"
+                    href="#!"
                     className="btn btn-hover btn-default btn-rounded btn-small btn-custom"
                     onClick={gerarNumero}
                   >
@@ -258,7 +254,7 @@ export const AddEmployee = (props) => {
 
                 <Form.Group as={Col}>
                   <Form.Label>Staff Image</Form.Label>
-                  <img src={employee.img} />
+                  <img src={employee.img} alt="user-main" />
                   <div>
                     <FileBase64
                       type="file"
@@ -272,7 +268,7 @@ export const AddEmployee = (props) => {
                 <Form.Group as={Col} controlId="formGridDob">
                   <a
                     className="btn btn-success"
-                    href="#"
+                    href="#!"
                     onClick={() => add(employee)}
                   >
                     Add Employee

@@ -31,9 +31,6 @@ const NoLocation = () => {
       });
   }, [page, limit]);
 
-  // var staffNoLocation = timesheets.filter(function (hero) {
-  //   return hero.where == "," || hero.where == null;
-  // });
   const columns = [
     {
       name: "Date",
@@ -73,12 +70,13 @@ const NoLocation = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>

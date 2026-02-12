@@ -23,14 +23,14 @@ module.exports = async (request, reply) => {
     .toArray();
   let times = {};
 
-  timesheets = timesheets.map((timesheet) => {
+  timesheets.map((timesheet) => {
     if (times[timesheet.date] === undefined) {
       times[timesheet.date] = {};
     }
     times[timesheet.date]["date"] = timesheet.date;
     times[timesheet.date][timesheet.type] = {};
     times[timesheet.date][timesheet.type] = moment(timesheet.time).format(
-      "HH:mm:ss"
+        "HH:mm:ss"
     );
     times[timesheet.date]["image" + timesheet.type] = timesheet.image;
     times[timesheet.date]["where" + timesheet.type] = timesheet.where;

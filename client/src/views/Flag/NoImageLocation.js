@@ -35,10 +35,6 @@ const NoImageLocation = () => {
       });
   }, [page, limit]);
 
-  // var staffNoImageLocation = timesheets.filter(function (hero) {
-  //   return (hero.image == null && hero.where == ",") || hero.where == null;
-  // });
-
   const columns = [
     {
       id: "1",
@@ -54,12 +50,12 @@ const NoImageLocation = () => {
               <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle"
-                alt="user-image"
+                alt="user-main"
               />
               <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
-                alt="user-image"
+                alt="user-main"
                 onClick={() => window.open(d.image, "_blank")}
               />
             </span>
@@ -113,12 +109,13 @@ const NoImageLocation = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>
@@ -127,11 +124,6 @@ const NoImageLocation = () => {
       ),
     },
   ];
-
-  // const result = timesheets.filter((o) =>
-  //   Object.values(o).some((v) => v !== null)
-  // );
-  // console.log(result);
 
   const tableData = {
     columns,

@@ -1,5 +1,4 @@
-import React, { Component, useEffect } from "react";
-import "./homeStyles.css";
+import React, { Component } from "react";
 import { WebcamCapture } from "../../components/Webcam/Webcam";
 import axios from "axios";
 import swal from "sweetalert";
@@ -10,35 +9,53 @@ import ReactiveButton from "reactive-button";
 import { Tabs, Tab } from "react-bootstrap";
 
 import { API_SERVER } from "../../config/constant";
-
-function doDate() {
-  var str = "";
-  var now = new Date();
-  str = now.toDateString() + " " + now.toLocaleTimeString();
-  var pinTime = moment(str).format("hh:mm:ss A");
-  if (document.getElementById("todaysDate"))
-    document.getElementById("todaysDate").innerHTML = pinTime;
-}
-
-setInterval(doDate, 1000);
+import "./homeStyles.css";
+import "./bootstrap.css";
 
 let timeKeeper;
 
 class Home extends Component {
   state = {
-    currentTime: moment().format("LT"),
-    name: "",
     lat: "",
     lng: "",
     user: { name: "" },
     timesheets: [],
     timesheetLoaded: false,
-    isActive: "",
     birthday: false,
-    className: "hide tooltip",
-    class: "",
     value: "idle",
+    date: new Date(),
   };
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 60000);
+    axios
+      .get(API_SERVER + "get-timesheets/" + localStorage.getItem("pin"))
+      .then((res) => {
+        this.setState({
+          timesheetLoaded: true,
+          timesheets: res.data.timesheets,
+          user: res.data.user,
+          birthday:
+            moment(res.data.user.dob).format("MM-DD") ===
+            moment(new Date()).format("MM-DD"),
+        });
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        });
+      });
+
+    timeKeeper = setTimeout(() => {
+      localStorage.removeItem("pin");
+      this.props.history.push("/");
+    }, 12000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
   onClick = (e) => {
     document.getElementById("webcam-btn").click();
@@ -62,7 +79,7 @@ class Home extends Component {
           setTimeout(() => {
             localStorage.clear();
             this.props.history.push("/");
-            timeKeeper && clearTimeout(timeKeeper)
+            timeKeeper && clearTimeout(timeKeeper);
           }, 1000);
         })
         .catch((err) => {
@@ -92,7 +109,7 @@ class Home extends Component {
         });
       });
 
-    timeKeeper = setTimeout(() => {
+    this.timeKeeper = setTimeout(() => {
       localStorage.removeItem("pin");
       this.props.history.push("/");
     }, 14000);
@@ -102,7 +119,6 @@ class Home extends Component {
     if (localStorage.getItem("pin") === null) {
       this.props.history.push("/");
     }
-
     let isActive = "";
 
     if (this.state.timesheets.length === 0) {
@@ -111,14 +127,37 @@ class Home extends Component {
       isActive = "break";
     } else if (this.state.timesheets.length === 3) {
       isActive = "end";
+    } else {
+      isActive = "";
     }
-    console.log(this.state.timesheets.length, isActive);
-    console.log(this.state.timesheets);
+
+    let start = false,
+      breakStart = false,
+      endBreak = false,
+      out = false;
+    this.state.timesheets.map((timesheet) => {
+      if (timesheet.type === "in") {
+        start = true;
+      }
+      if (timesheet.type === "break") {
+        breakStart = true;
+      }
+      if (timesheet.type === "endBreak") {
+        endBreak = true;
+      }
+      if (timesheet.type === "out") {
+        out = true;
+      }
+    });
+
     return (
       <div className="home-container">
         <div className="container-fluid">
           <div className="text white-text">
-            <h2 id="todaysDate"> </h2>
+            <h2 id="todaysDate">
+              {" "}
+              {moment(this.state.date).format("hh:mm A")}
+            </h2>
             <div className="big-screen">
               <div className="row">
                 <div className="col-lg-6 col-sm-12">
@@ -141,12 +180,12 @@ class Home extends Component {
                             <span
                               className={`timesheet-type clock-${timesheet.type}`}
                             >
-                              {timesheet.type == "in" ? "Clocked In" : null}
-                              {timesheet.type == "break" ? "On Break" : null}
-                              {timesheet.type == "endBreak"
+                              {timesheet.type === "in" ? "Clocked In" : null}
+                              {timesheet.type === "break" ? "On Break" : null}
+                              {timesheet.type === "endBreak"
                                 ? "Break End"
                                 : null}
-                              {timesheet.type == "out" ? "Clocked Out" : null}
+                              {timesheet.type === "out" ? "Clocked Out" : null}
                             </span>
                           </div>
                         );
@@ -166,25 +205,10 @@ class Home extends Component {
                         <Tab
                           eventKey="start"
                           title="START"
-                          disabled={
-                            !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 0
-                              ? true
-                              : false
-                          }
+                          disabled={!start ? false : true}
                           tabClassName="animated fadeIn"
                         >
                           <div className="tooltip-btn btn-outline-success left">
-                            {/* <input
-                              type="radio"
-                              className="btn-check"
-                              name="options"
-                              id="option1"
-                              autoComplete="off"
-                              checked
-                              onChange={(e) => e.target.value}
-                              onClick={() => this.onClick("in")}
-                            /> */}
                             <ReactiveButton
                               buttonState={this.state.value}
                               onClick={() => this.onClick("in")}
@@ -197,40 +221,19 @@ class Home extends Component {
                                 backgroundColor: "#1a8754",
                               }}
                             />
-                            {/* <label htmlFor="option1">Clock In</label> */}
                           </div>
                         </Tab>
                         <Tab
                           eventKey="break"
-                          title={
-                            this.state.timesheets.length == 2
-                              ? "END BREAK"
-                              : "BREAK"
-                          }
+                          title={!breakStart ? "BREAK" : "END BREAK"}
                           tabClassName="animated fadeIn"
-                          disabled={
-                            !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 2
-                              ? true
-                              : false
-                          }
+                          disabled={endBreak && breakStart ? true : false}
                         >
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 1 ||
-                              this.state.timesheets.length == 0
-                              ? "not-active"
-                              : "tooltip"
-                              }`}
+                            className={`tooltip-btn btn-outline-warning middle ${
+                              !breakStart ? "not-active" : "tooltip"
+                            }`}
                           >
-                            {/* <input
-                              type="radio"
-                              className="btn-check"
-                              name="option2"
-                              id="option2"
-                              autoComplete="off"
-                              onChange={(e) => e.target.value}
-                              onClick={() => this.onClick("break")}
-                            /> */}
                             <ReactiveButton
                               buttonState={this.state.value}
                               onClick={() => this.onClick("break")}
@@ -243,25 +246,12 @@ class Home extends Component {
                                 backgroundColor: "#ff9503",
                               }}
                             />
-                            {/* <label htmlFor="option2">START BREAK</label> */}
                           </div>
-
                           <div
-                            className={`tooltip-btn btn-outline-warning middle ${this.state.timesheets.length == 2
-                              ? "not-active"
-                              : "tooltip"
-                              }`}
+                            className={`tooltip-btn btn-outline-warning middle ${
+                              !endBreak && breakStart ? "not-active" : "tooltip"
+                            }`}
                           >
-                            {/* <label htmlFor="option1d">END BREAK</label> */}
-                            {/* <input
-                              type="radio"
-                              className="btn-check"
-                              name="option1d"
-                              id="option1d"
-                              autoComplete="off"
-                              onChange={(e) => e.target.value}
-                              onClick={() => this.onClick("endBreak")}
-                            /> */}
                             <ReactiveButton
                               buttonState={this.state.value}
                               onClick={() => this.onClick("endBreak")}
@@ -279,12 +269,7 @@ class Home extends Component {
                         <Tab
                           eventKey="end"
                           title="FINISH"
-                          disabled={
-                            !this.state.timesheetLoaded ||
-                              this.state.timesheets.length > 3
-                              ? true
-                              : false
-                          }
+                          disabled={!out ? false : true}
                           tabClassName="animated fadeIn"
                         >
                           <div
@@ -293,16 +278,6 @@ class Home extends Component {
                               this.state.class
                             }
                           >
-                            {/* <label htmlFor="option3">Clock Out</label> */}
-                            {/* <input
-                              type="radio"
-                              className="btn-check"
-                              name="options"
-                              id="option3"
-                              autoComplete="off"
-                              onChange={(e) => e.target.value}
-                              onClick={() => this.onClick("out")}
-                            /> */}
                             <ReactiveButton
                               buttonState={this.state.value}
                               onClick={() => this.onClick("out")}
@@ -345,6 +320,7 @@ class Home extends Component {
                           <h2>
                             Hope all your birthday wishes come true. Happy
                             Birthday {this.state.user.name}
+                            {this.state.user.name}{" "}
                           </h2>
                         </center>
                       </div>

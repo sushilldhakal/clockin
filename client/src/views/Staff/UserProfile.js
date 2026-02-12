@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card, Col, Form, Button, Accordion, Row } from "react-bootstrap";
-import DataTable, { ExpanderComponentProps } from "react-data-table-component";
+import { Card, Col, Button } from "react-bootstrap";
+import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
@@ -11,7 +11,7 @@ import EditEmployee from "./EditEmployee";
 import Pagination from "../../components/Pagination/Pagination";
 import LazyImage from "../../components/LazyImage/LazyImage";
 
-import moment, { relativeTimeThreshold } from "moment";
+import moment from "moment";
 
 const ExpandableComponent = ({ data }) => {
   return (
@@ -25,6 +25,7 @@ const ExpandableComponent = ({ data }) => {
               <LazyImage
                 src={data.imagein}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -33,10 +34,12 @@ const ExpandableComponent = ({ data }) => {
               <LazyImage
                 src={data.imagebreak}
                 className="img-circle rounded-circle"
+                alt="user-main"
               />
               <LazyImage
                 src={data.imagebreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -45,10 +48,12 @@ const ExpandableComponent = ({ data }) => {
               <LazyImage
                 src={data.imageendBreak}
                 className="img-circle rounded-circle"
+                alt="user-main"
               />
               <LazyImage
                 src={data.imageendBreak}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -58,6 +63,7 @@ const ExpandableComponent = ({ data }) => {
               <LazyImage
                 src={data.imageout}
                 className="img-circle rounded-circle show-on-popover"
+                alt="user-main"
               />
             </div>
           </th>
@@ -71,6 +77,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.wherein}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -83,6 +90,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.wherebreak}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -95,6 +103,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.whereendBreak}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -107,6 +116,7 @@ const ExpandableComponent = ({ data }) => {
               <a
                 href={"https://www.google.com/maps/place/" + data.whereout}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Location
               </a>
@@ -270,8 +280,8 @@ class UserProfile extends Component {
   render() {
     const timesheets = this.state.timesheets;
     const userDetails = this.state.user;
-    const userName = userDetails[Object.keys(userDetails)[1]];
     const userId = userDetails[Object.keys(userDetails)[0]];
+    const date = null;
 
     const columns = [
       {
@@ -289,7 +299,7 @@ class UserProfile extends Component {
             <i className="far fa-calendar-alt"></i>
 
             <span className="align-left pl-2">
-              {moment(row.date, "DD, MM, YYYY").format("ddd Do MMMM	YYYY")}
+              {moment.utc(row.date, "DD, MM, YYYY").format("ddd Do MMMM	YYYY")}
             </span>
           </div>
         ),
@@ -298,7 +308,7 @@ class UserProfile extends Component {
         id: "clock-in",
         name: "Clock In",
         selector: (row) => [row.in, row.workingin],
-        sortable: false,
+        sortable: true,
         cell: (row, index) => (
           <div className={row.workingin}>
             {this.state.is_action_menu_active &&
@@ -589,6 +599,7 @@ class UserProfile extends Component {
                   <LazyImage
                     src={userDetails.img}
                     className="img img-responsive img-custom"
+                    alt="user-main"
                   />
                 ) : (
                   <span></span>

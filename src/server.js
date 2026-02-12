@@ -112,4 +112,4 @@ const start = async () => {
     process.exit(1);
   }
 };
-start();
+start().then(r => console.log(r));

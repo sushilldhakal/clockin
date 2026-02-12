@@ -9,6 +9,7 @@ import axios from "axios";
 import { API_SERVER } from "../../../config/constant";
 import Pagination from "../../../components/Pagination/Pagination";
 import LazyImage from "../../../components/LazyImage/LazyImage";
+import moment from "moment";
 
 const DashDefault = () => {
   const [timesheets, setTimesheets] = React.useState([]);
@@ -54,12 +55,12 @@ const DashDefault = () => {
               <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle"
-                alt="user-image"
+                alt="user-main"
               />
               <LazyImage
                 src={d.image}
                 className="img-circle rounded-circle show-on-popover"
-                alt="user-image"
+                alt="user-main"
                 onClick={() => window.open(d.image, "_blank")}
               />
             </span>
@@ -79,13 +80,26 @@ const DashDefault = () => {
       name: "Date",
       selector: (row) => row.date,
       sortable: true,
+      cell: (d) => (
+        <span>
+          {" "}
+          <i className="far fa-calender"></i>
+          {d.date}
+        </span>
+      ),
     },
     {
       id: "4",
       name: "Time",
       selector: (row) => row.time,
       sortable: true,
-      cell: (d) => <span>{d.time}</span>,
+      cell: (d) => (
+        <span>
+          {" "}
+          <i className="far fa-clock"></i>
+          {moment(d.time, "hh:mm a").format("LT")}
+        </span>
+      ),
     },
     {
       id: "5",
@@ -113,12 +127,13 @@ const DashDefault = () => {
       sortable: true,
       cell: (d) => (
         <span>
-          {d.where == "," ? (
+          {d.where === "," ? (
             <span className="pl-1">{d.site}</span>
           ) : (
             <a
               href={`https://www.google.com/maps/place/` + d.where}
               target="_blank"
+              rel="noreferrer"
             >
               {d.site}
             </a>
@@ -131,7 +146,6 @@ const DashDefault = () => {
   const result = timesheets.filter((o) =>
     Object.values(o).some((v) => v !== null)
   );
-
   const tableData = {
     columns,
     data: result,
@@ -165,7 +179,7 @@ const DashDefault = () => {
               >
                 <DataTable
                   columns={columns}
-                  data={timesheets}
+                  data={result}
                   noHeader
                   progressPending={loading}
                   defaultSortFieldId="4"

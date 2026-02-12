@@ -7,6 +7,9 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   let filter = {};
+  if (request.user && request.user.id === "payable") {
+    filter.hire = { $ne: "Employees" };
+  }
 
   if (request.query.user_id) {
     filter._id = new ObjectId(request.query.user_id);
@@ -51,11 +54,7 @@ module.exports = async (request, reply) => {
       let startDate = moment(request.query.startDate, "YYYY-MM-DD");
       let endDate = moment(request.query.endDate, "YYYY-MM-DD");
       let timesheetDate = moment(timesheet.date, "DD-MM-YYYY");
-      if (timesheetDate.isBetween(startDate, endDate, null, "[]")) {
-        return true;
-      }
-
-      return false;
+      return timesheetDate.isBetween(startDate, endDate, null, "[]");
     }
 
     return true;
@@ -63,30 +62,19 @@ module.exports = async (request, reply) => {
 
   let timeCollection = [];
 
-  timesheets = timesheets.map((timesheet) => {
+  timesheets.map((timesheet) => {
     let times = {};
 
     let alreadyExists = timeCollection.filter(
-      (time) => time.date === timesheet.date && timesheet.pin === time.pin
+        (time) => time.date === timesheet.date && timesheet.pin === time.pin
     );
 
     if (alreadyExists.length > 0) {
       times = alreadyExists[0];
       timeCollection = timeCollection.filter(
-        (time) => time.date !== timesheet.date || timesheet.pin !== time.pin
+          (time) => time.date !== timesheet.date || timesheet.pin !== time.pin
       );
     }
-
-    users = user.map((users) => {
-      if (users.pin === timesheet.pin) {
-        times["name"] = users.name;
-        times["role"] = users.role;
-        times["site"] = users.site;
-        times["hire"] = users.hire;
-        times["_id"] = users._id;
-        times["comment"] = users.comment;
-      }
-    });
 
     times["date"] = timesheet.date;
     times["pin"] = timesheet.pin;
@@ -96,7 +84,7 @@ module.exports = async (request, reply) => {
     timeCollection.push(times);
   });
 
-  times = Object.values(timeCollection)
+  let times = Object.values(timeCollection)
     .map((t) => {
       if (t.break && t.endBreak)
         t.btotal = moment
@@ -123,10 +111,8 @@ module.exports = async (request, reply) => {
         return request.query.hire === timesheet.hire;
       }
 
-      if (!timesheet.site) {
-        return false;
-      }
-      return true;
+      return timesheet.site;
+
     });
 
   const { page, limit, skip } = getPagination(request.query);

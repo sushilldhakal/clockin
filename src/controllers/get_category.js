@@ -12,7 +12,7 @@ module.exports = async (request, reply) => {
   if (user && user.id === "payable" && request.params.category_type === "employer") {
     result = result.filter(r => {
       // return r.name === 'Employee';
-      return r.name !== 'Employee' && r.name !== 'Employees'
+      return !(r.name === 'Employee' || r.name === 'Employees')
     })
   }
 

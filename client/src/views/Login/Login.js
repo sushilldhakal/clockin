@@ -7,7 +7,9 @@ import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 import swal from "sweetalert";
 import ReactiveButton from "reactive-button";
 
-import { Button, TextField, Link } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import "../../index.scss";
+
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync(10);
@@ -26,9 +28,6 @@ export default class Login extends React.Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   login = (e) => {
-    //e.preventDefault();
-    const pwd = bcrypt.hashSync(this.state.password, salt);
-
     this.setState({
       value: "loading",
     });
@@ -113,19 +112,7 @@ export default class Login extends React.Component {
                   />
                   <br />
                   <br />
-                  {/* <Button
-                    className="button_style"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    type="submit"
-                    disabled={
-                      this.state.username == "" && this.state.password == ""
-                    }
-                    onClick={this.login.bind(this)}
-                  >
-                    Login
-                  </Button> */}
+
                   <ReactiveButton
                     buttonState={this.state.value}
                     onClick={this.login.bind(this)}
