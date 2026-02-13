@@ -15,6 +15,13 @@ module.exports = async (request, reply) => {
     await client.close();
     return reply.status(404).send({ status: "error", message: "User not found" });
   }
+
+  // When user has location (role 'user'), ensure requested employee belongs to that location
+  const reqUser = request.user;
+  if (reqUser && reqUser.location && user[0].site !== reqUser.location) {
+    await client.close();
+    return reply.status(403).send({ status: "error", message: "Access denied to this employee" });
+  }
   let timesheets = await db
     .collection("timesheets")
     .find({

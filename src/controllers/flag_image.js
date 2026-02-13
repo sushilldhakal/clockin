@@ -8,7 +8,8 @@ module.exports = async (request, reply) => {
   const client = await connect();
   const db = client.db("clock-in-users");
   const collection = db.collection("timesheets");
-  const users = await db.collection("employees").find({}).toArray();
+  const empFilter = request.user && request.user.location ? { site: request.user.location } : {};
+  const users = await db.collection("employees").find(empFilter).toArray();
 
   const filterCutoff = moment().subtract(DAYS_LIMIT, "days").startOf("day");
 

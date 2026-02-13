@@ -25,20 +25,30 @@ module.exports = async (req, reply) => {
       });
     }
 
-    // Only users with role 'admin' can log in via admin panel (backward compat: no location => admin)
+    // Allow role 'admin' or role 'user' (admin-like users with location-based access)
+    // Backward compat: no role + no location => admin; no role + has location => user
     const role = user.role || (user.location == null || user.location === "" ? "admin" : "user");
-    if (role !== "admin") {
+    if (role !== "admin" && role !== "user") {
       return reply.status(403).send({
         status: "error",
-        message: "Admin access only",
+        message: "Access denied",
+      });
+    }
+
+    // role 'user' must have a location for filtering employee/dashboard data
+    const location = (user.location && String(user.location).trim()) || "";
+    if (role === "user" && !location) {
+      return reply.status(403).send({
+        status: "error",
+        message: "Location required for this role. Contact admin.",
       });
     }
 
     const token = jwt.sign(
       {
         id: user.username,
-        role: "admin",
-        location: user.location || "",
+        role,
+        location,
       },
       keys.jwtSecret,
       { expiresIn: "8h" }
@@ -47,8 +57,8 @@ module.exports = async (req, reply) => {
     return reply.send({
       status: "success",
       token,
-      location: user.location || "",
-      role: "admin",
+      location,
+      role,
     });
   } catch (err) {
     req.log?.error(err);

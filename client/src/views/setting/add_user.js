@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "./setting.css";
 
 const Setting = (props) => {
-  const [contact, setContact] = useState({});
+  const [contact, setContact] = useState({ role: "user", location: "" });
   const [submission, setSubmission] = useState(false);
   const [locations, setLocation] = useState([]);
 
@@ -18,6 +18,10 @@ const Setting = (props) => {
 
   const addUser = () => {
     if (contact.username && contact.password) {
+      if (contact.role === "user" && !contact.location) {
+        alert("Location is required for users with role 'User'");
+        return;
+      }
       setSubmission(true);
       axios
         .post(API_SERVER + "user", contact)
@@ -83,18 +87,33 @@ const Setting = (props) => {
                 />
               </div>
               <div className="col-sm-4">
+                <label>Role</label>
+                <select
+                  onChange={(e) =>
+                    setContact({ ...contact, role: e.target.value })
+                  }
+                  value={contact.role || "user"}
+                >
+                  <option value="admin">Admin</option>
+                  <option value="user">User (location-based access)</option>
+                </select>
+              </div>
+              <div className="col-sm-4">
                 <label>Location</label>
                 <select
                   onChange={(event) =>
                     setContact({ ...contact, location: event.target.value })
                   }
-                  value={contact.location}
+                  value={contact.location || ""}
                 >
                   <option value="">Select One</option>
                   {locations.map((location) => (
                     <option value={location.name}>{location.name}</option>
                   ))}
                 </select>
+                {(contact.role || "user") === "user" && (
+                  <small className="text-muted d-block">Required for User role</small>
+                )}
               </div>
               <div className="col-sm-12 float-right mt-5">
                 <button

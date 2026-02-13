@@ -67,16 +67,18 @@ const Setting = () => {
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th width="281px">Username</th>
-                      <th width="281px">Location</th>
-                      <th width="281px">Actions</th>
+                      <th width="200px">Username</th>
+                      <th width="120px">Role</th>
+                      <th width="200px">Location</th>
+                      <th width="180px">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {contacts.map((contact) => (
                       <tr key={contact.username}>
                         <td>{contact.username}</td>
-                        <td>{contact.location}</td>
+                        <td>{contact.role || "user"}</td>
+                        <td>{contact.location || "-"}</td>
                         <td>
                           <Link
                             class="btn btn-default btn-sm text-primary"

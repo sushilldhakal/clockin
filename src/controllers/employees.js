@@ -7,10 +7,9 @@ module.exports = async (request, reply) => {
   const user = request.user;
   const collection = db.collection("employees");
 
-  const filter =
-    user && user.id === "payable"
-      ? { hire: { $nin: ["Employee", "Employees"] } }
-      : {};
+  let filter = {};
+  if (user && user.id === "payable") filter.hire = { $nin: ["Employee", "Employees"] };
+  if (user && user.location) filter.site = user.location;
 
   const total = await collection.countDocuments(filter);
   const { page, limit, skip } = getPagination(request.query);

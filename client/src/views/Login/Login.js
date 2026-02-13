@@ -43,8 +43,12 @@ export default class Login extends React.Component {
         });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", this.state.username);
-        if (Boolean(res.data.location))
+        if (res.data.role) localStorage.setItem("role", res.data.role);
+        if (res.data.location) {
           localStorage.setItem("location", res.data.location);
+        } else {
+          localStorage.removeItem("location");
+        }
         setTimeout(() => {
           window.location.href = "/dashboard";
         }, 1000);

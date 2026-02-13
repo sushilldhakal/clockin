@@ -13,9 +13,11 @@ const Setting = (props) => {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        setContact(
-          res.data.find((user) => user._id === props.match.params.user_id)
-        );
+        const users = res.data.data || res.data || [];
+        const user = Array.isArray(users)
+          ? users.find((u) => u._id === props.match.params.user_id)
+          : null;
+        if (user) setContact(user);
       })
       .catch((err) => {
         console.log(err);
@@ -28,6 +30,10 @@ const Setting = (props) => {
   }, []);
   const updateUser = () => {
     if (contact.username) {
+      if (contact.role === "user" && !contact.location) {
+        alert("Location is required for users with role 'User'");
+        return;
+      }
       setSubmission(true);
       axios
         .put(API_SERVER + "user/" + props.match.params.user_id, contact)
@@ -93,18 +99,33 @@ const Setting = (props) => {
                     />
                   </div>
                   <div className="col-sm-4">
+                    <label>Role</label>
+                    <select
+                      onChange={(e) =>
+                        setContact({ ...contact, role: e.target.value })
+                      }
+                      value={contact.role || "user"}
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="user">User (location-based access)</option>
+                    </select>
+                  </div>
+                  <div className="col-sm-4">
                     <label>Location</label>
                     <select
                       onChange={(event) =>
                         setContact({ ...contact, location: event.target.value })
                       }
-                      value={contact.location}
+                      value={contact.location || ""}
                     >
                       <option value="">Select Location</option>
                       {locations.map((location) => (
                         <option value={location.name}>{location.name}</option>
                       ))}
                     </select>
+                    {(contact.role || "user") === "user" && (
+                      <small className="text-muted d-block">Required for User role</small>
+                    )}
                   </div>
                   <div className="col-sm-12 float-right mt-5">
                     <button

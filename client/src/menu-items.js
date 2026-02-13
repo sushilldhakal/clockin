@@ -42,16 +42,16 @@ let children = [
     icon: "feather icon-settings",
   },
 ];
-if (Boolean(localStorage.getItem("location"))) {
+// Payable: exclude flag, setting, category (show Dashboard, Staff, Timesheet)
+if (localStorage.getItem("user_id") === "payable") {
+  children = children.filter(
+    (item) => !["flag", "setting", "category"].includes(item.id)
+  );
+} else if (Boolean(localStorage.getItem("location"))) {
+  // Role 'user' with location: restrict to Dashboard, Timesheet, Add/Edit category
   children = children.filter((item) =>
     ["Dashboard", "Timesheet", "Add/Edit category"].includes(item.title)
   );
-}
-
-if(localStorage.getItem('user_id') === 'payable'){
-  children = children.filter(item=>{
-    return  !["flag",'setting','category'].includes(item.id)
-  })
 }
 let menuItems = {
   items: [

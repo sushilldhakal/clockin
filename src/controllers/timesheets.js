@@ -15,8 +15,12 @@ module.exports = async (request, reply) => {
     filter._id = new ObjectId(request.query.user_id);
   }
 
-  if (request.query.location) {
-    filter.site = request.query.location;
+  // Location filter: user.location (for role 'user') or request.query.location (for admin)
+  const locationFilter = request.user && request.user.location
+    ? request.user.location
+    : request.query.location;
+  if (locationFilter) {
+    filter.site = locationFilter;
   }
 
   let user = await db.collection("employees").find(filter).toArray();

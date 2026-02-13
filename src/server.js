@@ -1,6 +1,6 @@
 require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
 const moment = require("moment-timezone");
-const { verifyJWT, requireAdmin } = require("./middleware/auth");
+const { verifyJWT, requireAdmin, requireDashboardAccess } = require("./middleware/auth");
 const add_category = require("./controllers/add_category");
 const add_employee = require("./controllers/add_employee");
 const admin_login = require("./controllers/admin_login");
@@ -42,6 +42,7 @@ fastify.post("/api/auth/login/", login); // allow trailing slash
 
 const authPre = [verifyJWT];
 const adminPre = [verifyJWT, requireAdmin];
+const dashboardPre = [verifyJWT, requireDashboardAccess];
 
 // Admin-only routes (valid JWT + role === 'admin')
 fastify.get("/api/users", { preHandler: adminPre }, get_users);
@@ -55,16 +56,16 @@ fastify.post("/api/category/:category_type", { preHandler: adminPre }, add_categ
 fastify.put("/api/category/:category_type/:category_id", { preHandler: adminPre }, update_category);
 fastify.delete("/api/category/:category_type/:category_id", { preHandler: adminPre }, delete_category);
 
-// Authenticated routes (valid JWT only; request.user set by verifyJWT)
-fastify.get("/api/category/:category_type", { preHandler: authPre }, get_category);
-fastify.get("/api/dashboard", { preHandler: authPre }, dashboard);
-fastify.get("/api/employees", { preHandler: authPre }, employees);
-fastify.get("/api/flag/image", { preHandler: authPre }, flag_image);
-fastify.get("/api/flag/location", { preHandler: authPre }, flag_location);
-fastify.get("/api/flag/imagelocation", { preHandler: authPre }, flag_image_location);
+// Dashboard routes (role admin or user; location-filtered for role 'user')
+fastify.get("/api/category/:category_type", { preHandler: dashboardPre }, get_category);
+fastify.get("/api/dashboard", { preHandler: dashboardPre }, dashboard);
+fastify.get("/api/employees", { preHandler: dashboardPre }, employees);
+fastify.get("/api/flag/image", { preHandler: dashboardPre }, flag_image);
+fastify.get("/api/flag/location", { preHandler: dashboardPre }, flag_location);
+fastify.get("/api/flag/imagelocation", { preHandler: dashboardPre }, flag_image_location);
 fastify.get("/api/get-timesheets/:pin", { preHandler: authPre }, get_timesheets);
-fastify.get("/api/timesheets", { preHandler: authPre }, timesheets);
-fastify.get("/api/timesheets/:staff_id", { preHandler: authPre }, get_staff_timesheets);
+fastify.get("/api/timesheets", { preHandler: dashboardPre }, timesheets);
+fastify.get("/api/timesheets/:staff_id", { preHandler: dashboardPre }, get_staff_timesheets);
 fastify.post("/api/clock/:type", { preHandler: authPre }, clock);
 fastify.post("/api/update-timesheet", { preHandler: authPre }, update_timesheet);
 

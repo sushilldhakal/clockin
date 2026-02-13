@@ -63,4 +63,24 @@ async function requireAdmin(request, reply) {
   }
 }
 
-module.exports = { verifyJWT, requireAdmin };
+/**
+ * Requires request.user.role === 'admin' or 'user' (dashboard access).
+ * Blocks role 'staff' (PIN login) from admin-panel routes. Use after verifyJWT.
+ */
+async function requireDashboardAccess(request, reply) {
+  if (!request.user) {
+    return reply.status(401).send({
+      status: "error",
+      message: "Authentication required",
+    });
+  }
+  const role = request.user.role;
+  if (role !== "admin" && role !== "user") {
+    return reply.status(403).send({
+      status: "error",
+      message: "Dashboard access required",
+    });
+  }
+}
+
+module.exports = { verifyJWT, requireAdmin, requireDashboardAccess };
